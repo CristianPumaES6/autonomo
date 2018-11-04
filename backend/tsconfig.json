@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "outDir": "./dist",
+        "lib": [
+            "dom",
+            "es2017"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "declaration": false,
+        "baseUrl": ".",
+        "paths": {
+            "@isofocus/*": [
+                "../global/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "*.d.ts"
+    ],
+    "typeRoots": [
+        "node_modules/@types",
+    ],
+}

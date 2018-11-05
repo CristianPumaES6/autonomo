@@ -1,4 +1,4 @@
-import { IModels } from '..';
+import { IModels } from '../db';
 
 type modelItem = IModels[Extract<keyof IModels, string>];
 

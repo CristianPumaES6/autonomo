@@ -11,7 +11,7 @@ export class AuthService {
     logged$: EventEmitter<boolean> = new EventEmitter<boolean>();
     SERVER_URL = SERVER_URL + '/auth/';
 
-    constructor(private http: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
 
     private setLogged(logged: boolean, token = ''): boolean {
         this.logged = logged;
@@ -21,12 +21,12 @@ export class AuthService {
         return logged;
     }
 
-    login(email: string, password: string): Observable<boolean> {
-        return this.anyLogin(this.SERVER_URL + 'login', { email, password });
+    login(credentials: { email: string, password: string }): Observable<boolean> {
+        return this.anyLogin(this.SERVER_URL + 'login', credentials);
     }
 
     private anyLogin(url: string, data: any): Observable<boolean> {
-        return this.http
+        return this.httpClient
             .post(url, data)
             .map((response: any) => this.setLogged(true, response.token))
             .catch(error => Observable.throw(error.error));
@@ -34,7 +34,7 @@ export class AuthService {
 
     isLogged(): Observable<boolean> {
         if (!this.logged && localStorage.getItem(TOKEN_NAME)) {
-            return this.http.get(this.SERVER_URL + 'token')
+            return this.httpClient.get(this.SERVER_URL + 'token')
                 .map(() => this.setLogged(true))
                 .catch(() => Observable.of(false))
                 .do(logged => this.setLogged(logged));
@@ -43,7 +43,7 @@ export class AuthService {
     }
 
     register(user: any): Observable<boolean> {
-        return this.http
+        return this.httpClient
             .post(this.SERVER_URL + 'register', user)
             .map((response: any) => this.setLogged(true, response.token))
             .catch(error => Observable.throw(error));

@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { PROD, PORT, ROUTE_PRIVKEY, ROUTE_CERT } from './tools/constants';
-import { DB } from './db';
+import { DB } from './db/db';
 import { database } from './routes/database/database';
 import { user } from './routes/user/user';
 import { auth } from './routes/auth/auth';
@@ -37,9 +37,6 @@ DB.init();
  */
 app.use((req, res, next) => {
     req['io'] = io;
-
-    console.log(path.resolve(__dirname, '../template'));
-
     next();
 });
 

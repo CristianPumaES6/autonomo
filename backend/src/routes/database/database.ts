@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { DB } from '../../db';
+import { DB } from '../../db/db';
 
 let database = express.Router();
 

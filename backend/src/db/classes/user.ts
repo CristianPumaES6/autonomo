@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { BaseDB } from './baseDB';
-import { DB } from '..';
+import { DB } from '../db';
 import { IUser } from '@isofocus/interfaces';
 import { MASTER_PASSWORD } from '../../tools/constants';
 

@@ -1,3 +1,28 @@
-<p>
-  auth works!
-</p>
+<div class="container">
+    <h1>Isofocus</h1>
+
+    <mat-card>
+        <form (submit)="login()" [formGroup]="formLogin">
+            <mat-form-field>
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="formLogin.get('email').hasError('email') && !formLogin.get('email').hasError('required')">
+                    Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="formLogin.get('email').hasError('required')">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Password" formControlName="password">
+                <mat-error *ngIf="formLogin.get('password').hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-card-actions>
+                <button mat-button color="primary">Login</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

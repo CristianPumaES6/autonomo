@@ -1,17 +1,18 @@
-import { AuthService } from '../../auth/auth.service';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { PROD } from '../../app.constants';
+import { Observable } from 'rxjs/Rx';
+import { AuthService } from '../../auth/auth.service';
+import { SnackService } from '../service/snack.service';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class GlobalInterceptor implements HttpInterceptor {
+@Injectable()
+export class Interceptor {
 
-    constructor(private auth: AuthService) { }
+    constructor(private authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         // Get the auth token from the service.
-        const authToken = this.auth.getAuthorizationToken();
+        const authToken = this.authService.getAuthorizationToken() || '';
 
         // Clone the request and replace the original headers with
         // cloned headers, updated with the authorization.
@@ -19,10 +20,25 @@ export class GlobalInterceptor implements HttpInterceptor {
             headers: req.headers.set('Authorization', authToken)
         });
 
+        console.log(authReq);
         // send cloned request with header to the next handler.
         return next.handle(authReq)
-            .do(e => {
-                return e;
-            });
+            .do((result: any) => {
+                if (!PROD) {
+                    console.log(`[ %c${req.method}`, 'color: red;', `]: ${req.url}`);
+                    console.log('        %cREQUEST', 'color: yellow;', req.body || '');
+                    console.log('        %cRESPONSE', 'color: green;', result.body || '');
+                }
+            })
+            .catch((error, caught) => {
+                if (!PROD) {
+                    console.error(`[ %c${req.method}`, 'color: red;', `]: ${req.url}`);
+                    console.log('        %cREQUEST', 'color: yellow;', req.body || '');
+                    console.log('        %cERROR', 'color: red;', error.error);
+                }
+                console.log(error.error);
+                SnackService.sendError$.emit(error.error.error);
+                return Observable.throw(error);
+            }) as any;
     }
 }

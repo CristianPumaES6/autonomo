@@ -1,0 +1,27 @@
+<main fullscreen [ngClass]="{'logged': logged}">
+    <mat-toolbar color="primary" *ngIf="logged">
+        <mat-toolbar-row>
+            <button (click)="sidenav.toggle()" mat-icon-button>
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span> Autonomos </span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav mode="over">
+            <div class="menu">
+                <div class="top-buttons">
+                    <button mat-button>NO HAGO NADA</button>
+                </div>
+                <button (click)="logout()" mat-button>
+                    <mat-icon>home</mat-icon> Log out
+                </button>
+            </div>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <ng-content></ng-content>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</main>

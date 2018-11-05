@@ -36,7 +36,6 @@ export class Interceptor {
                     console.log('        %cREQUEST', 'color: yellow;', req.body || '');
                     console.log('        %cERROR', 'color: red;', error.error);
                 }
-                console.log(error.error);
                 SnackService.sendError$.emit(error.error.error);
                 return Observable.throw(error);
             }) as any;

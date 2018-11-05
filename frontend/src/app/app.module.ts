@@ -10,11 +10,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Interceptor } from './shared/interceptor/interceptor.service';
 import { MaterialModule } from './shared/material.module';
 import { NotLogged } from './shared/guard/not-logged.guard';
+import { ClockComponent } from './clock/clock.component';
+import { MenuModule } from './menu/menu.module';
 
 @NgModule({
     declarations: [
         AppComponent,
-        MainComponent
+        MainComponent,
+        ClockComponent
     ],
     imports: [
         BrowserModule,
@@ -24,6 +27,7 @@ import { NotLogged } from './shared/guard/not-logged.guard';
         NoopAnimationsModule,
         HttpClientModule,
         MaterialModule,
+        MenuModule,
         RouterModule.forRoot([
             { path: '', component: MainComponent, canActivate: [LoggedGuard] },
             { path: 'auth', canActivate: [NotLogged], loadChildren: './auth/auth.module#AuthModule' },

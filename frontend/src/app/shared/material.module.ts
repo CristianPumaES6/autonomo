@@ -28,9 +28,10 @@ import {
         MatCardModule,
         MatButtonModule,
         MatSnackBarModule,
+        MatToolbarModule,
     ],
-    declarations: [],
     exports: [
+        MatToolbarModule,
         MatSnackBarModule,
         MatButtonModule,
         MatCardModule,

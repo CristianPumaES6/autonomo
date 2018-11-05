@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.main {
+    display: flex;
+    background: #000;
+    height: inherit;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+    display: block;
+    position: relative;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+svg {
+    height: inherit;
+}
+
+path {
+    fill: #38a7d7;
+}
+
+.clockbox,
+#clock {
+    width: 100%;
+}
+
+.digit {
+    opacity: 0;
+}
+
+#hour,
+#minute,
+#second,
+#dot {
+    -webkit-transform-origin: 401px 362px;
+    -ms-transform-origin: 401px 362px;
+    transform-origin: 401px 362px;
+    stroke: rgba(0, 0, 0, 0.4);
+}

@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AppComponent implements OnInit {
     title = 'isofocus';
+
     constructor(private snack: MatSnackBar) { }
 
     ngOnInit() {

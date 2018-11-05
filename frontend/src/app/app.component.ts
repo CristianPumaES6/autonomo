@@ -13,8 +13,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         SnackService.sendError$.subscribe(message => {
-            console.log('ahhh');
-            this.snack.open(message);
+            this.snack.open(message, null, { duration: 5000 });
         });
     }
 

@@ -9,6 +9,7 @@ import { LoggedGuard } from './shared/guard/logged.guard';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Interceptor } from './shared/interceptor/interceptor.service';
 import { MaterialModule } from './shared/material.module';
+import { NotLogged } from './shared/guard/not-logged.guard';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,7 @@ import { MaterialModule } from './shared/material.module';
         MaterialModule,
         RouterModule.forRoot([
             { path: '', component: MainComponent, canActivate: [LoggedGuard] },
-            { path: 'auth', loadChildren: './auth/auth.module#AuthModule' },
+            { path: 'auth', canActivate: [NotLogged], loadChildren: './auth/auth.module#AuthModule' },
             { path: '**', redirectTo: '' }
         ]),
     ],

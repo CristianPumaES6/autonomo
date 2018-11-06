@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as fs from 'fs';
-import * as path from 'path';
 
 import { PROD, PORT, ROUTE_PRIVKEY, ROUTE_CERT } from './tools/constants';
 import { DB } from './db/db';
@@ -13,6 +12,7 @@ import { setHeaders } from './middlewares/setHeaders';
 import { isLogged } from './middlewares/isLogged';
 import { setLogger } from './middlewares/setLogger';
 import { errorHandler } from './middlewares/errorHandlet';
+import { invoice } from './routes/invoce/invoice';
 
 const app = express();
 let server;
@@ -67,6 +67,8 @@ app.use(isLogged);
 app.use('/database', database);
 
 app.use('/user', user);
+
+app.use('/invoice', invoice);
 
 /**
  * ERROR HANDLER

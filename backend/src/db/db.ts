@@ -12,11 +12,12 @@ import {
     PROD
 } from '../tools/constants';
 
-import { IUser } from '@isofocus/interfaces';
+import { IUser, IInvoice } from '@isofocus/interfaces';
 import { IInstance } from './models/instance';
 
 export interface IModels {
     user: Sequelize.Model<IInstance<IUser>, IUser>;
+    invoice: Sequelize.Model<IInstance<IInvoice>, IInvoice>;
 }
 
 export class DB {
@@ -48,12 +49,8 @@ export class DB {
     }
 
     public static async init() {
-        try {
-            await this.createDatabase();
-            await this.createDefault();
-        } catch (e) {
-            console.error('Error creatting Database.');
-        }
+        await this.createDatabase();
+        await this.createDefault();
     }
 
     /**
@@ -90,6 +87,9 @@ export class DB {
             const model = this.sequelize.import(path.join(dirname, f));
             this.models[model.name] = model;
         });
+
+        this.models.user.hasMany(this.models.invoice, { foreignKey: 'userID' });
+        this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });
 
         await this.sequelize.sync();
     }

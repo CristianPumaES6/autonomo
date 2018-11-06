@@ -1,6 +1,7 @@
-import { IModels } from '../db';
+import * as sequelize from 'sequelize';
+import { IInstance } from '../models/instance';
 
-type modelItem = IModels[Extract<keyof IModels, string>];
+type modelItem = sequelize.Model<IInstance<any>, any>;
 
 export class BaseDB {
     protected db: modelItem;

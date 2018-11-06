@@ -21,10 +21,9 @@ import { MenuModule } from './menu/menu.module';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
-        NoopAnimationsModule,
         HttpClientModule,
         MaterialModule,
         MenuModule,

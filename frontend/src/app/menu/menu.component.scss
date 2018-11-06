@@ -4,6 +4,8 @@ main {
     &.logged {
         mat-sidenav-container {
             height: calc(100% - 64px);
+            background: url('../../assets/imgs/backgroundLogged.jpg');
+            background-size: cover;
         }
     }
 
@@ -11,12 +13,12 @@ main {
         span {
             margin: 0 auto;
         }
+
+        height: 64px !important;
     }
 
     mat-sidenav-container {
         height: 100%;
-        background: url('../../assets/imgs/backgroundLogged.jpg');
-        background-size: cover;
     }
 
     mat-sidenav .menu {

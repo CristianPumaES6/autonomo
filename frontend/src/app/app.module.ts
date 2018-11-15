@@ -5,19 +5,18 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LoggedGuard } from './shared/guard/logged.guard';
+import { Logged } from './shared/guard/logged.guard';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Interceptor } from './shared/interceptor/interceptor.service';
 import { MaterialModule } from './shared/material.module';
 import { NotLogged } from './shared/guard/not-logged.guard';
-import { ClockComponent } from './clock/clock.component';
-import { MenuModule } from './menu/menu.module';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         MainComponent,
-        ClockComponent
+        MenuComponent,
     ],
     imports: [
         BrowserModule,
@@ -26,10 +25,10 @@ import { MenuModule } from './menu/menu.module';
         ReactiveFormsModule,
         HttpClientModule,
         MaterialModule,
-        MenuModule,
         RouterModule.forRoot([
-            { path: '', component: MainComponent, canActivate: [LoggedGuard] },
+            { path: 'invoices', canActivate: [Logged], loadChildren: './invoice/invoice.module#InvoiceModule' },
             { path: 'auth', canActivate: [NotLogged], loadChildren: './auth/auth.module#AuthModule' },
+            { path: '', component: MainComponent, canActivate: [Logged] },
             { path: '**', redirectTo: '' }
         ]),
     ],

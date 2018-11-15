@@ -11,7 +11,7 @@ import { auth } from './routes/auth/auth';
 import { setHeaders } from './middlewares/setHeaders';
 import { isLogged } from './middlewares/isLogged';
 import { setLogger } from './middlewares/setLogger';
-import { errorHandler } from './middlewares/errorHandlet';
+import { errorHandler } from './middlewares/errorHandler';
 import { invoice } from './routes/invoce/invoice';
 
 const app = express();

@@ -13,4 +13,11 @@ body {
 
 body {
     font-family: if-sans, "Helvetica Neue", sans-serif;
+    text-align: justify;
+}
+
+.right-top-button {
+    position: absolute !important;
+    right: .5rem;
+    top: .5rem;
 }

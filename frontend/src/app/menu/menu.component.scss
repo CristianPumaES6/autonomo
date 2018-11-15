@@ -12,6 +12,7 @@ main {
     mat-toolbar-row {
         span {
             margin: 0 auto;
+            cursor: pointer;
         }
 
         height: 64px !important;
@@ -19,6 +20,10 @@ main {
 
     mat-sidenav-container {
         height: 100%;
+
+        mat-sidenav-content {
+            margin: 1rem;
+        }
     }
 
     mat-sidenav .menu {

@@ -4,7 +4,7 @@
             <button (click)="sidenav.toggle()" mat-icon-button>
                 <mat-icon>menu</mat-icon>
             </button>
-            <span> Autonomos </span>
+            <span routerLink="/"> Autonomos </span>
         </mat-toolbar-row>
     </mat-toolbar>
 
@@ -12,7 +12,7 @@
         <mat-sidenav #sidenav mode="over">
             <div class="menu">
                 <div class="top-buttons">
-                    <button mat-button>NO HAGO NADA</button>
+                    <button routerLink="/invoices" mat-button>Invoices</button>
                 </div>
                 <button (click)="logout()" mat-button>
                     <mat-icon>home</mat-icon> Log out

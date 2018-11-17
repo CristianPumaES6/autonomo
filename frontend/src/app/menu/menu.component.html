@@ -12,10 +12,15 @@
         <mat-sidenav #sidenav mode="over">
             <div class="menu">
                 <div class="top-buttons">
-                    <button routerLink="/invoices" mat-button>Invoices</button>
+                    <button routerLink="/" (click)="sidenav.close()" mat-button>
+                        <mat-icon>home</mat-icon> Inicio
+                    </button>
+                    <button routerLink="/invoices" (click)="sidenav.close()" mat-button>
+                        <mat-icon>receipt</mat-icon> Facturas
+                    </button>
                 </div>
                 <button (click)="logout()" mat-button>
-                    <mat-icon>home</mat-icon> Log out
+                    <mat-icon>power_settings_new</mat-icon> Log out
                 </button>
             </div>
         </mat-sidenav>

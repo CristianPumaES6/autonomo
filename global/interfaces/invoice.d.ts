@@ -6,5 +6,4 @@ export interface IInvoice {
     cif?: string;
     nameCompany?: string;
     fisicalAddress?: string;
-    file?: string;
 }

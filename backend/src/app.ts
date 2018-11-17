@@ -58,13 +58,12 @@ app.use(setLogger);
  */
 app.use('/auth', auth);
 
+app.use('/database', database);
 
 /**
  * ROUTES WITH LOGIN
  */
 app.use(isLogged);
-
-app.use('/database', database);
 
 app.use('/user', user);
 

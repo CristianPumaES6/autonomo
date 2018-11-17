@@ -29,9 +29,6 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         price: {
             type: dataType.INTEGER,
         },
-        file: {
-            type: dataType.STRING,
-        }
     }, {
             timestamps: true,
             paranoid: true

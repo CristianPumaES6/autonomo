@@ -16,7 +16,7 @@ import { IUser, IInvoice } from '@isofocus/interfaces';
 import { IInstance } from './models/instance';
 
 export interface IModels {
-    user: Sequelize.Model<IInstance<IUser>, IUser>;
+    user: Sequelize.Model<IInstance<IUser> & { setInvoices(invoices: any[]), getInvoices() }, IUser>;
     invoice: Sequelize.Model<IInstance<IInvoice>, IInvoice>;
 }
 
@@ -59,9 +59,20 @@ export class DB {
     private static async createDefault() {
         if (!PROD) {
             let db = new DB();
+            await db.createModels();
             await db.models.user.count();
             if (await db.models.user.count() === 0) {
-                await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', nick: 'miguelmo', password: bcrypt.hashSync('1234', 10), root: true });
+                const miguel = await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', nick: 'miguelmo', password: bcrypt.hashSync('1234', 10), root: true });
+                const invoice0 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', iva: 0, price: 1936 });
+                const invoice1 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                const invoice2 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                const invoice3 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                const invoice4 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                const invoice6 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+
+                miguel.setInvoices([invoice1, invoice0, invoice2, invoice3, invoice4, invoice6]);
             }
         }
     }
@@ -70,9 +81,6 @@ export class DB {
         const sequelize = new Sequelize('', DB_USERNAME, DB_PASSWORD, {
             host: DB_HOST,
             dialect: DB_DIALECT,
-            pool: {
-                max: 5
-            },
             operatorsAliases: false
         });
         await sequelize.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;`);

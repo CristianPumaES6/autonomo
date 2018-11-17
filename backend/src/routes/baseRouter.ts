@@ -19,16 +19,16 @@ export class BaseRouter<T> {
     protected setGetDefault() {
         this.route.get('/', async (req, res, next) => {
             try {
-                res.json({ user: await this.db.get() });
+                res.json(await this.db.get());
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data' });
+                next({ type: 'error', error: 'Error getting data', trueError: e });
             }
         });
         this.route.get('/:id([0-9]+)', async (req, res, next) => {
             try {
-                res.json({ user: await this.db.get(req.params.id) });
+                res.json(await this.db.get(req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data' });
+                next({ type: 'error', error: 'Error getting data', trueError: e });
             }
         });
     }
@@ -37,9 +37,9 @@ export class BaseRouter<T> {
         this.route.post('/', async (req, res, next) => {
             let toInsert = req.body;
             try {
-                res.json({ user: await this.db.post(toInsert) });
+                res.json(await this.db.post(toInsert));
             } catch (e) {
-                next({ type: 'error', error: 'Error adding data' });
+                next({ type: 'error', error: 'Error adding data', trueError: e });
             }
         });
     }
@@ -48,9 +48,9 @@ export class BaseRouter<T> {
         this.route.put('/', async (req, res, next) => {
             let toInsert = req.body;
             try {
-                res.json({ user: await this.db.put(toInsert) });
+                res.json(await this.db.put(toInsert));
             } catch (e) {
-                next({ type: 'error', error: 'Error editing data' });
+                next({ type: 'error', error: 'Error editing data', trueError: e });
             }
         });
     }
@@ -58,9 +58,9 @@ export class BaseRouter<T> {
     protected setDeleteDefault() {
         this.route.delete('/:id([0-9]+)', async (req, res, next) => {
             try {
-                res.json({ user: await this.db.delete(req.params.id) });
+                res.json(await this.db.delete(req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error deleting data' });
+                next({ type: 'error', error: 'Error deleting data', trueError: e });
             }
         });
     }

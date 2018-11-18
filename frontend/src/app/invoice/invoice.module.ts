@@ -5,12 +5,15 @@ import { InvoiceAddComponent } from './invoice-add/invoice-add.component';
 import { InvoiceComponent } from './invoice/invoice.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../shared/material.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [InvoiceComponent, InvoiceEditComponent, InvoiceAddComponent],
     imports: [
         CommonModule,
         MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: InvoiceComponent },
             { path: 'new', component: InvoiceAddComponent },

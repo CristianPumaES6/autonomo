@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InvoiceComponent implements OnInit {
     invoices: IInvoice[];
     dataSource: MatTableDataSource<IInvoice>;
-    displayedColumns = ['id', 'cif', 'name', 'price'];
+    displayedColumns = ['id', 'date', 'cif', 'name', 'price'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 

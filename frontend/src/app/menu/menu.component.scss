@@ -6,6 +6,10 @@ main {
             height: calc(100% - 64px);
             background: url('../../assets/imgs/backgroundLogged.jpg');
             background-size: cover;
+
+            mat-sidenav-content {
+                padding: 1rem;
+            }
         }
     }
 
@@ -20,10 +24,6 @@ main {
 
     mat-sidenav-container {
         height: 100%;
-
-        mat-sidenav-content {
-            margin: 1rem;
-        }
     }
 
     mat-sidenav .menu {

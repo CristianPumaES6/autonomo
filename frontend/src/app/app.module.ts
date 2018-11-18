@@ -21,8 +21,6 @@ import { MenuComponent } from './menu/menu.component';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
         HttpClientModule,
         MaterialModule,
         RouterModule.forRoot([

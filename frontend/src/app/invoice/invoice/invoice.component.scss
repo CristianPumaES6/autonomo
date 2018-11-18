@@ -1,8 +1,12 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
 mat-card-content {
     overflow-x: auto;
 
     mat-form-field {
         width: 100%;
+
     }
 
     table {
@@ -11,6 +15,10 @@ mat-card-content {
 
         .row-item {
             cursor: pointer;
+
+            &:hover {
+                background-color: #1565c060;
+            }
         }
     }
 }

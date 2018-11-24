@@ -10,7 +10,7 @@ import * as moment from 'moment';
     styleUrls: ['./invoice-add.component.scss']
 })
 export class InvoiceAddComponent implements OnInit {
-    formAdd: FormGroup;
+    form: FormGroup;
     cols: number;
 
     @ViewChild('htmlForm') htmlForm: HTMLFormElement;
@@ -22,7 +22,7 @@ export class InvoiceAddComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.formAdd = new FormGroup({
+        this.form = new FormGroup({
             id: new FormControl(),
             date: new FormControl(moment().format(), [
                 Validators.required,
@@ -48,8 +48,8 @@ export class InvoiceAddComponent implements OnInit {
     };
 
     createInvoide() {
-        if (this.formAdd.valid)
-            this.invoiceService.post(this.formAdd.getRawValue()).subscribe(() => this.goBack());
+        if (this.form.valid)
+            this.invoiceService.post(this.form.getRawValue()).subscribe(() => this.goBack());
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }

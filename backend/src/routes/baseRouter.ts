@@ -14,6 +14,7 @@ export class BaseRouter<T> {
         this.setPostDefault();
         this.setPutDefault();
         this.setDeleteDefault();
+        this.setRestore();
     }
 
     protected setGetDefault() {
@@ -61,6 +62,16 @@ export class BaseRouter<T> {
                 res.json(await this.db.delete(req.params.id));
             } catch (e) {
                 next({ type: 'error', error: 'Error deleting data', trueError: e });
+            }
+        });
+    }
+
+    protected setRestore() {
+        this.route.get('/restore/:id([0-9]+)', async (req, res, next) => {
+            try {
+                res.json(await this.db.restore(req.params.id));
+            } catch (e) {
+                next({ type: 'error', error: 'Error restoring data', trueError: e });
             }
         });
     }

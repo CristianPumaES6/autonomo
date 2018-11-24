@@ -20,8 +20,6 @@ export class Interceptor {
             headers: req.headers.set('Authorization', authToken)
         });
 
-        console.log(authReq);
-        // send cloned request with header to the next handler.
         return next.handle(authReq)
             .do((result: any) => {
                 if (!PROD) {
@@ -36,7 +34,7 @@ export class Interceptor {
                     console.log('        %cREQUEST', 'color: yellow;', req.body || '');
                     console.log('        %cERROR', 'color: red;', error.error);
                 }
-                SnackService.sendError$.emit(error.error.error);
+                SnackService.send$.emit(error.error.error);
                 return Observable.throw(error);
             }) as any;
     }

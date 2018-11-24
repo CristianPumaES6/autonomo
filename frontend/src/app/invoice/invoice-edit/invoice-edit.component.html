@@ -1,3 +1,80 @@
-<p>
-  invoice-edit works!
-</p>
+<mat-card (window:resize)="resize()">
+    <mat-card-header>
+        <mat-card-title>
+            <button mat-icon-button color="warn" routerLink="..">
+                <mat-icon> keyboard_arrow_left </mat-icon>
+            </button>
+            Añadiendo factura
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content #htmlCardContent>
+        <form *ngIf="form" [formGroup]="form">
+            <mat-grid-list cols="12" rowHeight="60px">
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field>
+                        <input matInput placeholder="ID" name="id" type="number" class="right" formControlName="id">
+                        <mat-hint>Dejar vacío para autoincrementar</mat-hint>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field>
+                        <input [matDatepicker]="picker" (click)="picker.open()" matInput name="Fecha" placeholder="Fecha"
+                            formControlName="date" autocomplete="false">
+                        <mat-hint>Formato mm/dd/yyyy</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
+                    <mat-form-field class="textarea">
+                        <textarea cols="5" matInput placeholder="Observaciones" name="observations" matTextareaAutosize
+                            matAutosizeMinRows="5" matAutosizeMaxRows="5" formControlName="observations">
+                        </textarea>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 3">
+                    <mat-form-field>
+                        <input matInput placeholder="CIF/DNI" name="cif" formControlName="cif">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 2">
+                    <mat-form-field>
+                        <input matInput class="right" placeholder="IVA" name="IVA" type="number" formControlName="iva">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 3">
+                    <mat-form-field>
+                        <input matInput class="right" placeholder="Total" name="price" type="number" formControlName="price">
+                        <span matSuffix>€</span>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre de la compañia" name="nameCompany" formControlName="nameCompany">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field>
+                        <input matInput placeholder="Dirección fiscal" name="fisicalAddress" formControlName="fisicalAddress">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-button (click)="createInvoide()" color="primary">Editar</button>
+        <button mat-button (click)="goBack()" color="warn">Cancelar</button>
+    </mat-card-actions>
+</mat-card>

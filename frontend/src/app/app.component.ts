@@ -8,14 +8,10 @@ import { MatSnackBar } from '@angular/material';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    title = 'isofocus';
-
     constructor(private snack: MatSnackBar) { }
 
     ngOnInit() {
-        SnackService.sendError$.subscribe(message => {
-            this.snack.open(message, null, { duration: 5000 });
-        });
+        SnackService.send$.subscribe((message: string) => this.snack.open(message, null, { duration: 5000 }));
     }
 
 }

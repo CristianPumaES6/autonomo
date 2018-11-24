@@ -16,29 +16,34 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             type: dataType.STRING,
         },
         photo: {
-            type: dataType.STRING
+            type: dataType.STRING,
         },
         name: {
             type: dataType.STRING,
-            allowNull: false
+            allowNull: false,
         },
         email: {
             type: dataType.STRING,
             unique: true,
-            allowNull: false
+            allowNull: false,
+        },
+        dni: {
+            type: dataType.STRING,
+            unique: true,
+            allowNull: false,
         },
         nick: {
             type: dataType.STRING,
             unique: true,
-            allowNull: false
+            allowNull: false,
         },
         root: {
             type: dataType.BOOLEAN,
-            defaultValue: false
+            defaultValue: false,
         },
     }, {
             timestamps: true,
-            paranoid: true
-        }
+            paranoid: true,
+        },
     );
 }

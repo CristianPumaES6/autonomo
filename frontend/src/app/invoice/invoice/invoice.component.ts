@@ -31,18 +31,14 @@ export class InvoiceComponent implements OnInit {
         });
     }
 
-    applyFilter(filterValue: string) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
+    applyFilter(filterValue: string) { this.dataSource.filter = filterValue.trim().toLowerCase(); }
 
-    clickRow(row: IInvoice) {
-        this.router.navigate(['./', row.id], { relativeTo: this.route });
-    }
+    clickRow(row: IInvoice) { this.router.navigate(['./', row.id], { relativeTo: this.route }); }
 
     delete(invoice: IInvoice, event: Event) {
         event.stopPropagation();
         this.invoiceService.delete(+invoice.id).subscribe(() => {
-            this.snack.open('Factura borrada correctamente', 'deshacer').onAction().subscribe(
+            this.snack.open('Factura borrada correctamente', 'DESHACER').onAction().subscribe(
                 () => {
                     this.invoiceService.restore(+invoice.id).subscribe(
                         () => {

@@ -34,8 +34,10 @@ main {
 
         button {
             width: 100%;
+            min-width: 10.5rem;
             height: 3.5rem;
             display: flex;
+            padding-left: 2.5rem;
         }
     }
 

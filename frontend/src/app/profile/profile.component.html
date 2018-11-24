@@ -1,0 +1,48 @@
+<mat-card (window:resize)="resize()">
+    <mat-card-header>
+        <mat-card-title>
+            Mi perfil
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content #htmlCardContent>
+        <form *ngIf="form" [formGroup]="form">
+            <mat-grid-list cols="12" rowHeight="75px">
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre" name="name" formControlName="name">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput placeholder="Telefono" name="phone" formControlName="phone">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput placeholder="Correo electrónico" name="email" formControlName="email">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput placeholder="DNI" name="dni" formControlName="dni">
+                        <mat-hint>
+                            <span style="color: red;"> ¡Importante! </span>
+                            Este dni se ultiliza para en las facturas
+                        </mat-hint>
+                        <mat-error *ngIf="form.get('dni').invalid">El DNI es requerido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-button (click)="editProfile()" color="primary">Guardar</button>
+    </mat-card-actions>
+</mat-card>

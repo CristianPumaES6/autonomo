@@ -15,13 +15,22 @@
                     <button routerLink="/" (click)="sidenav.close()" mat-button>
                         <mat-icon>home</mat-icon> Inicio
                     </button>
+
                     <button routerLink="/invoices" (click)="sidenav.close()" mat-button>
                         <mat-icon>receipt</mat-icon> Facturas
                     </button>
                 </div>
-                <button (click)="logout()" mat-button>
-                    <mat-icon>power_settings_new</mat-icon> Log out
-                </button>
+                <div class="bottom-buttons">
+                    <button routerLink="/profile" (click)="sidenav.close()" mat-button>
+                        <mat-icon>person</mat-icon> Perfil
+                    </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button (click)="logout()" mat-button>
+                        <mat-icon>power_settings_new</mat-icon> Log out
+                    </button>
+                </div>
             </div>
         </mat-sidenav>
 

@@ -21,7 +21,7 @@ export class DBUser extends BaseDB {
         }
     }
 
-    public async checkEmail(email: string) {
+    public async checkEmail(email: IUser['email']) {
         return await this.db.findOne({ where: { email } });
     }
 
@@ -35,8 +35,8 @@ export class DBUser extends BaseDB {
     }
 
     public async get();
-    public async get(id?: number | string);
-    public async get(id?: number | string) {
+    public async get(id?: IUser['id']);
+    public async get(id?: IUser['id']) {
         if (!id) {
             return await this.db.findAll().map(e => {
                 delete e.dataValues.password;
@@ -47,5 +47,11 @@ export class DBUser extends BaseDB {
             delete user.dataValues.password;
             return user;
         }
+    }
+
+    public async getMy(id: IUser['id']) {
+        const user = await this.db.findOne({ where: { id } });
+        delete user.dataValues.password;
+        return user;
     }
 }

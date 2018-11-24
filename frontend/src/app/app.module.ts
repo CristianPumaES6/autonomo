@@ -25,6 +25,7 @@ import { MenuComponent } from './menu/menu.component';
         MaterialModule,
         RouterModule.forRoot([
             { path: 'invoices', canActivate: [Logged], loadChildren: './invoice/invoice.module#InvoiceModule' },
+            { path: 'profile', canActivate: [Logged], loadChildren: './profile/profile.module#ProfileModule' },
             { path: 'auth', canActivate: [NotLogged], loadChildren: './auth/auth.module#AuthModule' },
             { path: '', component: MainComponent, canActivate: [Logged] },
             { path: '**', redirectTo: '' }

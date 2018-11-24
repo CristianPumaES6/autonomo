@@ -8,6 +8,7 @@ export class Auth {
 
     public static verify(token: string) {
         try {
+            token = token.replace('Bearer ', '');
             return jwt.verify(token, JWT_SECRET, { ignoreExpiration: false });
         } catch (e) {
             return false;

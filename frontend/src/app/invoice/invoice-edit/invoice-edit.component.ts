@@ -80,10 +80,8 @@ export class InvoiceEditComponent implements OnInit {
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }
 
     resize() {
-        if (this.form) {
-            if (this.htmlCardContent.nativeElement.offsetWidth < 767) this.cols = 12;
-            else if (this.htmlCardContent.nativeElement.offsetWidth < 1025) this.cols = 6;
-            else this.cols = undefined;
-        }
+        if (this.htmlCardContent.nativeElement.offsetWidth < 767) this.cols = 12;
+        else if (this.htmlCardContent.nativeElement.offsetWidth < 1025) this.cols = 6;
+        else this.cols = undefined;
     }
 }

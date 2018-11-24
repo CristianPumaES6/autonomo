@@ -24,7 +24,6 @@ export class BaseDB {
     public async delete(id: number | string) {
         return await (this.db.destroy({ where: { id } }));
     }
-
     public async restore(id: number) {
         return await (this.db.restore({ where: { id } }));
     }

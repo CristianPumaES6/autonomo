@@ -63,9 +63,15 @@
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="this.cols || 4">
+                <mat-grid-tile [colspan]="this.cols || 3">
                     <mat-form-field>
                         <input matInput placeholder="Dirección fiscal" name="fisicalAddress" formControlName="fisicalAddress">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 1">
+                    <mat-form-field>
+                        <mat-slide-toggle matInput placeholder="Factura recibida" name="received" formControlName="received"></mat-slide-toggle>
                     </mat-form-field>
                 </mat-grid-tile>
 

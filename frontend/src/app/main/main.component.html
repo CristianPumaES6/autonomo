@@ -1,3 +1,17 @@
-<p>
-  main works!
-</p>
+<div class="chart-container">
+
+    <mat-card class="char-invoices">
+        <mat-card-content>
+            <canvas baseChart *ngIf="data && data.length" [datasets]="data" [labels]="labels" [colors]="colors"
+                chartType="line"></canvas>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="char-invoices">
+        <mat-card-content>
+            <canvas baseChart *ngIf="data2 && data2.length" [datasets]="data2" [labels]="labels" [colors]="colors"
+                chartType="bar"></canvas>
+        </mat-card-content>
+    </mat-card>
+
+</div>

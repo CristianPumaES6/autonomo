@@ -66,6 +66,7 @@ export class InvoiceEditComponent implements OnInit {
                 Validators.required,
             ]),
             observations: new FormControl(this.invoice.observations),
+            received: new FormControl(this.invoice.received),
         });
         this.resize();
     }

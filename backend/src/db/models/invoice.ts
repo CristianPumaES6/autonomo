@@ -31,7 +31,11 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         },
         observations: {
             type: dataType.STRING,
-        }
+        },
+        received: {
+            type: dataType.BOOLEAN,
+            defaultValue: true,
+        },
     }, {
             timestamps: true,
             paranoid: true

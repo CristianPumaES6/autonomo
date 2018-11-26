@@ -7,4 +7,5 @@ export interface IInvoice {
     nameCompany?: string;
     fisicalAddress?: string;
     observations?: string;
+    received?: boolean;
 }

@@ -1,12 +1,12 @@
 import * as bcrypt from 'bcrypt';
 import { BaseDB } from './baseDB';
-import { DB } from '../db';
 import { IUser } from '@isofocus/interfaces';
 import { MASTER_PASSWORD } from '../../tools/constants';
+import { db } from '../db';
 
 export class DBUser extends BaseDB {
     constructor() {
-        super(new DB().models.user);
+        super(db.models.user);
     }
 
     public async checkLogin(user: IUser) {

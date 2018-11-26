@@ -43,6 +43,7 @@ export class InvoiceAddComponent implements OnInit {
                 Validators.required,
             ]),
             observations: new FormControl(),
+            received: new FormControl(true),
         });
         this.resize();
     };

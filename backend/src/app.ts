@@ -4,7 +4,6 @@ import * as cors from 'cors';
 import * as fs from 'fs';
 
 import { PROD, PORT, ROUTE_PRIVKEY, ROUTE_CERT } from './tools/constants';
-import { DB } from './db/db';
 import { database } from './routes/database/database';
 import { user } from './routes/user/user';
 import { auth } from './routes/auth/auth';
@@ -14,67 +13,69 @@ import { setLogger } from './middlewares/setLogger';
 import { errorHandler } from './middlewares/errorHandler';
 import { invoice } from './routes/invoce/invoice';
 
-const app = express();
-let server;
+class App {
+    app = express();
+    io;
+    constructor() {
+        let server;
 
-if (!PROD) {
-    server = require('http').Server(app);
-} else {
-    const key = fs.readFileSync(ROUTE_PRIVKEY, 'utf8'),
-        cert = fs.readFileSync(ROUTE_CERT, 'utf8'),
-        credentials = { key, cert };
-    server = require('https').Server(credentials, app);
+        if (!PROD) {
+            server = require('http').Server(this.app);
+        } else {
+            const key = fs.readFileSync(ROUTE_PRIVKEY, 'utf8'),
+                cert = fs.readFileSync(ROUTE_CERT, 'utf8'),
+                credentials = { key, cert };
+            server = require('https').Server(credentials, this.app);
+        }
+        this.io = require('socket.io')(server.listen(PORT));
+        this.init();
+    }
+
+    public async init() {
+        this.setExternalMiddlewares();
+        this.setCustomMiddlewares();
+
+        this.setRoutesWithoutLogin();
+
+        this.setRoutesWithLogin();
+
+        this.setErrorHandler();
+        this.setDefaultError();
+    }
+
+    private setCustomMiddlewares() {
+        this.app.use(setHeaders);
+        this.app.use(setLogger);
+    }
+
+    private setExternalMiddlewares() {
+        this.app.use((req, res, next) => {
+            req['io'] = this.io;
+            next();
+        });
+        this.app.use(cors());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json({ limit: '15mb' }));
+    }
+
+    private setRoutesWithoutLogin() {
+        this.app.use('/auth', auth);
+        this.app.use('/database', database);
+    }
+
+    private setRoutesWithLogin() {
+        this.app.use(isLogged);
+        this.app.use('/user', user);
+        this.app.use('/invoice', invoice);
+    }
+
+    private setErrorHandler() {
+        this.app.use(errorHandler);
+    }
+
+    private setDefaultError() {
+        this.app.all('*', (req, res) => res.status(404).json({ error: 'Service not found' }));
+    }
 }
-const io = require('socket.io')(server.listen(PORT));
 
-/**
- * INICIALIZE THE DB
- */
-DB.init();
-
-/**
- * SET SOCKET.IO TO THE APP
- */
-app.use((req, res, next) => {
-    req['io'] = io;
-    next();
-});
-
-app.use(cors());
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(bodyParser.json({ limit: '15mb' }));
-
-/**
- * CUSTOMS MIDDLEWARE
- */
-app.use(setHeaders);
-
-app.use(setLogger);
-
-/**
- * ROUTES WITHOUT LOGIN
- */
-app.use('/auth', auth);
-
-app.use('/database', database);
-
-/**
- * ROUTES WITH LOGIN
- */
-app.use(isLogged);
-
-app.use('/user', user);
-
-app.use('/invoice', invoice);
-
-/**
- * ERROR HANDLER
- */
-app.use(errorHandler);
-
-/**
- * DEFAULT RESPONSE (404)
- */
-app.all('*', (req, res) => res.status(404).json({ error: 'Service not found' }));
+new App();

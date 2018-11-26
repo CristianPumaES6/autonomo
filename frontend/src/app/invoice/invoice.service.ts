@@ -12,4 +12,12 @@ export class InvoiceService extends BaseService<IInvoice> {
         super(httpClient);
         this.SERVER_URL += '/invoice/';
     }
+
+    getChartTotal() {
+        return this.httpClient.get<any>(this.SERVER_URL + 'chart/total');
+    }
+
+    getChartEarned() {
+        return this.httpClient.get<any>(this.SERVER_URL + 'chart/earned');
+    }
 }

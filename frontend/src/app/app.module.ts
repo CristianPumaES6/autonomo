@@ -11,6 +11,7 @@ import { Interceptor } from './shared/interceptor/interceptor.service';
 import { MaterialModule } from './shared/material.module';
 import { NotLogged } from './shared/guard/not-logged.guard';
 import { MenuComponent } from './menu/menu.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { MenuComponent } from './menu/menu.component';
         BrowserAnimationsModule,
         HttpClientModule,
         MaterialModule,
+        ChartsModule,
         RouterModule.forRoot([
             { path: 'invoices', canActivate: [Logged], loadChildren: './invoice/invoice.module#InvoiceModule' },
             { path: 'profile', canActivate: [Logged], loadChildren: './profile/profile.module#ProfileModule' },

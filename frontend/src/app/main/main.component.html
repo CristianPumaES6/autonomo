@@ -1,15 +1,15 @@
 <div class="chart-container">
 
-    <mat-card class="char-invoices">
+    <mat-card>
         <mat-card-content>
-            <canvas baseChart *ngIf="data && data.length" [datasets]="data" [labels]="labels" [colors]="colors"
+            <canvas baseChart *ngIf="chart && chart.length" [datasets]="chart" [labels]="labels" [colors]="colors"
                 chartType="line"></canvas>
         </mat-card-content>
     </mat-card>
 
-    <mat-card class="char-invoices">
+    <mat-card>
         <mat-card-content>
-            <canvas baseChart *ngIf="data2 && data2.length" [datasets]="data2" [labels]="labels" [colors]="colors"
+            <canvas baseChart *ngIf="total && total.length" [datasets]="total" [labels]="labels" [colors]="colorTotal"
                 chartType="bar"></canvas>
         </mat-card-content>
     </mat-card>

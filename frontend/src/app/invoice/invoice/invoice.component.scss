@@ -23,6 +23,14 @@ mat-card-content {
                     color: red;
                 }
             }
+
+            .received {
+                color: lightcoral;
+            }
+
+            .emit {
+                color: lightgreen;
+            }
         }
     }
 }

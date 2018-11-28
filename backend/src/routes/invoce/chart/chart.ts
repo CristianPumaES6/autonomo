@@ -28,6 +28,26 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
                 next({ error: 'No se ha podido crear la gráfica', trueError: e });
             }
         });
+
+        this.route.get('/wasted', async (req, res, next) => {
+            const id = +Auth.verify(req.headers.authorization);
+            try {
+                const chart = await this.db.getChartWasted(id);
+                res.json(chart);
+            } catch (e) {
+                next({ error: 'No se ha podido crear la gráfica', trueError: e });
+            }
+        });
+
+        this.route.get('/ivaEarn', async (req, res, next) => {
+            const id = +Auth.verify(req.headers.authorization);
+            try {
+                const chart = await this.db.getChartIvaEarn(id);
+                res.json(chart);
+            } catch (e) {
+                next({ error: 'No se ha podido crear la gráfica', trueError: e });
+            }
+        });
     }
 }
 

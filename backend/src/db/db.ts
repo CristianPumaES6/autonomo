@@ -41,38 +41,36 @@ class DB {
         this.init().then();
     }
 
+    /**
+     * PUBLIC
+     */
     public async init() {
         await this.createDatabase();
         await this.sequelize.sync();
         await this.createDefaultValues();
     }
 
-    /**
-     * PUBLIC
-     */
     public async sync(force = false) {
         await this.sequelize.sync({ force });
     }
-
 
     /**
      * PRIVATE
      */
     private async createDefaultValues() {
         if (!PROD) {
-            await db.models.user.count();
             if (await db.models.user.count() === 0) {
                 const miguel = await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', nick: 'miguelmo', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' });
-                const invoice0 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', iva: 0, price: 1936 });
-                const invoice1 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                const invoice2 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                const invoice3 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                const invoice4 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                const invoice6 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
-                await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 0, price: 1936, nameCompany: 'Boon' });
+                const invoice0 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', iva: 21, price: 1936, received: false, date: new Date('12/12/2018') });
+                const invoice1 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 347, nameCompany: 'Boon', date: new Date('8/8/2018') });
+                const invoice2 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 282, nameCompany: 'Boon', date: new Date('10/10/2018') });
+                const invoice3 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 445, nameCompany: 'Boon', received: false, date: new Date('9/9/2018') });
+                const invoice4 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 887, nameCompany: 'Boon' });
+                const invoice5 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 1936, nameCompany: 'Boon', received: true, });
+                const invoice6 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 66, nameCompany: 'Boon' });
+                const invoice7 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 1553, nameCompany: 'Boon', date: new Date('12/5/2018') });
 
-                await miguel.setInvoices([invoice1, invoice0, invoice2, invoice3, invoice4, invoice6]);
+                await miguel.setInvoices([invoice1, invoice0, invoice2, invoice3, invoice4, invoice5, invoice6, invoice7]);
             }
         }
     }
@@ -106,5 +104,6 @@ class DB {
         this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });
     }
 }
+
 const db = new DB();
 export { db };

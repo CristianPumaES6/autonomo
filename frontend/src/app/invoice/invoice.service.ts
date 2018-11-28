@@ -20,4 +20,12 @@ export class InvoiceService extends BaseService<IInvoice> {
     getChartEarned() {
         return this.httpClient.get<any>(this.SERVER_URL + 'chart/earned');
     }
+
+    getChartWasted() {
+        return this.httpClient.get<any>(this.SERVER_URL + 'chart/wasted');
+    }
+
+    getChartIvaEarn() {
+        return this.httpClient.get<any>(this.SERVER_URL + 'chart/ivaearn');
+    }
 }

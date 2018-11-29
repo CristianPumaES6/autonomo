@@ -12,7 +12,7 @@ export class Interceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         // Get the auth token from the service.
-        const authToken = this.authService.getAuthorizationToken() || '';
+        const authToken = this.authService.getAuthorizationToken();
 
         // Clone the request and replace the original headers with
         // cloned headers, updated with the authorization.

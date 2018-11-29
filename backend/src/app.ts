@@ -4,7 +4,6 @@ import * as cors from 'cors';
 import * as fs from 'fs';
 
 import { PROD, PORT, ROUTE_PRIVKEY, ROUTE_CERT } from './tools/constants';
-import { database } from './routes/database/database';
 import { user } from './routes/user/user';
 import { auth } from './routes/auth/auth';
 import { setHeaders } from './middlewares/setHeaders';
@@ -60,7 +59,6 @@ class App {
 
     private setRoutesWithoutLogin() {
         this.app.use('/auth', auth);
-        this.app.use('/database', database);
     }
 
     private setRoutesWithLogin() {

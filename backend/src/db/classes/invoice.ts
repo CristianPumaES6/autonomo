@@ -1,5 +1,6 @@
 import { BaseDB } from './baseDB';
 import { db } from '../db';
+import { IInvoice, IUser } from '../../../../global/interfaces';
 
 export class DBInvoice extends BaseDB {
     constructor() {
@@ -57,9 +58,47 @@ export class DBInvoice extends BaseDB {
     private setMonth(chart: any) {
         chart = chart[0];
         let toReturn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (let i = 0; i < 12; i++) {
-            for (const index in chart) if (chart[index].day === i) toReturn[i - 1] = +chart[index].total;
-        }
+        for (let i = 0; i < 12; i++)
+            for (const index in chart)
+                if (chart[index].day === i)
+                    toReturn[i - 1] = +chart[index].total;
+
         return toReturn;
+    }
+
+    public async getMy(id: IInvoice['id']);
+    public async getMy(id: IInvoice['id'], idInvoice: IInvoice['id']);
+    public async getMy(id: IInvoice['id'], idInvoice?: IInvoice['id']) {
+        return idInvoice === undefined ? this.db.findAll({
+            where: {
+                userID: id,
+            },
+            order: [
+                ['date', 'DESC'],
+            ]
+        }) : this.db.findOne({
+            where: {
+                userID: id,
+                id: idInvoice,
+            }
+        });
+    }
+
+    public async getNextID(idUser: IUser['id']) {
+        return await (this.db.max('visualID', {
+            where: {
+                userID: idUser,
+            }
+        })) || 0;
+    }
+
+    public async checkId(id: IInvoice['visualID'], idUser: IUser['id']) {
+        const invoice = await this.db.findOne({
+            where: {
+                visualID: id,
+                userID: idUser,
+            },
+        });
+        return invoice === null;
     }
 }

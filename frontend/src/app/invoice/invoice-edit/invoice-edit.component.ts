@@ -34,9 +34,10 @@ export class InvoiceEditComponent implements OnInit {
             this.invoiceService.get(this.id).subscribe(
                 invoice => {
                     this.invoice = invoice;
-                    this.createForm();
-                }, () => {
-                    this.goBack();
+                    if (!this.invoice) {
+                        SnackService.send$.emit('No tienes permisos para ver esta factura.');
+                        this.goBack();
+                    } else this.createForm();
                 }
             );
         });
@@ -44,7 +45,7 @@ export class InvoiceEditComponent implements OnInit {
 
     createForm() {
         this.form = new FormGroup({
-            id: new FormControl(this.invoice.id, [
+            visualID: new FormControl(this.invoice.visualID, [
                 Validators.required,
             ]),
             date: new FormControl(this.invoice.date, [

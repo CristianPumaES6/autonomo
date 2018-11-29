@@ -6,10 +6,10 @@ export class Auth {
         return jwt.sign(toEncode, JWT_SECRET)
     }
 
-    public static verify(token: string) {
+    public static verify(token: string): number | false {
         try {
             token = token.replace('Bearer ', '');
-            return jwt.verify(token, JWT_SECRET, { ignoreExpiration: false });
+            return +jwt.verify(token, JWT_SECRET, { ignoreExpiration: false });
         } catch (e) {
             return false;
         }

@@ -32,6 +32,10 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         observations: {
             type: dataType.STRING,
         },
+        visualID: {
+            type: dataType.INTEGER,
+            unique: true,
+        },
         received: {
             type: dataType.BOOLEAN,
             defaultValue: true,

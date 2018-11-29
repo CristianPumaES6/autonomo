@@ -4,6 +4,6 @@ import { Injectable, EventEmitter } from '@angular/core';
     providedIn: 'root'
 })
 export class SnackService {
-    static send$: EventEmitter<any> = new EventEmitter<any>();
+    static send$: EventEmitter<string> = new EventEmitter<string>();
     constructor() { }
 }

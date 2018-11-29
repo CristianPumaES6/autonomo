@@ -14,8 +14,13 @@
 
                 <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field>
-                        <input matInput placeholder="ID" name="ID" type="number" formControlName="id">
-                        <mat-hint>Dejar vacío para autoincrementar</mat-hint>
+                        <input matInput class="right" placeholder="ID" name="visualID" type="number" formControlName="visualID">
+                        <mat-error *ngIf="form.get('visualID').hasError('required')">
+                            La ID es <strong>requerida</strong>
+                        </mat-error>
+                        <mat-error *ngIf="true">
+                            Ya existe una ID con ese número.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -70,7 +75,7 @@
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 2">
-                    <mat-slide-toggle matInput placeholder="Factura recibida" name="received" formControlName="received"></mat-slide-toggle>
+                    <mat-slide-toggle matInput name="received" formControlName="received">Factura recibida</mat-slide-toggle>
                 </mat-grid-tile>
 
             </mat-grid-list>

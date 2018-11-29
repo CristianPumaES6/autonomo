@@ -8,4 +8,5 @@ export interface IInvoice {
     fisicalAddress?: string;
     observations?: string;
     received?: boolean;
+    visualID?: number;
 }

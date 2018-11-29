@@ -50,10 +50,6 @@ class DB {
         await this.createDefaultValues();
     }
 
-    public async sync(force = false) {
-        await this.sequelize.sync({ force });
-    }
-
     /**
      * PRIVATE
      */

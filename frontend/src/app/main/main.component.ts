@@ -38,12 +38,8 @@ export class MainComponent implements OnInit {
     ];
 
     public colorTotal = [{ // TOTAL
-        backgroundColor: 'rgba(63, 81, 181, .2)',
+        backgroundColor: 'rgba(63, 81, 181, .7)',
         borderColor: 'rgba(63, 81, 181, 1)',
-        pointBackgroundColor: 'rgba(63, 81, 181, 1)',
-        pointBorderColor: '#3F51B5',
-        pointHoverBackgroundColor: '#3F51B5',
-        pointHoverBorderColor: 'rgba(63, 81, 181, 0.8)'
     }];
 
     constructor(protected invoiceService: InvoiceService) { }

@@ -12,6 +12,7 @@ import * as moment from 'moment';
 export class InvoiceAddComponent implements OnInit {
     form: FormGroup;
     cols: number;
+    validID = true;
 
     @ViewChild('htmlForm') htmlForm: HTMLFormElement;
 
@@ -23,7 +24,12 @@ export class InvoiceAddComponent implements OnInit {
 
     ngOnInit() {
         this.form = new FormGroup({
-            id: new FormControl(),
+            visualID: new FormControl('', [
+                Validators.required,
+            ], [
+                    this.invoiceService.uniqueID(),
+                ]
+            ),
             date: new FormControl(moment().format(), [
                 Validators.required,
             ]),
@@ -45,6 +51,7 @@ export class InvoiceAddComponent implements OnInit {
             observations: new FormControl(),
             received: new FormControl(true),
         });
+        this.invoiceService.getNext().subscribe(next => this.form.get('visualID').setValue(+next));
         this.resize();
     };
 

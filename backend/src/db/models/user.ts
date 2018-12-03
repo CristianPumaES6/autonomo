@@ -9,6 +9,10 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             autoIncrement: true,
             primaryKey: true,
         },
+        name: {
+            type: dataType.STRING,
+            allowNull: false,
+        },
         password: {
             type: dataType.STRING,
         },
@@ -17,10 +21,6 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         },
         photo: {
             type: dataType.STRING,
-        },
-        name: {
-            type: dataType.STRING,
-            allowNull: false,
         },
         email: {
             type: dataType.STRING,

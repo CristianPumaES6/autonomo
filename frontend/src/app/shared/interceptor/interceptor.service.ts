@@ -28,7 +28,7 @@ export class Interceptor {
                     console.log('        %cRESPONSE', 'color: green;', result.body || '');
                 }
             })
-            .catch((error, caught) => {
+            .catch((error) => {
                 if (!PROD) {
                     console.error(`[ %c${req.method}`, 'color: red;', `]: ${req.url}`);
                     console.log('        %cREQUEST', 'color: yellow;', req.body || '');

@@ -73,7 +73,7 @@ export class InvoiceEditComponent implements OnInit {
     }
 
     createInvoide() {
-        if (this.form.valid) this.invoiceService.put(this.form.getRawValue()).subscribe(() => {
+        if (this.form.valid) this.invoiceService.put({ id: this.id, ...this.form.getRawValue() }).subscribe(() => {
             this.goBack();
             SnackService.send$.emit('Editado con exito.');
         });

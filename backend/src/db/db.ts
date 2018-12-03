@@ -88,7 +88,7 @@ class DB {
         await seq.close();
     }
 
-    private async createModels() {
+    private createModels() {
         const dirname = `${__dirname}/models`;
 
         fs.readdirSync(dirname).filter(f => f !== path.basename(module.filename)).forEach(f => {

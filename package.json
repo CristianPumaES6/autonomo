@@ -1,0 +1,27 @@
+{
+    "name": "autonomo",
+    "version": "1.0.0",
+    "description": "Full project",
+    "main": "index.js",
+    "scripts": {
+        "frontend": "cd frontend && npm start",
+        "backend": "cd backend && npm start",
+        "pre-frontend": "cd frontend && npm i",
+        "pre-backend": "cd backend && npm i",
+        "prestart": "concurrently \"npm run pre-backend\" \"npm run pre-frontend\"",
+        "start": "concurrently \"npm run backend\" \"npm run frontend\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/miguelmoya1/autonomo.git"
+    },
+    "author": "Miguel Moya Ortega",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/miguelmoya1/autonomo/issues"
+    },
+    "homepage": "https://github.com/miguelmoya1/autonomo#readme",
+    "devDependencies": {
+        "concurrently": "*"
+    }
+}

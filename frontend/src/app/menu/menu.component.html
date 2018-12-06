@@ -1,4 +1,4 @@
-<main fullscreen [ngClass]="{'logged': logged}">
+<main fullscreen [ngClass]="{'logged': logged, 'dark': dark}">
     <mat-toolbar color="primary" *ngIf="logged">
         <mat-toolbar-row>
             <button (click)="sidenav.toggle()" mat-icon-button>
@@ -20,10 +20,14 @@
                         <mat-icon>receipt</mat-icon> Facturas
                     </button>
                 </div>
+
                 <div class="bottom-buttons">
+
                     <button routerLink="/profile" (click)="sidenav.close()" mat-button>
                         <mat-icon>person</mat-icon> Perfil
                     </button>
+
+                    <mat-slide-toggle (change)="changeDarkMode()" [checked]="dark">Modo oscuro</mat-slide-toggle>
 
                     <mat-divider></mat-divider>
 

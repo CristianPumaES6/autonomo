@@ -18,9 +18,17 @@ $isofocus-accent: mat-palette($mat-deep-purple, A200, A100, A400);
 $isofocus-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$isofocus-theme: mat-light-theme($isofocus-primary, $isofocus-accent, $isofocus-warn);
+$isofocus-theme-light: mat-light-theme($isofocus-primary, $isofocus-accent, $isofocus-warn);
+
+$isofocus-theme-dark: mat-dark-theme($isofocus-primary, $isofocus-accent, $isofocus-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($isofocus-theme);
+@include angular-material-theme($isofocus-theme-light);
+
+main {
+    &.dark {
+        @include angular-material-theme($isofocus-theme-dark);
+    }
+}

@@ -9,23 +9,20 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
-
-body {
     font-family: if-sans, "Helvetica Neue", sans-serif;
     text-align: justify;
-}
 
-.right-top-button {
-    position: absolute !important;
-    right: .5rem;
-    top: .5rem;
-}
+    .right-top-button {
+        position: absolute !important;
+        right: .5rem;
+        top: .5rem;
+    }
 
-mat-form-field {
-    width: 100%;
-}
+    mat-form-field {
+        width: 100%;
+    }
 
-.input-error {
-    border-color: red;
+    .input-error {
+        border-color: red;
+    }
 }

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
     protected logged: boolean;
+    dark = localStorage.getItem('dark') === 'true';
 
     @ViewChild('sidenav') sidenav: MatSidenav;
 
@@ -24,5 +25,11 @@ export class MenuComponent implements OnInit {
         this.logged = false;
         this.authService.logout();
         this.router.navigate(['/auth']);
+    }
+
+    changeDarkMode() {
+        this.dark = !this.dark;
+
+        localStorage.setItem('dark', `${this.dark}`);
     }
 }

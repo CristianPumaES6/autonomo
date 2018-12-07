@@ -56,8 +56,7 @@ export class InvoiceAddComponent implements OnInit {
     };
 
     createInvoide() {
-        if (this.form.valid)
-            this.invoiceService.post(this.form.getRawValue()).subscribe(() => this.goBack());
+        this.invoiceService.post(this.form.getRawValue()).subscribe(() => this.goBack());
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }

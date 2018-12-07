@@ -1,6 +1,10 @@
 <div class="chart-container">
 
     <mat-card>
+        <mat-card-header>
+            <mat-card-title>Ganancias y pérdidas</mat-card-title>
+        </mat-card-header>
+
         <mat-card-content>
             <canvas baseChart *ngIf="chart && chart.length" [datasets]="chart" [labels]="labels" [colors]="colors"
                 chartType="line"></canvas>
@@ -8,9 +12,13 @@
     </mat-card>
 
     <mat-card>
+        <mat-card-header>
+            <mat-card-title>Total de facturas</mat-card-title>
+        </mat-card-header>
+
         <mat-card-content>
-            <canvas baseChart *ngIf="total && total.length" [datasets]="total" [labels]="labels" [colors]="colorTotal"
-                chartType="bar"></canvas>
+            <canvas baseChart *ngIf="total && total.length" [legend]="false" [datasets]="total" [labels]="labels"
+                [colors]="colorTotal" chartType="bar"></canvas>
         </mat-card-content>
     </mat-card>
 

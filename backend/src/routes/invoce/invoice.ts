@@ -7,7 +7,6 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
     constructor() {
         super(new DBInvoice());
         this.setDeleteDefault();
-        this.setPostDefault();
         this.setPutDefault();
         this.setRestore();
         this.init();
@@ -48,6 +47,19 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
                 visualID = req.params.id;
             try {
                 res.json({ ok: await this.db.checkId(visualID, +id) });
+            } catch (e) {
+                next({ type: 'error', error: 'Error getting data', trueError: e });
+            }
+        });
+
+
+        this.route.post('/', async (req, res, next) => {
+            const id = Auth.verify(req.headers.authorization);
+            let body = req.body;
+
+            body.userID = id;
+            try {
+                res.json(await this.db.post(body));
             } catch (e) {
                 next({ type: 'error', error: 'Error getting data', trueError: e });
             }

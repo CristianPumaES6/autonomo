@@ -12,12 +12,18 @@ import {
     PROD
 } from '../tools/constants';
 
-import { IUser, IInvoice } from '@isofocus/interfaces';
+import { IUser, IInvoice, IConfig } from '@isofocus/interfaces';
 import { IInstance } from './models/instance';
 
 export interface IModels {
-    user: Sequelize.Model<IInstance<IUser> & { setInvoices(invoices: any[]), getInvoices() }, IUser>;
+    user: Sequelize.Model<IInstance<IUser> & {
+        setInvoices(invoices: any[]),
+        getInvoices(),
+        getConfig(),
+        setConfig(config: IConfig),
+    }, IUser>;
     invoice: Sequelize.Model<IInstance<IInvoice>, IInvoice>;
+    config: Sequelize.Model<IInstance<IConfig>, IConfig>;
 }
 
 class DB {
@@ -98,6 +104,9 @@ class DB {
 
         this.models.user.hasMany(this.models.invoice, { foreignKey: 'userID' });
         this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });
+
+        this.models.config.belongsTo(this.models.user, { foreignKey: 'userID' });
+        this.models.user.hasOne(this.models.config, { foreignKey: 'userID' });
     }
 }
 

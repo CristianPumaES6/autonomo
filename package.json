@@ -8,7 +8,6 @@
         "backend": "cd backend && npm start",
         "pre-frontend": "cd frontend && npm i",
         "pre-backend": "cd backend && npm i",
-        "prestart": "concurrently \"npm run pre-backend\" \"npm run pre-frontend\"",
         "start": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "repository": {

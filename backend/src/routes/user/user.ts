@@ -17,7 +17,7 @@ class userRouter extends BaseRouter<DBUser> {
                 let user = await this.db.getMy(+id);
                 res.json(user);
             } catch (e) {
-                next({ error: 'No se ha podido encontrar el usuario' });
+                next({ error: 'No se ha podido encontrar el usuario', trueError: e });
             }
         });
 

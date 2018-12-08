@@ -32,5 +32,13 @@ mat-card-content {
                 color: lightgreen;
             }
         }
+
+        td {
+            min-width: 12rem;
+
+            &.small {
+                min-width: 6rem;
+            }
+        }
     }
 }

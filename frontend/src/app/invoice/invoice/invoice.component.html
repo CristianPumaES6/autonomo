@@ -17,17 +17,20 @@
 
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef> ID </th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                <td mat-cell *matCellDef="let element" class="small"> {{element.visualID}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef> Fecha </th>
-                <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+            <ng-container matColumnDef="received">
+                <th mat-header-cell *matHeaderCellDef> Recibida / Emitida </th>
+                <td mat-cell *matCellDef="let element" class="center small">
+                    <span *ngIf="!element.received" class="emit">Emitida</span>
+                    <span *ngIf="element.received" class="received">Recibida</span>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="cif">
                 <th mat-header-cell *matHeaderCellDef> DNI/CIF </th>
-                <td mat-cell *matCellDef="let element"> {{element.cif}} </td>
+                <td mat-cell *matCellDef="let element" class="small"> {{element.cif}} </td>
             </ng-container>
 
             <ng-container matColumnDef="name">
@@ -35,24 +38,21 @@
                 <td mat-cell *matCellDef="let element"> {{element.nameCompany}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef> Total </th>
-                <td mat-cell *matCellDef="let element"> {{element.price}} € </td>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                <td mat-cell *matCellDef="let element" class="small"> {{element.date | date:'dd/MM/yyyy'}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="received">
-                <th mat-header-cell *matHeaderCellDef> Recibida / Emitida </th>
-                <td mat-cell *matCellDef="let element" class="center">
-                    <span *ngIf="!element.received" class="emit">Emitida</span>
-                    <span *ngIf="element.received" class="received">Recibida</span>
-                </td>
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef> Total </th>
+                <td mat-cell *matCellDef="let element" class="small"> {{element.price}} € </td>
             </ng-container>
 
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                <td mat-cell class="actions-buttons" *matCellDef="let element">
+                <td mat-cell class="actions-buttons small" *matCellDef="let element">
                     <button mat-icon-button (click)="delete(element, $event)">
-                        <mat-icon class="delete">delete</mat-icon>
+                        <mat-icon class="delete" matTooltip="Borrar">delete</mat-icon>
                     </button>
                 </td>
             </ng-container>

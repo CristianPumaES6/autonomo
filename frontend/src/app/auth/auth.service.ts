@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { SERVER_URL, TOKEN_NAME } from '../app.constants';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
+import { IUser } from '@isofocus/interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -42,7 +43,7 @@ export class AuthService {
         return Observable.of(this.logged);
     }
 
-    register(user: any): Observable<boolean> {
+    register(user: IUser): Observable<boolean> {
         return this.httpClient
             .post(this.SERVER_URL + 'register', user)
             .map((response: any) => this.setLogged(true, response.token))

@@ -4,6 +4,7 @@ import { AuthComponent } from './auth.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
     imports: [
@@ -13,9 +14,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
         ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: AuthComponent },
+            { path: 'register', component: RegisterComponent },
             { path: '**', redirectTo: '' }
         ]),
     ],
-    declarations: [AuthComponent]
+    declarations: [AuthComponent, RegisterComponent]
 })
 export class AuthModule { }

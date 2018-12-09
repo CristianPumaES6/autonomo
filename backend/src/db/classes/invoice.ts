@@ -1,13 +1,12 @@
 import { BaseDB } from './baseDB';
 import { db } from '../db';
 import { IInvoice, IUser } from '../../../../global/interfaces';
-import moment = require('moment');
+import moment from 'moment';
 
 export class DBInvoice extends BaseDB {
     constructor() {
         super(db.models.invoice);
     }
-
 
     public async getMy(id: IInvoice['id']);
     public async getMy(id: IInvoice['id'], idInvoice: IInvoice['id']);

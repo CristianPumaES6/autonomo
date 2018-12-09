@@ -21,8 +21,8 @@ export class BaseDB {
     public async put(toUpdate: any) {
         return await (this.db.update({ ...<any>toUpdate, deletedAt: null }, { where: { id: toUpdate.id } }));
     }
-    public async delete(id: number | string) {
-        return await (this.db.destroy({ where: { id } }));
+    public async delete(id: number | string, where?: sequelize.AnyWhereOptions) {
+        return await (this.db.destroy({ where: { id, ...where } }));
     }
     public async restore(id: number) {
         return await (this.db.restore({ where: { id } }));

@@ -6,7 +6,6 @@ import { Auth } from '../../classes/auth';
 class invoiceRouter extends BaseRouter<DBInvoice> {
     constructor() {
         super(new DBInvoice());
-        this.setDeleteDefault();
         this.setPutDefault();
         this.setRestore();
         this.init();
@@ -62,6 +61,15 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
                 res.json(await this.db.post(body));
             } catch (e) {
                 next({ type: 'error', error: 'Error getting data', trueError: e });
+            }
+        });
+
+        this.route.delete('/:id([0-9]+)', async (req, res, next) => {
+            const id = Auth.verify(req.headers.authorization);
+            try {
+                res.json(await this.db.delete(req.params.id, { userUD: id }));
+            } catch (e) {
+                next({ type: 'error', error: 'Error deleting data', trueError: e });
             }
         });
     }

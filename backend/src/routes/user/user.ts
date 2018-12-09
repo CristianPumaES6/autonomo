@@ -6,7 +6,6 @@ import { IUser } from '../../../../global/interfaces';
 class userRouter extends BaseRouter<DBUser> {
     constructor() {
         super(new DBUser());
-        this.setDefaultRoutes();
         this.init();
     }
 
@@ -33,7 +32,7 @@ class userRouter extends BaseRouter<DBUser> {
                 let userSend = await this.db.put(user);
                 res.json(userSend);
             } catch (e) {
-                next({ error: 'No se ha podido encontrar el usuario' });
+                next({ error: 'No se ha podido encontrar el usuario', trueError: e });
             }
         });
     }

@@ -40,7 +40,7 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         nick: {
             type: dataType.STRING,
             unique: true,
-            allowNull: false,
+            allowNull: true,
         },
         root: {
             type: dataType.BOOLEAN,

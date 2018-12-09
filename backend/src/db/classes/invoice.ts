@@ -1,7 +1,7 @@
 import { BaseDB } from './baseDB';
 import { db } from '../db';
 import { IInvoice, IUser } from '../../../../global/interfaces';
-import moment from 'moment';
+import * as moment from 'moment';
 
 export class DBInvoice extends BaseDB {
     constructor() {

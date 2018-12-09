@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-    protected logged: boolean;
+    logged: boolean;
     dark = localStorage.getItem('dark') === 'true';
 
     @ViewChild('sidenav') sidenav: MatSidenav;

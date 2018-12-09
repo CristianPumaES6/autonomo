@@ -3,7 +3,6 @@ import { BaseDB } from './baseDB';
 import { IUser } from '@isofocus/interfaces';
 import { MASTER_PASSWORD } from '../../tools/constants';
 import { db } from '../db';
-import { IInstance } from '../models/instance';
 
 export class DBUser extends BaseDB {
     constructor() {

@@ -8,7 +8,11 @@ import {
     LOGIN_MASTER_PASSWORD,
     VALUE_EMAIL_HOST,
     VALUE_EMAIL_USER,
-    VALUE_EMAIL_PASSWORD
+    VALUE_EMAIL_PASSWORD,
+    DATABASE_PROD_NAME,
+    DATABASE_PROD_USERNAME,
+    DATABASE_PROD_PASSWORD,
+    DATABASE_PROD_HOST
 } from './password';
 
 /**
@@ -21,15 +25,15 @@ export const
     /**
      * KEYS HTTPS
      */
-    ROUTE_PRIVKEY = './privkey.pem',
-    ROUTE_CERT = './cert.pem',
+    ROUTE_PRIVKEY = '/etc/letsencrypt/live/isofocus.es/privkey.pem',
+    ROUTE_CERT = '/etc/letsencrypt/live/isofocus.es/cert.pem',
     /**
      * DATABASE
      */
-    DB_NAME = DATABASE_NAME,
-    DB_USERNAME = DATABASE_USERNAME,
-    DB_PASSWORD = DATABASE_PASSWORD,
-    DB_HOST = DATABASE_PASSWORD,
+    DB_NAME = PROD ? DATABASE_PROD_NAME : DATABASE_NAME,
+    DB_USERNAME = PROD ? DATABASE_PROD_USERNAME : DATABASE_USERNAME,
+    DB_PASSWORD = PROD ? DATABASE_PROD_PASSWORD : DATABASE_PASSWORD,
+    DB_HOST = PROD ? DATABASE_PROD_HOST : DATABASE_PASSWORD,
     DB_DIALECT = 'mysql',
     /**
      * JSON WEB TOKEN

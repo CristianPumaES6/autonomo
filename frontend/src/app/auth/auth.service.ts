@@ -22,18 +22,18 @@ export class AuthService {
         return logged;
     }
 
-    login(credentials: { email: string, password: string }): Observable<boolean> {
+    login(credentials: { email: string, password: string }) {
         return this.anyLogin(this.SERVER_URL + 'login', credentials);
     }
 
-    private anyLogin(url: string, data: any): Observable<boolean> {
+    private anyLogin(url: string, data: any) {
         return this.httpClient
             .post(url, data)
             .map((response: any) => this.setLogged(true, response.token))
             .catch(error => Observable.throw(error.error));
     }
 
-    isLogged(): Observable<boolean> {
+    isLogged() {
         if (!this.logged && localStorage.getItem(TOKEN_NAME)) {
             return this.httpClient.get(this.SERVER_URL + 'token')
                 .map(() => this.setLogged(true))
@@ -43,10 +43,10 @@ export class AuthService {
         return Observable.of(this.logged);
     }
 
-    register(user: IUser): Observable<boolean> {
+    register(user: IUser) {
         return this.httpClient
             .post(this.SERVER_URL + 'register', user)
-            .map((response: any) => this.setLogged(true, response.token))
+            .map((response: any) => this.setLogged(false, response.token))
             .catch(error => Observable.throw(error));
     }
 

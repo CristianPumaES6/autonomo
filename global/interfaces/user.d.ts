@@ -5,7 +5,6 @@ export interface IUser {
     photo?: string;
     phone?: string;
     email?: string;
-    nick?: string;
     dni?: string;
     root?: boolean;
 }

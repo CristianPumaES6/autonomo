@@ -3,6 +3,7 @@ import { IUser } from '@isofocus/interfaces';
 import { Auth } from '../../classes/auth';
 import { DBUser } from '../../db/classes/user';
 import { isLogged } from '../../middlewares/isLogged';
+import { db } from '../../db/db';
 
 class AuthRouter extends BaseRouter<DBUser> {
     constructor() {

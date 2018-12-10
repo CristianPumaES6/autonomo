@@ -37,11 +37,6 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             unique: true,
             allowNull: false,
         },
-        nick: {
-            type: dataType.STRING,
-            unique: true,
-            allowNull: true,
-        },
         root: {
             type: dataType.BOOLEAN,
             defaultValue: false,

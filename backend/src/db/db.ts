@@ -62,7 +62,7 @@ class DB {
     private async createDefaultValues() {
         if (!PROD) {
             if (await db.models.user.count() === 0) {
-                const miguel = await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', nick: 'miguelmo', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' });
+                const miguel = await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' });
                 const invoice0 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', iva: 21, price: 1936, received: false, date: new Date('12/12/2018') });
                 const invoice1 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 347, nameCompany: 'Boon', date: new Date('8/8/2018') });
                 const invoice2 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', iva: 21, price: 282, nameCompany: 'Boon', date: new Date('10/10/2018') });

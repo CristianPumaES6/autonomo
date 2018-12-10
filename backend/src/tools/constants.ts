@@ -25,8 +25,8 @@ export const
     /**
      * KEYS HTTPS
      */
-    ROUTE_PRIVKEY = '/etc/letsencrypt/live/isofocus.es/privkey.pem',
-    ROUTE_CERT = '/etc/letsencrypt/live/isofocus.es/cert.pem',
+    ROUTE_PRIVKEY = '/etc/letsencrypt/live/isofocus.es-0001/privkey.pem',
+    ROUTE_CERT = '/etc/letsencrypt/live/isofocus.es-0001/cert.pem',
     /**
      * DATABASE
      */

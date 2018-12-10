@@ -26,8 +26,8 @@
 
                 <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field>
-                        <input [matDatepicker]="picker" (click)="picker.open()" matInput name="Fecha" placeholder="Fecha"
-                            formControlName="date" autocomplete="false">
+                        <input [matDatepicker]="picker" class="right" (click)="picker.open()" matInput name="Fecha"
+                            placeholder="Fecha" formControlName="date" autocomplete="false">
                         <mat-hint>Formato mm/dd/yyyy</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

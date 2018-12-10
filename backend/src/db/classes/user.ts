@@ -29,10 +29,11 @@ export class DBUser extends BaseDB {
         let exists = await this.checkEmail(user.email);
         if (exists) return 'Email currently in use.';
         else {
-            let config = await db.models.config.create();
             user.password = bcrypt.hashSync(user.password, 10);
             let userCreated: any = await this.db.create(user, { returning: true });
-            await userCreated.setConfigs(config);
+            let config = await db.models.config.create();
+            await config.set('userID', <any>user.id);
+            await userCreated.setConfig(config);
             return userCreated;
         }
     }

@@ -35,13 +35,13 @@ export class InvoiceAddComponent implements OnInit {
             date: new FormControl(moment().format(), [
                 Validators.required,
             ]),
-            cif: new FormControl('', [
+            cif: new FormControl(localStorage.getItem('cif') || '', [
                 Validators.required,
             ]),
-            nameCompany: new FormControl('', [
+            nameCompany: new FormControl(localStorage.getItem('nameCompany') || '', [
                 Validators.required,
             ]),
-            fisicalAddress: new FormControl('', [
+            fisicalAddress: new FormControl(localStorage.getItem('fisicalAddress') || '', [
                 Validators.required,
             ]),
             iva: new FormControl(0, [
@@ -61,11 +61,17 @@ export class InvoiceAddComponent implements OnInit {
             this.form.get('received').valueChanges.subscribe(received => this.form.get('iva').setValue(received ? config.ivaDefaultReceived : config.ivaDefaultSent));
         });
 
+
         this.resize();
     };
 
     createInvoide() {
-        this.invoiceService.post(this.form.getRawValue()).subscribe(() => this.goBack());
+        this.invoiceService.post(this.form.getRawValue()).subscribe(() => {
+            localStorage.setItem('cif', this.form.get('cif').value);
+            localStorage.setItem('nameCompany', this.form.get('nameCompany').value);
+            localStorage.setItem('fisicalAddress', this.form.get('fisicalAddress').value);
+            this.goBack();
+        });
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }

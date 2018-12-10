@@ -1,0 +1,30 @@
+<mat-card (window:resize)="resize()">
+    <mat-card-header>
+        <mat-card-title>
+            Configuración
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content #htmlCardContent>
+        <form *ngIf="formConfig" [formGroup]="formConfig">
+            <mat-grid-list cols="12" rowHeight="75px">
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput type="number" placeholder="IVA recibido por defecto" name="ivaDefaultReceived"
+                            formControlName="ivaDefaultReceived">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 6">
+                    <mat-form-field>
+                        <input matInput type="number" placeholder="IVA emitido por defecto" name="ivaDefaultSent"
+                            formControlName="ivaDefaultSent">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+        </form>
+    </mat-card-content>
+    <h6>Los datos se guardan automáticamente.</h6>
+</mat-card>

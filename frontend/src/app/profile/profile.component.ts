@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
     cols: number;
     id: number;
     user: IUser;
+    fisrtTime = true;
 
     @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
 
@@ -45,18 +46,15 @@ export class ProfileComponent implements OnInit {
                 Validators.required,
             ]),
         });
-
         this.form.get('email').disable();
+        this.form.valueChanges.debounceTime(1000).subscribe(() => !this.fisrtTime ? this.fisrtTime = !this.fisrtTime : this.editProfile());
+
         this.resize();
     }
 
     editProfile() {
-        this.profileService.putProfile(this.form.getRawValue()).subscribe(
-            () => {
-                this.user = this.form.getRawValue();
-                this.snack.open('Datos guardados con éxito', null, { duration: 5000 });
-            }
-        );
+        console.log('ENTRAAAA');
+        this.profileService.putProfile(this.form.getRawValue()).subscribe(() => this.snack.open('Datos guardados con éxito', null, { duration: 5000 }));
     }
 
     resize() {

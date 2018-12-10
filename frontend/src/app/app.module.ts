@@ -12,6 +12,7 @@ import { NotLogged } from './shared/guard/not-logged.guard';
 import { MenuComponent } from './menu/menu.component';
 import { ChartsModule } from 'ng2-charts';
 import { AdsenseModule } from 'ng2-adsense';
+import { ConfigModule } from './config/config.module';
 
 @NgModule({
     declarations: [

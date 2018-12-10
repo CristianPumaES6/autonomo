@@ -53,7 +53,7 @@ export class DBUser extends BaseDB {
     }
 
     public async getMy(id: IUser['id']) {
-        const user = await this.db.findOne({ where: { id }, include: [db.models.config] });
+        const user = await this.db.findOne({ where: { id } });
         delete user.dataValues.password;
         return user;
     }

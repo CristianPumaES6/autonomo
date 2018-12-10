@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { ConfigService } from '../../config/config.service';
 
 @Component({
     selector: 'app-invoice-add',
@@ -18,6 +19,7 @@ export class InvoiceAddComponent implements OnInit {
 
     constructor(
         protected invoiceService: InvoiceService,
+        protected configService: ConfigService,
         private route: ActivatedRoute,
         private router: Router,
     ) { }
@@ -42,7 +44,7 @@ export class InvoiceAddComponent implements OnInit {
             fisicalAddress: new FormControl('', [
                 Validators.required,
             ]),
-            iva: new FormControl(21, [
+            iva: new FormControl(0, [
                 Validators.required,
             ]),
             price: new FormControl(0, [
@@ -52,6 +54,13 @@ export class InvoiceAddComponent implements OnInit {
             received: new FormControl(true),
         });
         this.invoiceService.getNext().subscribe(next => this.form.get('visualID').setValue(+next));
+
+        // SET THE DEFAULT VALUE, AND CHANGE WHEN IT CHANGES
+        this.configService.getMy().subscribe(config => {
+            this.form.get('iva').setValue(this.form.get('received').value ? config.ivaDefaultReceived : config.ivaDefaultSent);
+            this.form.get('received').valueChanges.subscribe(received => this.form.get('iva').setValue(received ? config.ivaDefaultReceived : config.ivaDefaultSent));
+        });
+
         this.resize();
     };
 

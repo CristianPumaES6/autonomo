@@ -13,8 +13,7 @@ class userRouter extends BaseRouter<DBUser> {
         this.route.get('/my', async (req, res, next) => {
             const id = Auth.verify(req.headers.authorization);
             try {
-                let user = await this.db.getMy(+id);
-                res.json(user);
+                res.json(await this.db.getMy(+id));
             } catch (e) {
                 next({ error: 'No se ha podido encontrar el usuario', trueError: e });
             }
@@ -26,11 +25,14 @@ class userRouter extends BaseRouter<DBUser> {
             delete user.id;
             delete user.root;
             delete user.password;
+            delete (<any>user).deletedAt;
+            delete (<any>user).updatedAt;
+            delete (<any>user).createdAt;
+            delete user.email;
 
             user.id = id;
             try {
-                let userSend = await this.db.put(user);
-                res.json(userSend);
+                res.json(await this.db.put(user));
             } catch (e) {
                 next({ error: 'No se ha podido encontrar el usuario', trueError: e });
             }

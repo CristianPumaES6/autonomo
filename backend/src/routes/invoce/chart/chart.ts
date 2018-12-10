@@ -12,8 +12,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
         this.route.get('/total', async (req, res, next) => {
             const id = +Auth.verify(req.headers.authorization);
             try {
-                const chart = await this.db.getChartTotal(id);
-                res.json(chart);
+                res.json(await this.db.getChartTotal(id));
             } catch (e) {
                 next({ error: 'No se ha podido crear la gráfica', trueError: e });
             }
@@ -22,8 +21,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
         this.route.get('/earned', async (req, res, next) => {
             const id = +Auth.verify(req.headers.authorization);
             try {
-                const chart = await this.db.getChartEarned(id);
-                res.json(chart);
+                res.json(await this.db.getChartEarned(id));
             } catch (e) {
                 next({ error: 'No se ha podido crear la gráfica', trueError: e });
             }
@@ -32,8 +30,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
         this.route.get('/wasted', async (req, res, next) => {
             const id = +Auth.verify(req.headers.authorization);
             try {
-                const chart = await this.db.getChartWasted(id);
-                res.json(chart);
+                res.json(await this.db.getChartWasted(id));
             } catch (e) {
                 next({ error: 'No se ha podido crear la gráfica', trueError: e });
             }
@@ -42,8 +39,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
         this.route.get('/ivaEarn', async (req, res, next) => {
             const id = +Auth.verify(req.headers.authorization);
             try {
-                const chart = await this.db.getChartIvaEarn(id);
-                res.json(chart);
+                res.json(await this.db.getChartIvaEarn(id));
             } catch (e) {
                 next({ error: 'No se ha podido crear la gráfica', trueError: e });
             }

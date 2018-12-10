@@ -11,6 +11,7 @@ import { isLogged } from './middlewares/isLogged';
 import { setLogger } from './middlewares/setLogger';
 import { errorHandler } from './middlewares/errorHandler';
 import { invoice } from './routes/invoce/invoice';
+import { config } from './routes/config/config';
 
 class App {
     app = express();
@@ -65,6 +66,7 @@ class App {
         this.app.use(isLogged);
         this.app.use('/user', user);
         this.app.use('/invoice', invoice);
+        this.app.use('/config', config);
     }
 
     private setErrorHandler() {

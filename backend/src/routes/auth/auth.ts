@@ -22,7 +22,7 @@ class AuthRouter extends BaseRouter<DBUser> {
                         if (typeof user === 'string') next({ type: 'error', error: user });
                         else res.json({ token: Auth.encode(user.id) });
                     } catch (e) {
-                        next({ error: 'Email o contraseña incorrecta-', trueError: e });
+                        next({ error: 'Email o contraseña incorrecta.', trueError: e });
                     }
 
                 } else next({ type: 'json', error: 'Usuario o contraseña incorrecta' });

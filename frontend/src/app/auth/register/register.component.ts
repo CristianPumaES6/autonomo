@@ -20,20 +20,20 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.formRegister = new FormGroup({
-            email: new FormControl('miguel@isofocus.es', [
+            email: new FormControl('', [
                 Validators.required,
                 Validators.email,
             ]),
-            password: new FormControl('1234', [
+            password: new FormControl('', [
                 Validators.required,
             ]),
-            rePassword: new FormControl('1234', [
+            rePassword: new FormControl('', [
                 Validators.required,
             ]),
-            dni: new FormControl('48778194R', [
+            dni: new FormControl('', [
                 Validators.required,
             ]),
-            name: new FormControl('Miguel Moya Ortega', [
+            name: new FormControl('', [
                 Validators.required,
             ]),
         });
@@ -42,13 +42,11 @@ export class RegisterComponent implements OnInit {
     register() {
         let user = this.formRegister.getRawValue();
 
-        console.log(user)
-
         if (user.password !== user.rePassword) SnackService.send$.emit('Las contraseñas deben coincidir.');
         else {
             this.authService.register(this.formRegister.getRawValue()).subscribe(() => this.goBack());
         }
     }
 
-    goBack() { this.router.navigate(['/'], { relativeTo: this.route }); }
+    goBack() { this.router.navigate(['/']); }
 }

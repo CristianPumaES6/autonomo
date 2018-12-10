@@ -18,11 +18,22 @@ body {
         top: .5rem;
     }
 
+    // FORMS
     mat-form-field {
         width: 100%;
 
         &:not(.filter) {
             padding: 0 1rem;
+        }
+
+
+        textarea,
+        &.textarea {
+            height: 100%;
+        }
+
+        .right {
+            text-align: end;
         }
     }
 

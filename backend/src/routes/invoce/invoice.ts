@@ -19,7 +19,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json(await this.db.getMy(+id));
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error mostrando las facturas', trueError: e });
             }
         });
 
@@ -28,7 +28,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json(await this.db.getMy(+id, req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error Mostrando la factura', trueError: e });
             }
         });
 
@@ -37,7 +37,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json((await this.db.getNextID(+id)) + 1);
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error Al intentar calcular el ID', trueError: e });
             }
         });
 
@@ -47,7 +47,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json({ ok: await this.db.checkId(visualID, +id) });
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error al comprobar el ID', trueError: e });
             }
         });
 
@@ -60,7 +60,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json(await this.db.post(body));
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error al añadir la factura', trueError: e });
             }
         });
 
@@ -69,7 +69,7 @@ class invoiceRouter extends BaseRouter<DBInvoice> {
             try {
                 res.json(await this.db.delete(req.params.id, { userUD: id }));
             } catch (e) {
-                next({ type: 'error', error: 'Error deleting data', trueError: e });
+                next({ type: 'error', error: 'Error al borrar la factura', trueError: e });
             }
         });
     }

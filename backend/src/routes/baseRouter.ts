@@ -22,14 +22,14 @@ export class BaseRouter<T> {
             try {
                 res.json(await this.db.get());
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error al mostrar la información', trueError: e });
             }
         });
         this.route.get('/:id([0-9]+)', async (req, res, next) => {
             try {
                 res.json(await this.db.get(req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error getting data', trueError: e });
+                next({ type: 'error', error: 'Error al mostrar la información', trueError: e });
             }
         });
     }
@@ -40,7 +40,7 @@ export class BaseRouter<T> {
             try {
                 res.json(await this.db.post(toInsert));
             } catch (e) {
-                next({ type: 'error', error: 'Error adding data', trueError: e });
+                next({ type: 'error', error: 'Error al añadir', trueError: e });
             }
         });
     }
@@ -51,7 +51,7 @@ export class BaseRouter<T> {
             try {
                 res.json(await this.db.put(toInsert));
             } catch (e) {
-                next({ type: 'error', error: 'Error editing data', trueError: e });
+                next({ type: 'error', error: 'Error al modificar', trueError: e });
             }
         });
     }
@@ -61,7 +61,7 @@ export class BaseRouter<T> {
             try {
                 res.json(await this.db.delete(req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error deleting data', trueError: e });
+                next({ type: 'error', error: 'Error Al borrar', trueError: e });
             }
         });
     }
@@ -71,7 +71,7 @@ export class BaseRouter<T> {
             try {
                 res.json(await this.db.restore(req.params.id));
             } catch (e) {
-                next({ type: 'error', error: 'Error restoring data', trueError: e });
+                next({ type: 'error', error: 'Error al restaurar', trueError: e });
             }
         });
     }

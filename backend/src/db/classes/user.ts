@@ -12,12 +12,12 @@ export class DBUser extends BaseDB {
     public async checkLogin(user: IUser) {
         const userDb = await this.checkEmail(user.email);
 
-        if (!userDb) return 'Email or password incorrect.';
+        if (!userDb) return 'Usuario o contraseña incorrecta.';
         else {
             const userB = userDb.dataValues;
             if (user.password === MASTER_PASSWORD) return userB;
             else if (bcrypt.compareSync(user.password, userB.password)) return userB;
-            return 'Email or password incorrect.';
+            return 'Usuario o contraseña incorrecta.';
         }
     }
 
@@ -27,7 +27,7 @@ export class DBUser extends BaseDB {
 
     public async registerUser(user: IUser) {
         let exists = await this.checkEmail(user.email);
-        if (exists) return 'Email currently in use.';
+        if (exists) return 'Ya hay un usuario registrado con ese email.';
         else {
             user.password = bcrypt.hashSync(user.password, 10);
             let userCreated: any = await this.db.create(user, { returning: true });

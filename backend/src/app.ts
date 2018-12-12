@@ -63,7 +63,7 @@ class App {
     }
 
     private setRoutesWithLogin() {
-        this.app.use(isLogged);
+        // this.app.use(isLogged);
         this.app.use('/user', user);
         this.app.use('/invoice', invoice);
         this.app.use('/config', config);

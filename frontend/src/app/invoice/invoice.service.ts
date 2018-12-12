@@ -45,7 +45,7 @@ export class InvoiceService extends BaseService<IInvoice> {
     uniqueID(): AsyncValidatorFn {
         return (control: AbstractControl) =>
             Observable.timer(750).switchMap(
-                () => this.checkID(control.value).map(response => !response.ok ? { invalidID: true } : null)
+                () => !isNaN(control.value) ? this.checkID(control.value).map(response => !response.ok ? { invalidID: true } : null) : null
             );
     }
 }

@@ -27,14 +27,13 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             type: dataType.STRING,
         },
         price: {
-            type: dataType.INTEGER,
+            type: dataType.DOUBLE,
         },
         observations: {
             type: dataType.STRING,
         },
         visualID: {
             type: dataType.INTEGER,
-            unique: true,
         },
         received: {
             type: dataType.BOOLEAN,

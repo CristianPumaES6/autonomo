@@ -14,7 +14,7 @@
 
                 <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field>
-                        <input matInput class="right" placeholder="ID" name="visualID" type="number" formControlName="visualID">
+                        <input matInput class="right" placeholder="ID" name="visualID" formControlName="visualID">
                         <mat-error *ngIf="form.get('visualID').hasError('required')">
                             La ID es <strong>requerida</strong>.
                         </mat-error>

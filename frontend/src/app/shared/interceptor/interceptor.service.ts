@@ -8,7 +8,7 @@ import { SnackService } from '../service/snack.service';
 @Injectable()
 export class Interceptor {
 
-    constructor(private authService: AuthService) { }
+    constructor(private readonly authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         // Get the auth token from the service.

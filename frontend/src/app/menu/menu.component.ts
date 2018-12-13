@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
 
     @ViewChild('sidenav') sidenav: MatSidenav;
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
     ngOnInit() {
         this.authService.logged$.subscribe(logged => this.logged = logged);

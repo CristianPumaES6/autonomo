@@ -13,9 +13,9 @@ export class AuthComponent implements OnInit {
     formLogin: FormGroup;
 
     constructor(
-        protected authService: AuthService,
-        public snackBar: MatSnackBar,
-        protected router: Router,
+        protected readonly authService: AuthService,
+        public readonly snackBar: MatSnackBar,
+        protected readonly router: Router,
     ) { }
 
     ngOnInit() {

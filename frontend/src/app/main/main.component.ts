@@ -42,7 +42,7 @@ export class MainComponent implements OnInit {
         borderColor: 'rgba(63, 81, 181, 1)',
     }];
 
-    constructor(protected invoiceService: InvoiceService) { }
+    constructor(protected readonly invoiceService: InvoiceService) { }
 
     ngOnInit() {
         Observable.forkJoin(

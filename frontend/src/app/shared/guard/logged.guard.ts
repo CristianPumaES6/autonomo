@@ -8,8 +8,8 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class Logged implements CanActivate {
     constructor(
-        private authService: AuthService,
-        private router: Router
+        private readonly authService: AuthService,
+        private readonly router: Router
     ) { }
     canActivate(
         next: ActivatedRouteSnapshot,

@@ -8,7 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class NotLogged implements CanActivate {
 
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(private readonly router: Router, private readonly authService: AuthService) { }
 
     canActivate(
         route: ActivatedRouteSnapshot,

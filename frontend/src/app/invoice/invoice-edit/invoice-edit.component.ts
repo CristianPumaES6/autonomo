@@ -19,9 +19,9 @@ export class InvoiceEditComponent implements OnInit {
     @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
 
     constructor(
-        protected invoiceService: InvoiceService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected readonly invoiceService: InvoiceService,
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
     ) { }
 
     ngOnInit() {

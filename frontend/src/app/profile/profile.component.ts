@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from '@isofocus/interfaces';
 import { MatSnackBar } from '@angular/material';
 
@@ -20,8 +19,8 @@ export class ProfileComponent implements OnInit {
     @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
 
     constructor(
-        protected profileService: ProfileService,
-        protected snack: MatSnackBar,
+        protected readonly profileService: ProfileService,
+        protected readonly snack: MatSnackBar,
     ) { }
 
     ngOnInit() {

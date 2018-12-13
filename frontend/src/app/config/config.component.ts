@@ -16,13 +16,14 @@ export class ConfigComponent implements OnInit {
 
     @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
 
-    constructor(protected configService: ConfigService) { }
+    constructor(protected readonly configService: ConfigService) { }
 
     ngOnInit() {
         this.configService.getMy().subscribe(config => {
             this.formConfig = new FormGroup({
                 ivaDefaultReceived: new FormControl(config.ivaDefaultReceived, [Validators.required]),
                 ivaDefaultSent: new FormControl(config.ivaDefaultSent, [Validators.required]),
+                totalItemsByTable: new FormControl(config.totalItemsByTable, [Validators.required]),
             });
 
             this.formConfig.valueChanges.debounceTime(1000).subscribe(() => this.updateConfig());

@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../invoice.service';
-import { IInvoice } from '@isofocus/interfaces';
+import { IInvoice, IConfig } from '@isofocus/interfaces';
 import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ConfigService } from '../../config/config.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-invoice',
@@ -12,23 +14,38 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InvoiceComponent implements OnInit {
     invoices: IInvoice[];
     dataSource: MatTableDataSource<IInvoice>;
+    pageSizeOptions = [10, 50, 100];
+    config: IConfig;
     displayedColumns = ['id', 'date', 'received', 'cif', 'name', 'price', 'actions'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
-        protected invoiceService: InvoiceService,
-        protected route: ActivatedRoute,
-        private snack: MatSnackBar,
-        protected router: Router,
+        protected readonly invoiceService: InvoiceService,
+        protected readonly configService: ConfigService,
+        protected readonly route: ActivatedRoute,
+        private readonly snack: MatSnackBar,
+        protected readonly router: Router,
     ) { }
 
     ngOnInit() {
-        this.invoiceService.get().subscribe(invoices => {
-            this.invoices = invoices;
-            this.dataSource = new MatTableDataSource(invoices);
-            this.dataSource.paginator = this.paginator;
-        });
+        Observable.forkJoin(
+            this.invoiceService.get(),
+            this.configService.getMy(),
+        ).subscribe(
+            response => {
+                this.invoices = response[0];
+                this.config = response[1];
+
+                this.dataSource = new MatTableDataSource(this.invoices);
+                this.dataSource.paginator = this.paginator;
+
+                // AÑADIMOS EL PAGINADOR POR DEFECTO Y QUITAMOS POR SI ESTA REPETIDO
+                this.pageSizeOptions.push(this.config.totalItemsByTable);
+                this.pageSizeOptions.filter((v, i, a) => a.indexOf(v) === i);
+                this.pageSizeOptions.sort();
+            }
+        );
     }
 
     applyFilter(filterValue: string) { this.dataSource.filter = filterValue.trim().toLowerCase(); }

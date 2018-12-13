@@ -8,7 +8,7 @@ import { SERVER_URL } from '../../app.constants';
 })
 export class BaseService<T> {
     SERVER_URL = SERVER_URL;
-    constructor(protected httpClient: HttpClient) { }
+    constructor(protected readonly httpClient: HttpClient) { }
 
     get(): Observable<T[]>;
     get(id: number): Observable<T>;

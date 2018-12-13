@@ -75,9 +75,4 @@ export class BaseRouter<T> {
             }
         });
     }
-
-    /**
-     * IMPLEMENT THE ROUTE HERE
-     */
-    protected init() { }
 }

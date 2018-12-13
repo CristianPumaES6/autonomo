@@ -19,10 +19,10 @@ export class InvoiceAddComponent implements OnInit {
     @ViewChild('htmlForm') htmlForm: HTMLFormElement;
 
     constructor(
-        protected invoiceService: InvoiceService,
-        protected configService: ConfigService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected readonly invoiceService: InvoiceService,
+        protected readonly configService: ConfigService,
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
     ) { }
 
     ngOnInit() {

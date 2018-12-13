@@ -16,7 +16,10 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         ivaDefaultSent: {
             type: dataType.INTEGER,
             defaultValue: 0
+        },
+        totalItemsByTable: {
+            type: dataType.INTEGER,
+            defaultValue: 5
         }
-    },
-    );
+    });
 }

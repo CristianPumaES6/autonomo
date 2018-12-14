@@ -7,8 +7,9 @@
     </mat-card-header>
 
     <mat-card-content>
-        <mat-form-field class="filter">
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+        <mat-form-field class="filter" appearance="outline">
+            <mat-label>Filtro</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)">
         </mat-form-field>
     </mat-card-content>
 

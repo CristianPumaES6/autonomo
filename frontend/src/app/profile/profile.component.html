@@ -10,26 +10,30 @@
             <mat-grid-list cols="12" rowHeight="75px">
 
                 <mat-grid-tile [colspan]="this.cols || 4">
-                    <mat-form-field>
-                        <input matInput placeholder="Nombre" name="name" formControlName="name">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre y apellidos</mat-label>
+                        <input matInput formControlName="name">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 4">
-                    <mat-form-field>
-                        <input matInput placeholder="Correo electrónico" name="email" formControlName="email">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 2">
-                    <mat-form-field>
-                        <input matInput placeholder="Telefono" name="phone" formControlName="phone">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput type="tel" formControlName="phone">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 2">
-                    <mat-form-field>
-                        <input matInput placeholder="DNI" name="dni" formControlName="dni">
+                    <mat-form-field appearance="outline">
+                        <mat-label>DNI</mat-label>
+                        <input matInput formControlName="dni">
                         <mat-hint>
                             <span style="color: red;"> ¡Importante! </span>
                             Se ultiliza en las facturas

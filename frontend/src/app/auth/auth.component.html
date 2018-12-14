@@ -5,8 +5,9 @@
 
     <mat-card>
         <form (submit)="login()" [formGroup]="formLogin">
-            <mat-form-field>
-                <input matInput placeholder="Email" formControlName="email">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
                 <mat-error *ngIf="formLogin.get('email').hasError('email') && !formLogin.get('email').hasError('required')">
                     Por favor, introduce un email valido
                 </mat-error>
@@ -15,8 +16,9 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-                <input matInput type="password" placeholder="Password" formControlName="password">
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="password">
                 <mat-error *ngIf="formLogin.get('password').hasError('required')">
                     La contraseña es <strong>requerida</strong>
                 </mat-error>

@@ -7,22 +7,25 @@
     <mat-card>
         <form (submit)="register()" [formGroup]="formRegister">
 
-            <mat-form-field>
-                <input matInput type="text" placeholder="Nombre" formControlName="name">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="name">
                 <mat-error *ngIf="formRegister.get('name').hasError('required')">
                     El nombre es <strong>requerido.</strong>
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-                <input matInput type="text" placeholder="DNI/CIF" formControlName="dni">
+            <mat-form-field appearance="outline">
+                <mat-label>DNI/CIF</mat-label>
+                <input matInput type="text" formControlName="dni">
                 <mat-error *ngIf="formRegister.get('dni').hasError('required')">
                     El DNI/CIF es <strong>requerido.</strong>
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-                <input matInput placeholder="Email" formControlName="email">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email">
                 <mat-error *ngIf="formRegister.get('email').hasError('email') && !formRegister.get('email').hasError('required')">
                     Intoroduce un email valido.
                 </mat-error>
@@ -31,15 +34,17 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-                <input matInput type="password" placeholder="Contraseña" formControlName="password">
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="password">
                 <mat-error *ngIf="formRegister.get('password').hasError('required')">
                     La contraseña es <strong>requerida.</strong>
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field>
-                <input matInput type="password" placeholder="Repetir Contraseña" formControlName="rePassword">
+            <mat-form-field appearance="outline">
+                <mat-label>Repite la contraseña</mat-label>
+                <input matInput type="password" formControlName="rePassword">
                 <mat-error *ngIf="formRegister.get('rePassword').hasError('required')">
                     La contraseña es <strong>requerida.</strong>
                 </mat-error>

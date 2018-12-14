@@ -4,7 +4,7 @@
             <button mat-icon-button matTooltip="Atrás" color="warn" routerLink="..">
                 <mat-icon> keyboard_arrow_left </mat-icon>
             </button>
-            Añadiendo factura
+            Editando factura {{form ? '(' + form.get('visualID').value + ')' : ''}}
         </mat-card-title>
     </mat-card-header>
 
@@ -13,15 +13,17 @@
             <mat-grid-list cols="12" rowHeight="75px">
 
                 <mat-grid-tile [colspan]="this.cols || 4">
-                    <mat-form-field>
-                        <input matInput placeholder="ID" name="visualID" class="right" formControlName="visualID">
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID</mat-label>
+                        <input matInput name="visualID" class="right" formControlName="visualID">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 4">
-                    <mat-form-field>
-                        <input [matDatepicker]="picker" class="right" (click)="picker.open()" matInput name="Fecha"
-                            placeholder="Fecha" formControlName="date" autocomplete="false">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha</mat-label>
+                        <input [matDatepicker]="picker" class="right" (click)="picker.open()" matInput formControlName="date"
+                            autocomplete="false">
                         <mat-hint>Formato mm/dd/yyyy</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -29,42 +31,48 @@
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
-                    <mat-form-field class="textarea">
-                        <textarea cols="5" matInput placeholder="Observaciones" name="observations" matTextareaAutosize
-                            matAutosizeMinRows="5" matAutosizeMaxRows="5" formControlName="observations">
+                    <mat-form-field appearance="outline" class="textarea">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+                            formControlName="observations">
                         </textarea>
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field>
-                        <input matInput placeholder="CIF/DNI" name="cif" formControlName="cif">
+                    <mat-form-field appearance="outline">
+                        <mat-label>CIF/DNI/NIE</mat-label>
+                        <input matInput name="cif" formControlName="cif">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 2">
-                    <mat-form-field>
-                        <input matInput class="right" placeholder="IVA" name="IVA" type="number" formControlName="iva">
+                    <mat-form-field appearance="outline">
+                        <mat-label>IVA</mat-label>
+                        <input matInput class="right" name="IVA" type="number" formControlName="iva">
                         <span matSuffix>%</span>
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field>
-                        <input matInput class="right" placeholder="Total" name="price" type="number" formControlName="price">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Precio Total</mat-label>
+                        <input matInput class="right" type="number" formControlName="price">
                         <span matSuffix>€</span>
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field>
-                        <input matInput placeholder="Nombre de la compañia" name="nameCompany" formControlName="nameCompany">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre de la compañia</mat-label>
+                        <input matInput formControlName="nameCompany">
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field>
-                        <input matInput placeholder="Dirección fiscal" name="fisicalAddress" formControlName="fisicalAddress">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dirección fiscal</mat-label>
+                        <input matInput formControlName="fisicalAddress">
                     </mat-form-field>
                 </mat-grid-tile>
 

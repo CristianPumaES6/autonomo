@@ -13,6 +13,7 @@ class DB {
     constructor() {
         this.models = {
             users: undefined,
+            invoices: undefined,
         };
         createConnection({
             type: DB_DIALECT,
@@ -26,6 +27,7 @@ class DB {
                 User,
                 Invoice,
             ],
+            synchronize: true,
             logging: !PROD,
         }).then(async connection => {
             this.models.users = connection.getRepository(User);
@@ -33,5 +35,6 @@ class DB {
         }).catch();
     }
 }
+
 const db = new DB();
 export { db };

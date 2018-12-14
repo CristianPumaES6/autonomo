@@ -22,6 +22,7 @@ class App {
         if (!PROD) {
             server = require('http').Server(this.app);
         } else {
+            // tslint:disable-next-line:one-variable-per-declaration
             const key = fs.readFileSync(ROUTE_PRIVKEY, 'utf8'),
                 cert = fs.readFileSync(ROUTE_CERT, 'utf8'),
                 credentials = { key, cert };

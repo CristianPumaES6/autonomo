@@ -9,7 +9,7 @@ class Auth {
         return jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES, issuer: JWT_ISSUER });
     }
 
-    decode(token: string) {
+    decode(token: string): number {
         try {
             token = token.replace('Bearer ', '');
             return (jwt.verify(token, JWT_SECRET, { issuer: JWT_ISSUER }) as any).id;

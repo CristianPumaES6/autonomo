@@ -8,7 +8,7 @@ export class LoggerMiddleware implements NestMiddleware {
         return (req, res, next) => {
             if (!PROD) {
                 // tslint:disable-next-line:no-console
-                console.log(`${moment().format('HH:mm:ss')} [${req.method}]: ${req.path}`);
+                console.log(`${moment().format('HH:mm:ss')} [${req.method}]: ${req.baseUrl}`);
             }
             next();
         };

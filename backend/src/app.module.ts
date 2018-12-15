@@ -7,9 +7,11 @@ import { LoggerMiddleware } from './shared/middleware/logger.middleware';
 import { IsLoggedMiddleware } from './shared/middleware/is-logged.middleware';
 import { UsersController } from './users/users.controller';
 import { InvoicesController } from './invoices/invoices.controller';
+import { ConfigsModule } from './configs/configs.module';
+import { ConfigsController } from './configs/configs.controller';
 
 @Module({
-    imports: [UserModule, InvoicesModule, AuthModule],
+    imports: [UserModule, InvoicesModule, AuthModule, ConfigsModule],
     controllers: [AppController],
     providers: [],
 })
@@ -21,6 +23,6 @@ export class AppModule implements NestModule {
             .forRoutes({ path: '*', method: RequestMethod.ALL })
             // MIDDLEWARE TO LOGGED
             .apply(IsLoggedMiddleware)
-            .forRoutes(UsersController, InvoicesController);
+            .forRoutes(UsersController, InvoicesController, ConfigsController);
     }
 }

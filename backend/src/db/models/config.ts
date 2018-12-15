@@ -18,4 +18,11 @@ export class Config {
     @OneToOne((type: any) => User, (user: User) => user.config)
     @JoinColumn()
     user: User;
+
+    constructor(config: Config) {
+        this.id = config ? config.id : undefined;
+        this.ivaDefaultReceived = config ? config.ivaDefaultReceived : undefined;
+        this.ivaDefaultSent = config ? config.ivaDefaultSent : undefined;
+        this.totalItemsByTable = config ? config.totalItemsByTable : undefined;
+    }
 }

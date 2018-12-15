@@ -9,7 +9,7 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() body: any) {
-        return await this.authService.login(new User(body));
+        return { token: await this.authService.login(new User(body)) };
     }
 
     @Get('token')
@@ -19,6 +19,6 @@ export class AuthController {
 
     @Post('register')
     async register(@Body() body: any) {
-        return await this.authService.register(new User(body));
+        return { token: await this.authService.register(new User(body)) };
     }
 }

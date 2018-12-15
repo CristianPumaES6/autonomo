@@ -30,10 +30,10 @@ export class User {
     @OneToOne(type => Config, (config: Config) => config.user)
     config: Config;
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn({ default: new Date() })
     createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn({ default: new Date() })
     updatedAt: Date;
 
     @Column({ type: 'timestamp', default: null })

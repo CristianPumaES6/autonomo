@@ -1,16 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { User } from './user';
 
-@Entity()
-export class IConfig {
+@Entity('Configs')
+export class Config {
     @PrimaryGeneratedColumn()
     id?: number;
 
-    @Column()
+    @Column({ default: 21 })
     ivaDefaultReceived?: number;
 
-    @Column()
+    @Column({ default: 0 })
     ivaDefaultSent?: number;
 
-    @Column()
+    @Column({ default: 0 })
     totalItemsByTable?: number;
+
+    @OneToOne((type: any) => User, (user: User) => user.config)
+    @JoinColumn()
+    user: User;
 }

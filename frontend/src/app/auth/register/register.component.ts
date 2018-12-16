@@ -46,8 +46,7 @@ export class RegisterComponent implements OnInit {
         else {
             this.authService.register(this.formRegister.getRawValue()).subscribe(() => {
                 SnackService.send$.emit('Registrado con éxito.');
-                this.authService.logout();
-                this.goBack();
+                this.router.navigate(['/']);
             });
         }
     }

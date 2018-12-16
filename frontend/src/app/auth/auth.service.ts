@@ -46,7 +46,7 @@ export class AuthService {
     register(user: IUser) {
         return this.httpClient
             .post(this.SERVER_URL + 'register', user)
-            .map((response: any) => this.setLogged(false, response.token))
+            .map((response: any) => this.setLogged(true, response.token))
             .catch(error => Observable.throw(error));
     }
 

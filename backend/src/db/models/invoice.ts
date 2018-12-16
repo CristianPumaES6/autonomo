@@ -1,47 +1,47 @@
-import { IInvoice } from '@isofocus/interfaces';
-import { DataTypes, Sequelize } from 'sequelize';
-import { IInstance } from './instance';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { User } from './user';
 
-export default function (sequelize: Sequelize, dataType: DataTypes) {
-    return sequelize.define<IInstance<IInvoice>, IInvoice>('invoice', {
-        id: {
-            type: dataType.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        cif: {
-            type: dataType.STRING,
-            allowNull: false,
-        },
-        date: {
-            type: dataType.DATE,
-            defaultValue: new Date(),
-        },
-        fisicalAddress: {
-            type: dataType.STRING,
-        },
-        iva: {
-            type: dataType.INTEGER,
-        },
-        nameCompany: {
-            type: dataType.STRING,
-        },
-        price: {
-            type: dataType.DOUBLE,
-        },
-        observations: {
-            type: dataType.STRING,
-        },
-        visualID: {
-            type: dataType.INTEGER,
-        },
-        received: {
-            type: dataType.BOOLEAN,
-            defaultValue: true,
-        },
-    }, {
-            timestamps: true,
-            paranoid: true
-        }
-    );
+@Entity('Invoices')
+export class Invoice {
+    @PrimaryGeneratedColumn()
+    id?: number;
+
+    @Column()
+    date?: Date;
+
+    @Column()
+    iva?: number;
+
+    @Column()
+    visualID?: string;
+
+    @Column()
+    cif?: string;
+
+    @Column()
+    nameCompany?: string;
+
+    @Column()
+    fisicalAddress?: string;
+
+    @Column({ type: 'decimal', default: 0 })
+    price?: number;
+
+    @Column()
+    observations?: string;
+
+    @Column({ default: false })
+    received?: boolean;
+
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: Date;
+
+    @UpdateDateColumn({ type: 'timestamp' })
+    updatedAt: Date;
+
+    @Column({ type: 'timestamp', default: null })
+    deletedAt: Date;
+
+    @ManyToOne(type => User, user => user.invoice)
+    user: User | number;
 }

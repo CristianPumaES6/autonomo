@@ -3,7 +3,7 @@ import { ConfigsController } from './configs.controller';
 import { ConfigsService } from './configs.service';
 
 @Module({
-  controllers: [ConfigsController],
-  providers: [ConfigsService]
+    controllers: [ConfigsController],
+    providers: [ConfigsService],
 })
-export class ConfigsModule {}
+export class ConfigsModule { }

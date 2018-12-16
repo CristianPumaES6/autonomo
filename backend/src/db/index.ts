@@ -33,6 +33,9 @@ class DB {
                 Config,
             ],
             logging: !PROD,
+            extra: {
+                connectionLimit: 20,
+            },
         }).then(async connection => {
             this.models.users = connection.getRepository(User);
             this.models.invoices = connection.getRepository(Invoice);

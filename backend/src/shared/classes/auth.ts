@@ -1,7 +1,6 @@
 import { User } from '../../db/models/user';
 import * as jwt from 'jsonwebtoken';
-import { JWT_SECRET, JWT_ISSUER } from '../../app.constants';
-import { JWT_EXPIRES } from '../../../last/src/tools/constants';
+import { JWT_SECRET, JWT_ISSUER, JWT_EXPIRES } from '../../app.constants';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 class Auth {

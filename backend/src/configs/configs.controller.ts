@@ -16,6 +16,6 @@ export class ConfigsController {
     @Put()
     async update(@Headers('authorization') authorization: string, @Body() body: any) {
         const id = auth.decode(authorization);
-        return await this.configService.update(new Config(body), id);
+        return await this.configService.update(body, id);
     }
 }

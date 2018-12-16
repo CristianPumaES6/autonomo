@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
 import { Config } from './config';
+import { Invoice } from './invoice';
 
 @Entity('Users')
 export class User {
@@ -38,6 +39,9 @@ export class User {
 
     @Column({ type: 'timestamp', default: null })
     deletedAt: Date;
+
+    @OneToMany(type => Invoice, invoice => invoice.user)
+    invoice: Invoice[];
 
     constructor(user?: User) {
         this.id = user ? user.id : undefined;

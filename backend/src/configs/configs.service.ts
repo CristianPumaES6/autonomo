@@ -10,8 +10,7 @@ export class ConfigsService {
     }
 
     async update(config: Config, id: number) {
-        const user = await db.models.users.findOne({ where: { id }, loadRelationIds: true });
-        config.id = user.config as any;
-        return await db.models.configs.save(config);
+        delete config.id;
+        return await db.models.configs.update({ user: id }, config);
     }
 }

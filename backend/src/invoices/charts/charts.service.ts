@@ -11,6 +11,7 @@ export class ChartsService {
             .addSelect('MONTH(date)', 'day')
             .where('userID = :id')
             .andWhere(this.checkDeleted())
+            .groupBy('MONTH(date)')
             .setParameters({ id })
             .getRawMany();
 
@@ -25,6 +26,7 @@ export class ChartsService {
             .where('userID = :id')
             .andWhere('received = false')
             .andWhere(this.checkDeleted())
+            .groupBy('MONTH(date)')
             .setParameters({ id })
             .getRawMany();
 
@@ -39,6 +41,7 @@ export class ChartsService {
             .where('userID = :id')
             .andWhere('received = true')
             .andWhere(this.checkDeleted())
+            .groupBy('MONTH(date)')
             .setParameters({ id })
             .getRawMany();
 
@@ -53,6 +56,7 @@ export class ChartsService {
             .where('userID = :id')
             .andWhere('received = true')
             .andWhere(this.checkDeleted())
+            .groupBy('MONTH(date)')
             .setParameters({ id })
             .getRawMany();
 

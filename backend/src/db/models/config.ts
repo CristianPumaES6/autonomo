@@ -17,7 +17,7 @@ export class Config {
 
     @OneToOne((type: any) => User, (user: User) => user.config)
     @JoinColumn()
-    user: User;
+    user: User | number;
 
     constructor(config: Config) {
         this.id = config ? config.id : undefined;

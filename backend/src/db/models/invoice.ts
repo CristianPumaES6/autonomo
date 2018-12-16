@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { User } from './user';
 
 @Entity('Invoices')
 export class Invoice {
@@ -40,4 +41,7 @@ export class Invoice {
 
     @Column({ type: 'timestamp', default: null })
     deletedAt: Date;
+
+    @ManyToOne(type => User, user => user.invoice)
+    user: User | number;
 }

@@ -19,7 +19,7 @@ export class Config {
     @JoinColumn()
     user: User | number;
 
-    constructor(config: Config) {
+    constructor(config?: Config) {
         this.id = config ? config.id : undefined;
         this.ivaDefaultReceived = config ? config.ivaDefaultReceived : undefined;
         this.ivaDefaultSent = config ? config.ivaDefaultSent : undefined;

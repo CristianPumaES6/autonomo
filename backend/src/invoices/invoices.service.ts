@@ -24,6 +24,22 @@ export class InvoicesService {
     }
 
     async delete(id: number, user: number) {
-        return await db.models.invoices.update({ deletedAt: moment().format() }, { id, user });
+        return await db.models.invoices.update({ id, user }, { deletedAt: moment().format() });
+    }
+
+    async restore(id: number, user: number) {
+        return await db.models.invoices.update({ id, user }, { deletedAt: null });
+    }
+
+    async next(user: number) {
+        return await db.models.invoices.createQueryBuilder()
+            .select('MAX(visualID) as max')
+            .where('userID = :user')
+            .setParameters({ user }).
+            getRawOne();
+    }
+
+    async check(visualID: number, user: number) {
+        return (await db.models.invoices.find({ where: { visualID, user } })).length === 0;
     }
 }

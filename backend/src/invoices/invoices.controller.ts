@@ -26,9 +26,9 @@ export class InvoicesController {
     }
 
     @Get('check/:id')
-    check(@Headers('authorization') authorization: string, @Param('id') id: number) {
+    async check(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
-        return this.invoiceService.check(id, userID);
+        return { ok: await this.invoiceService.check(id, userID) };
     }
 
     @Get(':id')

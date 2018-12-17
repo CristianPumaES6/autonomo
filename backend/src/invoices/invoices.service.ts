@@ -35,11 +35,11 @@ export class InvoicesService {
         return await db.models.invoices.createQueryBuilder()
             .select('MAX(visualID) as max')
             .where('userID = :user')
-            .setParameters({ user }).
-            getRawOne();
+            .setParameters({ user })
+            .getRawOne();
     }
 
     async check(visualID: number, user: number) {
-        return (await db.models.invoices.find({ where: { visualID, user } })).length === 0;
+        return (await db.models.invoices.find({ where: { visualID, user }, select: ['id'] })).length !== 1;
     }
 }

@@ -48,4 +48,8 @@ export class InvoiceService extends BaseService<IInvoice> {
                 () => !isNaN(control.value) ? this.checkID(control.value).map(response => !response.ok ? { invalidID: true } : null) : null
             );
     }
+
+    getPDF(id: number) {
+        return this.httpClient.get(this.SERVER_URL + 'pdf/' + id);
+    }
 }

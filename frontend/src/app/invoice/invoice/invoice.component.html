@@ -52,6 +52,9 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell class="actions-buttons small" *matCellDef="let element">
+                    <button mat-icon-button *ngIf="!element.received" (click)="getPDF(element.id, $event)">
+                        <mat-icon class="save" matTooltip="Guardar en PDF">save</mat-icon>
+                    </button>
                     <button mat-icon-button (click)="delete(element, $event)">
                         <mat-icon class="delete" matTooltip="Borrar">delete</mat-icon>
                     </button>

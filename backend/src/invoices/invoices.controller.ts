@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Headers, Param, Post, Body, Put, Delete, Header } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { auth } from '../shared/classes/auth';
 import { Invoice } from '../db/models/invoice';
@@ -35,6 +35,13 @@ export class InvoicesController {
     getID(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return this.invoiceService.getID(userID, id);
+    }
+
+    @Get('pdf/:id')
+    @Header('Content-Type', 'application/pdf')
+    pdf(@Headers('authorization') authorization: string, @Param('id') id: number) {
+        const userID = auth.decode(authorization);
+        return this.invoiceService.generatePDF(id, userID);
     }
 
     @Post()

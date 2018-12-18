@@ -69,4 +69,41 @@ export class InvoiceComponent implements OnInit {
             this.dataSource.data = this.invoices = this.invoices.filter(i => i.id !== invoice.id);
         });
     }
+
+    getPDF(id: number, event: Event) {
+        event.stopPropagation();
+        this.invoiceService.getPDF(id).subscribe(
+            (response: any) => {
+                const bytes = new Uint8Array(response.data);
+                const blob = new Blob([bytes], { type: "application/pdf" });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                const fileName = id + '.pdf';
+                link.download = fileName;
+                link.click();
+            }
+        );
+        // // It is necessary to create a new blob object with mime-type explicitly set
+        // // otherwise only Chrome works like it should
+        // var newBlob = new Blob([blob], { type: "application/pdf" })
+
+        // // IE doesn't allow using a blob object directly as link href
+        // // instead it is necessary to use msSaveOrOpenBlob
+        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        //     window.navigator.msSaveOrOpenBlob(newBlob);
+        //     return;
+        // }
+
+        // // For other browsers:
+        // // Create a link pointing to the ObjectURL containing the blob.
+        // const data = window.URL.createObjectURL(newBlob);
+        // var link = document.createElement('a');
+        // link.href = data;
+        // link.download = "file.pdf";
+        // link.click();
+        // setTimeout(() => {
+        //     // For Firefox it is necessary to delay revoking the ObjectURL
+        //     window.URL.revokeObjectURL(data);
+        // }, 100);
+    }
 }

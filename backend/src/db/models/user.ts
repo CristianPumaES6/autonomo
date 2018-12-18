@@ -25,6 +25,9 @@ export class User {
     @Column()
     dni?: string;
 
+    @Column()
+    address: string;
+
     @Column({ default: false })
     root?: boolean;
 
@@ -51,6 +54,7 @@ export class User {
         this.phone = user ? user.phone : undefined;
         this.email = user ? user.email : undefined;
         this.dni = user ? user.dni : undefined;
+        this.address = user ? user.address : undefined;
         this.root = user ? user.root : undefined;
         this.createdAt = user ? user.createdAt : undefined;
         this.updatedAt = user ? user.updatedAt : undefined;

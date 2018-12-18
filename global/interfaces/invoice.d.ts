@@ -6,7 +6,8 @@ export interface IInvoice {
     cif?: string;
     nameCompany?: string;
     fisicalAddress?: string;
-    observations?: string;
+    description?: string;
+    notes?: string;
     received?: boolean;
     visualID?: number;
 }

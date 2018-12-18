@@ -28,7 +28,10 @@ export class Invoice {
     price?: number;
 
     @Column()
-    observations?: string;
+    description?: string;
+
+    @Column()
+    notes?: string;
 
     @Column({ default: false })
     received?: boolean;

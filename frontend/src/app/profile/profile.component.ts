@@ -41,6 +41,9 @@ export class ProfileComponent implements OnInit {
             email: new FormControl(this.user.email, [
                 Validators.required,
             ]),
+            address: new FormControl(this.user.address, [
+                Validators.required,
+            ]),
             dni: new FormControl(this.user.dni, [
                 Validators.required,
             ]),

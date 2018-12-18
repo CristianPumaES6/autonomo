@@ -66,7 +66,8 @@ export class InvoiceEditComponent implements OnInit {
             price: new FormControl(this.invoice.price, [
                 Validators.required,
             ]),
-            observations: new FormControl(this.invoice.observations),
+            description: new FormControl(this.invoice.description),
+            notes: new FormControl(this.invoice.notes),
             received: new FormControl(this.invoice.received),
         });
         this.resize();

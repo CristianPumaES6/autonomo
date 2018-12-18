@@ -51,7 +51,8 @@ export class InvoiceAddComponent implements OnInit {
             price: new FormControl(0, [
                 Validators.required,
             ]),
-            observations: new FormControl(),
+            description: new FormControl(),
+            notes: new FormControl(),
             received: new FormControl(true),
         });
 

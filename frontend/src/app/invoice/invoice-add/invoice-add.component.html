@@ -39,16 +39,45 @@
                     </mat-form-field>
                 </mat-grid-tile>
 
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dirección fiscal</mat-label>
+                        <input matInput formControlName="fisicalAddress">
+                        <mat-error *ngIf="form.get('fisicalAddress').hasError('required')">
+                            Tiene que tener una dirección física.
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
                 <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
                     <mat-form-field appearance="outline" class="textarea">
-                        <mat-label>Observaciones</mat-label>
+                        <mat-label>Descripción</mat-label>
                         <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                            formControlName="observations">
+                            formControlName="description">
                         </textarea>
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="this.cols || 3">
+                <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
+                    <mat-form-field appearance="outline" class="textarea">
+                        <mat-label>Notas</mat-label>
+                        <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+                            formControlName="notes">
+                        </textarea>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre de la compañia</mat-label>
+                        <input matInput formControlName="nameCompany">
+                        <mat-error *ngIf="form.get('nameCompany').hasError('required')">
+                            El nombre de la compañía es <strong>requerido</strong>.
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field appearance="outline">
                         <mat-label>DNI/CIF/NIE</mat-label>
                         <input matInput formControlName="cif">
@@ -69,33 +98,13 @@
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="this.cols || 3">
+                <mat-grid-tile [colspan]="this.cols || 2">
                     <mat-form-field appearance="outline">
                         <mat-label>Precio total</mat-label>
                         <input matInput class="right" type="number" formControlName="price">
                         <span matSuffix>€</span>
                         <mat-error *ngIf="form.get('price').hasError('required')">
                             Tiene que tener un precio.
-                        </mat-error>
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nombre de la compañia</mat-label>
-                        <input matInput formControlName="nameCompany">
-                        <mat-error *ngIf="form.get('nameCompany').hasError('required')">
-                            El nombre de la compañía es <strong>requerido</strong>.
-                        </mat-error>
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Dirección fiscal</mat-label>
-                        <input matInput formControlName="fisicalAddress">
-                        <mat-error *ngIf="form.get('fisicalAddress').hasError('required')">
-                            Tiene que tener una dirección física.
                         </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>

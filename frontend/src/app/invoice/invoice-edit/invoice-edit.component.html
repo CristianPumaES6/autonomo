@@ -15,7 +15,13 @@
                 <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field appearance="outline">
                         <mat-label>ID</mat-label>
-                        <input matInput name="visualID" class="right" formControlName="visualID">
+                        <input matInput class="right" placeholder="ID" name="visualID" formControlName="visualID">
+                        <mat-error *ngIf="form.get('visualID').hasError('required')">
+                            La ID es <strong>requerida</strong>.
+                        </mat-error>
+                        <mat-error *ngIf="form.get('visualID').hasError('invalidID')">
+                            Ya existe una ID con ese número.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -27,52 +33,79 @@
                         <mat-hint>Formato mm/dd/yyyy</mat-hint>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="form.get('date').hasError('required')">
+                            La Fecha es <strong>requerida</strong>.
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dirección fiscal</mat-label>
+                        <input matInput formControlName="fisicalAddress">
+                        <mat-error *ngIf="form.get('fisicalAddress').hasError('required')">
+                            Tiene que tener una dirección física.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
                     <mat-form-field appearance="outline" class="textarea">
-                        <mat-label>Observaciones</mat-label>
+                        <mat-label>Descripción</mat-label>
                         <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                            formControlName="observations">
-                        </textarea>
+                            formControlName="description">
+                                </textarea>
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="this.cols || 3">
+                <mat-grid-tile [colspan]="this.cols || 4" [rowspan]=3>
+                    <mat-form-field appearance="outline" class="textarea">
+                        <mat-label>Notas</mat-label>
+                        <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
+                            formControlName="notes">
+                                </textarea>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
                     <mat-form-field appearance="outline">
-                        <mat-label>CIF/DNI/NIE</mat-label>
-                        <input matInput name="cif" formControlName="cif">
+                        <mat-label>Nombre de la compañia</mat-label>
+                        <input matInput formControlName="nameCompany">
+                        <mat-error *ngIf="form.get('nameCompany').hasError('required')">
+                            El nombre de la compañía es <strong>requerido</strong>.
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="this.cols || 4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>DNI/CIF/NIE</mat-label>
+                        <input matInput formControlName="cif">
+                        <mat-error *ngIf="form.get('cif').hasError('required')">
+                            El DNI/CIF/NIE es <strong>requerido</strong>.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
                 <mat-grid-tile [colspan]="this.cols || 2">
                     <mat-form-field appearance="outline">
                         <mat-label>IVA</mat-label>
-                        <input matInput class="right" name="IVA" type="number" formControlName="iva">
+                        <input matInput class="right" type="number" formControlName="iva">
                         <span matSuffix>%</span>
+                        <mat-error *ngIf="form.get('iva').hasError('required')">
+                            Tiene que tener un IVA.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="this.cols || 3">
+                <mat-grid-tile [colspan]="this.cols || 2">
                     <mat-form-field appearance="outline">
-                        <mat-label>Precio Total</mat-label>
+                        <mat-label>Precio total</mat-label>
                         <input matInput class="right" type="number" formControlName="price">
                         <span matSuffix>€</span>
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nombre de la compañia</mat-label>
-                        <input matInput formControlName="nameCompany">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Dirección fiscal</mat-label>
-                        <input matInput formControlName="fisicalAddress">
+                        <mat-error *ngIf="form.get('price').hasError('required')">
+                            Tiene que tener un precio.
+                        </mat-error>
                     </mat-form-field>
                 </mat-grid-tile>
 

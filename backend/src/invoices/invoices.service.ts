@@ -56,7 +56,7 @@ export class InvoicesService {
             let template = fs.readFileSync(path.join(__dirname, '../shared/templates/factura.html'), 'utf-8');
             template = template
                 .replace(/@@nombre@@/g, userDB.name)
-                .replace(/@@direccionUser@@/g, 'userDB')
+                .replace(/@@direccionUser@@/g, userDB.address)
                 .replace(/@@telefono@@/g, userDB.phone)
                 .replace(/@@dni@@/g, userDB.dni)
                 .replace(/@@date@@/g, invoice.date.toLocaleDateString())
@@ -72,7 +72,7 @@ export class InvoicesService {
                 .replace(/@@notas@@/g, invoice.notes || '')
                 .replace(/@@totalFactura@@/g, (invoice.price + (invoice.price * ((invoice.iva / 100)))).toFixed(2) + '€');
             return new Promise((resolve, reject) => {
-                pdf.create(template).toBuffer((err, buf) => err ? reject(err) : resolve(buf));
+                pdf.create(template, { border: { top: '50', right: '20', left: '20' } }).toBuffer((err, buf) => err ? reject(err) : resolve(buf));
             });
         }
     }

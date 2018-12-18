@@ -18,7 +18,7 @@
 
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef> ID </th>
-                <td mat-cell *matCellDef="let element" class="small"> {{element.visualID}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.visualID}} </td>
             </ng-container>
 
             <ng-container matColumnDef="received">
@@ -53,7 +53,7 @@
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell class="actions-buttons small" *matCellDef="let element">
                     <button mat-icon-button *ngIf="!element.received" (click)="getPDF(element.id, $event)">
-                        <mat-icon class="save" matTooltip="Guardar en PDF">save</mat-icon>
+                        <mat-icon class="save" matTooltip="Descargar como PDF">save</mat-icon>
                     </button>
                     <button mat-icon-button (click)="delete(element, $event)">
                         <mat-icon class="delete" matTooltip="Borrar">delete</mat-icon>

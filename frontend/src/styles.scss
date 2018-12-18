@@ -53,4 +53,9 @@ body {
     .mat-form-field-suffix {
         position: initial;
     }
+
+    th,
+    td {
+        text-align: center !important;
+    }
 }

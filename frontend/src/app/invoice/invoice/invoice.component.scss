@@ -13,10 +13,18 @@ mat-card-content {
             }
 
             .actions-buttons {
-                width: 2rem;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                height: 3rem;
+                width: 88%;
 
                 .delete {
                     color: red;
+                }
+
+                .save {
+                    color: lightgreen;
                 }
             }
 

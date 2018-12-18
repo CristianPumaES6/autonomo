@@ -53,8 +53,10 @@
                     <mat-form-field appearance="outline" class="textarea">
                         <mat-label>Descripción</mat-label>
                         <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                            formControlName="description">
-                        </textarea>
+                            formControlName="description"></textarea>
+                        <mat-hint>
+                            Descripción del producto.
+                        </mat-hint>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -62,8 +64,10 @@
                     <mat-form-field appearance="outline" class="textarea">
                         <mat-label>Notas</mat-label>
                         <textarea cols="5" matInput matTextareaAutosize matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                            formControlName="notes">
-                        </textarea>
+                            formControlName="notes"></textarea>
+                        <mat-hint>
+                            Notas al pie de página.
+                        </mat-hint>
                     </mat-form-field>
                 </mat-grid-tile>
 
@@ -100,7 +104,7 @@
 
                 <mat-grid-tile [colspan]="this.cols || 2">
                     <mat-form-field appearance="outline">
-                        <mat-label>Precio total</mat-label>
+                        <mat-label>Precio</mat-label>
                         <input matInput class="right" type="number" formControlName="price">
                         <span matSuffix>€</span>
                         <mat-hint>

@@ -22,7 +22,7 @@ import {
  */
 // tslint:disable-next-line:one-variable-per-declaration
 export const
-    PROD = false,
+    PROD = true,
     /**
      * KEYS HTTPS
      */

@@ -2,8 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import 'reflect-metadata';
 import * as fs from 'fs';
-import { PROD, ROUTE_PRIVKEY } from './app.constants';
-import { ROUTE_CERT } from '../dist/app.constants';
+import { PROD, ROUTE_PRIVKEY, ROUTE_CERT } from './app.constants';
 
 async function bootstrap() {
     const keyFile = PROD ? fs.readFileSync(ROUTE_PRIVKEY) : undefined;

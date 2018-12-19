@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user';
 
-@Entity('Configs')
+@Entity('configs')
 export class Config {
     @PrimaryGeneratedColumn()
     id?: number;

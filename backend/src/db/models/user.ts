@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Config } from './config';
 import { Invoice } from './invoice';
 
-@Entity('Users')
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
     id?: number;

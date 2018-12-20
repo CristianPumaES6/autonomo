@@ -1,7 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
 import { Config } from './config';
 import { Invoice } from './invoice';
-import moment = require('moment');
 
 @Entity('users')
 export class User {
@@ -33,33 +32,35 @@ export class User {
     root: boolean;
 
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt?: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date;
+    updatedAt?: Date;
 
-    @Column({ type: 'timestamp', default: null })
-    deletedAt: Date;
+    @Column({ type: 'timestamp', nullable: true })
+    deletedAt?: Date | null;
 
     @OneToOne(type => Config, (config: Config) => config.user)
-    config: Config | number;
+    config?: Config | number;
 
     @OneToMany(type => Invoice, invoice => invoice.user)
-    invoice: Invoice[];
+    invoice?: Invoice[];
 
     constructor(user?: User) {
-        this.id = user ? user.id : undefined;
-        this.name = user ? user.name : undefined;
-        this.password = user ? user.password : undefined;
-        this.photo = user ? user.photo : undefined;
-        this.phone = user ? user.phone : undefined;
-        this.email = user ? user.email : undefined;
-        this.dni = user ? user.dni : undefined;
-        this.address = user ? user.address : undefined;
-        this.root = user ? user.root : undefined;
-        this.createdAt = user ? user.createdAt : undefined;
-        this.updatedAt = user ? user.updatedAt : undefined;
-        this.deletedAt = user ? user.deletedAt : undefined;
-        this.config = user ? user.config : null;
+        const { id, name, password, photo, phone, email, dni, address, root, createdAt, updatedAt, deletedAt, config, invoice } = user!;
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.photo = photo;
+        this.phone = phone;
+        this.email = email;
+        this.dni = dni;
+        this.address = address;
+        this.root = root;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.config = config;
+        this.invoice = invoice;
     }
 }

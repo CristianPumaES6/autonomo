@@ -3,7 +3,7 @@ import { auth } from '../classes/auth';
 
 @Injectable()
 export class IsLoggedMiddleware implements NestMiddleware {
-    resolve(...args: any[]): MiddlewareFunction {
+    resolve(): MiddlewareFunction {
         return (req, res, next) => {
             const headers = req.headers.authorization;
             if (headers === undefined || headers === '') {
@@ -17,7 +17,7 @@ export class IsLoggedMiddleware implements NestMiddleware {
                     res.status(e.status).json({ statusCode: e.status, message: e.message });
                 }
             }
-            next();
+            next!();
         };
     }
 }

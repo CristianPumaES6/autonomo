@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { db } from '../db';
 import { Config } from '../db/models/config';
 
@@ -6,6 +6,9 @@ import { Config } from '../db/models/config';
 export class ConfigsService {
     async get(id: number) {
         const user = await db.models.users.findOne({ where: { id }, loadRelationIds: true });
+        if (!user) {
+            throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+        }
         return await db.models.configs.findOne({ where: { id: user.config } });
     }
 

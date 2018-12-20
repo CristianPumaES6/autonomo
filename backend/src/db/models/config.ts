@@ -4,25 +4,27 @@ import { User } from './user';
 @Entity('configs')
 export class Config {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column({ default: 21 })
-    ivaDefaultReceived?: number;
+    ivaDefaultReceived: number;
 
     @Column({ default: 0 })
-    ivaDefaultSent?: number;
+    ivaDefaultSent: number;
 
     @Column({ default: 0 })
-    totalItemsByTable?: number;
+    totalItemsByTable: number;
 
-    @OneToOne((type: any) => User, (user: User) => user.config)
+    @OneToOne(type => User, (user: User) => user.config)
     @JoinColumn()
     user: User | number;
 
     constructor(config?: Config) {
-        this.id = config ? config.id : undefined;
-        this.ivaDefaultReceived = config ? config.ivaDefaultReceived : undefined;
-        this.ivaDefaultSent = config ? config.ivaDefaultSent : undefined;
-        this.totalItemsByTable = config ? config.totalItemsByTable : undefined;
+        const { id, ivaDefaultReceived, ivaDefaultSent, totalItemsByTable, user } = config!;
+        this.id = id;
+        this.ivaDefaultReceived = ivaDefaultReceived;
+        this.ivaDefaultSent = ivaDefaultSent;
+        this.totalItemsByTable = totalItemsByTable;
+        this.user = user;
     }
 }

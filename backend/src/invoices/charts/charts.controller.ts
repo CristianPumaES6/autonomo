@@ -9,7 +9,7 @@ export class ChartsController {
     @Get('total')
     async total(@Headers('authorization') authorization: string) {
         const id = auth.decode(authorization);
-        return await this.chartsService.getTotal(id);
+        return this.chartsService.getTotal(id);
     }
 
     @Get('earned')

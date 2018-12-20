@@ -7,7 +7,7 @@ type IChart = { day: string, total: string }[];
 @Injectable()
 export class ChartsService {
     async getTotal(id: number) {
-        const chart: IChart = await db.models.invoices
+        const chart: IChart = await db.models!.invoices
             .createQueryBuilder('invoice')
             .select('COUNT(*)', 'total')
             .addSelect('MONTH(date)', 'day')
@@ -21,7 +21,7 @@ export class ChartsService {
     }
 
     async geEarned(id: number) {
-        const chart: IChart = await db.models.invoices
+        const chart: IChart = await db.models!.invoices
             .createQueryBuilder('invoice')
             .select('SUM(price)', 'total')
             .addSelect('MONTH(date)', 'day')
@@ -36,7 +36,7 @@ export class ChartsService {
     }
 
     async getWasted(id: number) {
-        const chart: IChart = await db.models.invoices
+        const chart: IChart = await db.models!.invoices
             .createQueryBuilder('invoice')
             .select('SUM(price)', 'total')
             .addSelect('MONTH(date)', 'day')
@@ -51,7 +51,7 @@ export class ChartsService {
     }
 
     async getIvaEarn(id: number) {
-        const chart: IChart = await db.models.invoices
+        const chart: IChart = await db.models!.invoices
             .createQueryBuilder('invoice')
             .select('SUM(iva * price) / 100', 'total')
             .addSelect('MONTH(date)', 'day')

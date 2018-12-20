@@ -5,31 +5,31 @@ import { Invoice } from './invoice';
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column()
-    name: string;
+    name?: string;
 
     @Column()
-    password: string;
+    password?: string;
 
     @Column()
-    photo: string;
+    photo?: string;
 
     @Column()
-    phone: string;
+    phone?: string;
 
     @Column()
-    email: string;
+    email?: string;
 
     @Column()
-    dni: string;
+    dni?: string;
 
     @Column()
-    address: string;
+    address?: string;
 
     @Column({ default: false })
-    root: boolean;
+    root?: boolean;
 
     @CreateDateColumn()
     createdAt?: Date;
@@ -47,20 +47,22 @@ export class User {
     invoice?: Invoice[];
 
     constructor(user?: User) {
-        const { id, name, password, photo, phone, email, dni, address, root, createdAt, updatedAt, deletedAt, config, invoice } = user!;
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.photo = photo;
-        this.phone = phone;
-        this.email = email;
-        this.dni = dni;
-        this.address = address;
-        this.root = root;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
-        this.config = config;
-        this.invoice = invoice;
+        if (user) {
+            const { id, name, password, photo, phone, email, dni, address, root, createdAt, updatedAt, deletedAt, config, invoice } = user;
+            this.id = id;
+            this.name = name;
+            this.password = password;
+            this.photo = photo;
+            this.phone = phone;
+            this.email = email;
+            this.dni = dni;
+            this.address = address;
+            this.root = root;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
+            this.deletedAt = deletedAt;
+            this.config = config;
+            this.invoice = invoice;
+        }
     }
 }

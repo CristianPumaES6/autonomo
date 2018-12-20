@@ -4,66 +4,68 @@ import { User } from './user';
 @Entity('invoices')
 export class Invoice {
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
     @Column()
-    date: Date;
+    date?: Date;
 
     @Column()
-    iva: number;
+    iva?: number;
 
     @Column()
-    visualID: string;
+    visualID?: string;
 
     @Column()
-    cif: string;
+    cif?: string;
 
     @Column()
-    nameCompany: string;
+    nameCompany?: string;
 
     @Column()
-    fisicalAddress: string;
+    fisicalAddress?: string;
 
     @Column({ type: 'decimal', default: 0 })
-    price: number;
+    price?: number;
 
     @Column({ nullable: true })
-    description: string;
+    description?: string;
 
     @Column({ nullable: true })
-    notes: string;
+    notes?: string;
 
     @Column({ default: false })
-    received: boolean;
+    received?: boolean;
 
     @CreateDateColumn({ type: 'timestamp' })
-    createdAt: Date;
+    createdAt?: Date;
 
     @UpdateDateColumn({ type: 'timestamp' })
-    updatedAt: Date;
+    updatedAt?: Date;
 
     @Column({ type: 'timestamp', nullable: true })
-    deletedAt: Date | null;
+    deletedAt?: Date | null;
 
     @ManyToOne(type => User, user => user.invoice)
-    user: User | number;
+    user?: User | number;
 
     constructor(invoice: Invoice) {
-        const { id, date, iva, visualID, cif, nameCompany, fisicalAddress, price, description, notes, received, createdAt, updatedAt, deletedAt, user } = invoice!;
-        this.id = id;
-        this.date = date;
-        this.iva = iva;
-        this.visualID = visualID;
-        this.cif = cif;
-        this.nameCompany = nameCompany;
-        this.fisicalAddress = fisicalAddress;
-        this.price = price;
-        this.description = description;
-        this.notes = notes;
-        this.received = received;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
-        this.user = user;
+        if (invoice) {
+            const { id, date, iva, visualID, cif, nameCompany, fisicalAddress, price, description, notes, received, createdAt, updatedAt, deletedAt, user } = invoice;
+            this.id = id;
+            this.date = date;
+            this.iva = iva;
+            this.visualID = visualID;
+            this.cif = cif;
+            this.nameCompany = nameCompany;
+            this.fisicalAddress = fisicalAddress;
+            this.price = price;
+            this.description = description;
+            this.notes = notes;
+            this.received = received;
+            this.createdAt = createdAt;
+            this.updatedAt = updatedAt;
+            this.deletedAt = deletedAt;
+            this.user = user;
+        }
     }
 }

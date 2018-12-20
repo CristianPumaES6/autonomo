@@ -13,16 +13,18 @@ interface IModel {
 
 class DB {
     models: {
-        users: Repository<User>,
-        invoices: Repository<Invoice>,
-        configs: Repository<Config>,
-    } = {} as {
-        users: Repository<User>,
-        invoices: Repository<Invoice>,
-        configs: Repository<Config>,
+        users?: Repository<User>,
+        invoices?: Repository<Invoice>,
+        configs?: Repository<Config>,
     };
 
     constructor() {
+        this.models = {
+            users: undefined,
+            invoices: undefined,
+            configs: undefined,
+        };
+
         createConnection({
             type: DB_DIALECT,
             host: DB_HOST,
@@ -30,7 +32,6 @@ class DB {
             username: DB_USERNAME,
             password: DB_PASSWORD,
             database: DB_NAME,
-            acquireTimeout: 1000,
             entities: [
                 User,
                 Invoice,
@@ -41,16 +42,9 @@ class DB {
                 connectionLimit: 20,
             },
         }).then(connection => {
-            const repos: IModel = {};
-            repos.users = connection.getRepository(User);
-            repos.invoices = connection.getRepository(Invoice);
-            repos.configs = connection.getRepository(Config);
-
-            this.models = repos as {
-                users: Repository<User>,
-                invoices: Repository<Invoice>,
-                configs: Repository<Config>,
-            };
+            this.models.users = connection.getRepository(User);
+            this.models.invoices = connection.getRepository(Invoice);
+            this.models.configs = connection.getRepository(Config);
         }).catch();
     }
 }

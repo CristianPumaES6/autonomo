@@ -10,33 +10,33 @@ import * as path from 'path';
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoices.find({ where: { user } });
+        return await db.models!.invoices.find({ where: { user } });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoices.findOne({ where: { user, id } });
+        return await db.models!.invoices.findOne({ where: { user, id } });
     }
 
     async post(invoice: Invoice) {
         delete invoice.deletedAt; delete invoice.createdAt; delete invoice.id;
-        return await db.models.invoices.insert(invoice);
+        return await db.models!.invoices.insert(invoice);
     }
 
     async put(invoice: Invoice, user: number) {
         delete invoice.deletedAt; delete invoice.createdAt;
-        return await db.models.invoices.update({ id: invoice.id, user }, invoice);
+        return await db.models!.invoices.update({ id: invoice.id, user }, invoice);
     }
 
     async delete(id: number, user: number) {
-        return await db.models.invoices.update({ id, user }, { deletedAt: moment().format() });
+        return await db.models!.invoices.update({ id, user }, { deletedAt: moment().format() });
     }
 
     async restore(id: number, user: number) {
-        return await db.models.invoices.update({ id, user }, { deletedAt: 'null' });
+        return await db.models!.invoices.update({ id, user }, { deletedAt: 'null' });
     }
 
     async next(user: number) {
-        return await db.models.invoices.createQueryBuilder()
+        return await db.models!.invoices.createQueryBuilder()
             .select('MAX(visualID) as max')
             .where('userID = :user')
             .setParameters({ user })
@@ -44,12 +44,12 @@ export class InvoicesService {
     }
 
     async check(visualID: number, user: number) {
-        return (await db.models.invoices.find({ where: { visualID, user }, select: ['id'] })).length !== 1;
+        return (await db.models!.invoices.find({ where: { visualID, user }, select: ['id'] })).length !== 1;
     }
 
     async generatePDF(id: number, user: number) {
-        const invoice = await db.models.invoices.findOne({ where: { id, user } });
-        const userDB = await db.models.users.findOne({ where: { id: user } });
+        const invoice = await db.models!.invoices.findOne({ where: { id, user } });
+        const userDB = await db.models!.users.findOne({ where: { id: user } });
 
         if (!userDB || !invoice) {
             throw new HttpException('No puedes generar el PDF', HttpStatus.UNAUTHORIZED);

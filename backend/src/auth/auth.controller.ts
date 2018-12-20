@@ -8,7 +8,7 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    async login(@Body() body: any) {
+    async login(@Body() body: User) {
         return { token: await this.authService.login(new User(body)) };
     }
 
@@ -18,7 +18,7 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() body: any) {
+    async register(@Body() body: User) {
         return { token: await this.authService.register(new User(body)) };
     }
 }

@@ -1,6 +1,7 @@
 import { Controller, Get, Headers, Put, Body } from '@nestjs/common';
 import { ConfigsService } from './configs.service';
 import { auth } from '../shared/classes/auth';
+import { Config } from 'src/db/models/config';
 
 @Controller('config')
 export class ConfigsController {
@@ -13,7 +14,7 @@ export class ConfigsController {
     }
 
     @Put()
-    update(@Headers('authorization') authorization: string, @Body() body: any) {
+    update(@Headers('authorization') authorization: string, @Body() body: Config) {
         const id = auth.decode(authorization);
         return this.configService.update(body, id);
     }

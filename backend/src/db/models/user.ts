@@ -1,47 +1,48 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
 import { Config } from './config';
 import { Invoice } from './invoice';
+import moment = require('moment');
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
-    id?: number;
+    id: number;
 
     @Column()
-    name?: string;
+    name: string;
 
     @Column()
-    password?: string;
+    password: string;
 
     @Column()
-    photo?: string;
+    photo: string;
 
     @Column()
-    phone?: string;
+    phone: string;
 
     @Column()
-    email?: string;
+    email: string;
 
     @Column()
-    dni?: string;
+    dni: string;
 
     @Column()
     address: string;
 
     @Column({ default: false })
-    root?: boolean;
+    root: boolean;
 
-    @OneToOne(type => Config, (config: Config) => config.user)
-    config: Config;
-
-    @CreateDateColumn({ default: new Date() })
+    @CreateDateColumn()
     createdAt: Date;
 
-    @UpdateDateColumn({ default: new Date() })
+    @UpdateDateColumn()
     updatedAt: Date;
 
     @Column({ type: 'timestamp', default: null })
     deletedAt: Date;
+
+    @OneToOne(type => Config, (config: Config) => config.user)
+    config: Config | number;
 
     @OneToMany(type => Invoice, invoice => invoice.user)
     invoice: Invoice[];
@@ -59,5 +60,6 @@ export class User {
         this.createdAt = user ? user.createdAt : undefined;
         this.updatedAt = user ? user.updatedAt : undefined;
         this.deletedAt = user ? user.deletedAt : undefined;
+        this.config = user ? user.config : null;
     }
 }

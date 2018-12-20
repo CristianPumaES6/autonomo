@@ -65,12 +65,12 @@ export class InvoicesService {
                 .replace(/@@id@@/g, invoice.visualID)
                 .replace(/@@dninie@@/g, invoice.cif)
                 .replace(/@@descripcion@@/g, invoice.description || '')
-                .replace(/@@total@@/g, invoice.price.toFixed(2) + '€')
+                .replace(/@@total@@/g, (+invoice.price).toFixed(2) + '€')
                 .replace(/@@subtotal@@/g, '------')
                 .replace(/@@iva@@/g, invoice.iva.toString())
-                .replace(/@@ivaTotal@@/g, ((invoice.iva / 100) * invoice.price).toFixed(2) + '€')
+                .replace(/@@ivaTotal@@/g, ((+invoice.iva / 100) * +invoice.price).toFixed(2) + '€')
                 .replace(/@@notas@@/g, invoice.notes || '')
-                .replace(/@@totalFactura@@/g, (invoice.price + (invoice.price * ((invoice.iva / 100)))).toFixed(2) + '€');
+                .replace(/@@totalFactura@@/g, (+invoice.price + (+invoice.price * ((+invoice.iva / 100)))).toFixed(2) + '€');
             return new Promise((resolve, reject) => {
                 pdf.create(template, { border: { top: '50', right: '20', left: '20' }, format: 'A3' })
                     .toBuffer((err, buf) => err ? reject(err) : resolve(buf));

@@ -27,10 +27,10 @@ export class Invoice {
     @Column({ type: 'decimal', default: 0 })
     price?: number;
 
-    @Column()
+    @Column({ nullable: true })
     description?: string;
 
-    @Column()
+    @Column({ nullable: true })
     notes?: string;
 
     @Column({ default: false })

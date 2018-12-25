@@ -32,7 +32,7 @@ export class InvoicesService {
     }
 
     async restore(id: number, user: number) {
-        return await db.models.invoices!.update({ id, user }, { deletedAt: 'null' });
+        return await db.models.invoices!.update({ id, user }, { deletedAt: null });
     }
 
     async next(user: number) {
@@ -75,7 +75,7 @@ export class InvoicesService {
             .replace(/@@totalFactura@@/g, (+invoice.price! + (+invoice.price! * ((+invoice.iva! / 100)))).toFixed(2) + '€');
 
         return new Promise((resolve, reject) => {
-            pdf.create(template, { border: { top: '50', right: '20', left: '20' }, format: 'A3' })
+            pdf.create(template, { border: { top: '50', right: '20', left: '20' }, format: 'A3', zoomFactor: '.5' })
                 .toBuffer((err, buf) => err ? reject(err) : resolve(buf));
         });
     }

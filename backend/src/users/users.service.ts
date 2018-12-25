@@ -5,7 +5,7 @@ import { User } from '../db/models/user';
 @Injectable()
 export class UsersService {
     async get(id: number) {
-        const user = await db.models.users!.findOne({ where: { id, deletedAt: 'null' } });
+        const user = await db.models.users!.findOne({ where: { id, deletedAt: null } });
 
         if (!user) throw new HttpException('No se ha podido obtener el usuario', HttpStatus.NOT_FOUND);
 

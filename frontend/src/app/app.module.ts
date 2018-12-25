@@ -11,8 +11,6 @@ import { MaterialModule } from './shared/material.module';
 import { NotLogged } from './shared/guard/not-logged.guard';
 import { MenuComponent } from './menu/menu.component';
 import { ChartsModule } from 'ng2-charts';
-import { AdsenseModule } from 'ng2-adsense';
-import { ConfigModule } from './config/config.module';
 
 @NgModule({
     declarations: [
@@ -26,7 +24,6 @@ import { ConfigModule } from './config/config.module';
         HttpClientModule,
         MaterialModule,
         ChartsModule,
-        AdsenseModule.forRoot(),
         RouterModule.forRoot([
             { path: 'invoices', canActivate: [Logged], loadChildren: './invoice/invoice.module#InvoiceModule' },
             { path: 'profile', canActivate: [Logged], loadChildren: './profile/profile.module#ProfileModule' },

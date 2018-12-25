@@ -9,7 +9,7 @@
     <style>
         @font-face {
             font-family: if-sans;
-            src: url('./GoogleSans-Regular.ttf');
+            src: url('./sans.ttf');
         }
 
         html,
@@ -21,8 +21,11 @@
 
         body,
         header {
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
-            flex-direction: column;
+
+            -webkit-flex-flow: column;
         }
 
         body {
@@ -32,18 +35,22 @@
         }
 
         .separated {
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
+            width: 100%;
             justify-content: space-between;
             margin-top: 1rem;
         }
 
-        footer subtotal span,
+
+        footer .subtotal span,
         .color-primary {
             color: #283592;
         }
 
         .color-secondary {
-            color: #e01b84;
+            color: #e01b84 !important;
         }
 
         header,
@@ -53,34 +60,43 @@
             min-height: 10rem;
         }
 
-        fecha,
-        name,
+        .fecha,
+        .name,
         h1 {
             font-weight: bold;
             margin: 0;
         }
 
-        sub-total,
-        total,
-        iva,
-        ajuste,
-        total-iva,
-        receptor,
-        name,
-        direction,
-        phone,
-        dni,
-        fecha {
+        .sub-total,
+        .total,
+        .iva,
+        .ajuste,
+        .total-iva,
+        .receptor,
+        .name,
+        .direction,
+        .phone,
+        .dni,
+        .fecha {
             min-height: 1.8rem;
         }
 
-        factura,
-        receptor {
-            display: flex;
-            flex-direction: column;
+        .id {
+            width: 20%;
         }
 
-        factura {
+        .factura,
+        .id,
+        .receptor {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+
+            -webkit-flex-flow: column;
+        }
+
+        .factura {
             width: 30%;
         }
 
@@ -96,103 +112,165 @@
             font-size: .7rem;
         }
 
-        footer subtotal {
+        footer .subtotal {
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
-            flex-direction: column;
+            width: 100%;
+
+            -webkit-flex-flow: column;
             width: 40%;
         }
 
-        sub-total,
-        iva,
-        ajuste {
+        .sub-total,
+        .iva,
+        .ajustes {
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
+            width: 100%;
+
             justify-content: space-between;
         }
 
-        subtotal span {
+        .subtotal span {
             margin-right: 0;
             text-align: end;
         }
 
-        lines {
+        .lines {
             min-height: 5rem;
             border-top: gainsboro 1px solid;
             border-bottom: gainsboro 1px solid;
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
-            flex-direction: column;
+            width: 100%;
+
+            -webkit-flex-flow: column;
             padding: .5rem 0;
         }
 
-        line {
+        .line {
+            display: -webkit-box;
+            display: -webkit-flex;
             display: flex;
-            justify-content: space-between;
+            width: 100%;
+
             align-items: center;
             padding: .2rem;
         }
 
-        line:nth-child(even) {
+        /** JUSTIFY-CONTENT: SPACE-BETWEEEN **/
+        .sub-total>div,
+        .ajustes>div,
+        .iva>div,
+        footer>div,
+        .line>div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            margin-right: 10%;
+            text-align: center;
+        }
+
+        .sub-total>div:first-child,
+        footer>div:first-child,
+        .iva>div:first-child,
+        .ajustes>div:first-child,
+        .line>div:first-child {
+            text-align: start;
+        }
+
+        .sub-total>div:last-child,
+        footer>div:last-child,
+        .iva>div:last-child,
+        .ajustes>div:last-child,
+        .line>div:last-child {
+            margin-right: 0;
+            text-align: end;
+        }
+
+        .sub-total:nth-child(even),
+        .line:nth-child(even),
+        .iva:nth-child(even),
+        .ajustes:nth-child(even),
+        footer:nth-child(even) {
             background-color: #dcdcdc50;
+        }
+
+        .description {
+            width: 20%;
+            word-wrap: break-word;
+        }
+
+        .notes {
+            width: 50%;
+            word-wrap: break-word;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <name class="color-primary">@@nombre@@</name>
-        <direction>@@direccionUser@@</direction>
-        <phone>@@telefono@@</phone>
-        <dni>@@dni@@</dni>
+        <div class="name color-primary">@@nombre@@</div>
+        <div class="direction">@@direccionUser@@</div>
+        <div class="phone">@@telefono@@</div>
+        <div class="dni">@@dni@@</div>
     </header>
     <main>
         <h1 class="color-primary">Factura</h1>
-        <fecha class="color-secondary">Fecha: @@date@@</fecha>
+        <div class="fecha color-secondary">
+            <span>Fecha:</span>
+            @@date@@
+        </div>
         <div class="separated">
-            <receptor>
-                <name class="color-primary">@@nombreCom@@</name>
-                <direction>@@direccion@@</direction>
-                <dni>@@dninie@@</dni>
-            </receptor>
-            <factura>
+            <div class="receptor">
+                <div class="name color-primary">@@nombreCom@@</div>
+                <div class="direction">@@direccion@@</div>
+                <div class="dni">@@dninie@@</div>
+            </div>
+            <div class="id">
                 Nº de factura:
                 <span>@@id@@</span>
-            </factura>
+            </div>
         </div>
-        <lines>
-            <line class="color-primary">
-                <span>Descripción</span>
-                <span>Cantidad</span>
-                <span>Precio unitario</span>
-                <span>Precio total</span>
-            </line>
-            <line>
-                <description>@@descripcion@@</description>
-                1
-                <total-unitario>@@total@@</total-unitario>
-                <line-total>@@total@@</line-total>
-            </line>
-        </lines>
+        <div class="lines">
+            <div class="line color-primary">
+                <div>Descripción</div>
+                <div>Cantidad</div>
+                <div>Precio unitario</div>
+                <div>Precio total</div>
+            </div>
+            <div class="line">
+                <div class="description">@@descripcion@@</div>
+                <div>1</div>
+                <div class="total-unitario">@@total@@</div>
+                <div class="line-total">@@total@@</div>
+            </div>
+        </div>
     </main>
     <footer class="separated">
-        <notes>
+        <div class="notes">
             <h4>Notas:</h4>
             <p>@@notas@@</p>
-        </notes>
-        <subtotal>
-            <sub-total>
-                <span>Subtotal:</span>
-                @@subtotal@@€
-            </sub-total>
-            <iva>
-                <span>IVA:</span>
-                <span>@@iva@@%</span>
-                @@ivaTotal@@€
-            </iva>
-            <ajuste>
-                <span>Ajustes:</span>
-                0,00€
-            </ajuste>
+        </div>
+        <div class="subtotal">
+            <div class="sub-total">
+                <div>Subtotal:</div>
+                <div>@@subtotal@@</div>
+            </div>
+            <div class="iva">
+                <div>IVA:</div>
+                <div>@@iva@@%</div>
+                <div>@@ivaTotal@@</div>
+            </div>
+            <div class="ajustes">
+                <div>Ajustes:</div>
+                <div>0,00€</div>
+            </div>
             <span class="color-secondary">@@totalFactura@@</span>
-        </subtotal>
+        </div>
     </footer>
 </body>
 

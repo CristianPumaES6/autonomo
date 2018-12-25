@@ -15,7 +15,7 @@
     "scripts": {
         "prebuild": "npm i",
         "build": "tsc",
-        "postbuild": "cd src && copyfiles **/*.html **/*css ../dist/",
+        "postbuild": "cd src && copyfiles **/*.html **/*css **/*ttf ../dist/",
         "prestart": "npm i",
         "start": "nodemon ts-node -r tsconfig-paths/register src/main.ts"
     },

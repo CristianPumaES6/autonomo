@@ -1,707 +1,199 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link type="text/css" rel="stylesheet" href="resources/sheet.css">
-<style type="text/css">
-    .ritz .waffle a {
-        color: inherit;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .ritz .waffle .s0 {
-        background-color: #283592;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Factura</title>
+    <style>
+        @font-face {
+            font-family: if-sans;
+            src: url('./GoogleSans-Regular.ttf');
+        }
 
-    .ritz .waffle .s15 {
-        border-bottom: 1px SOLID #b7b7b7;
-        background-color: #ffffff;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        html,
+        body {
+            margin: 0;
+            letter-spacing: -.05rem;
+            font-family: if-sans;
+        }
 
-    .ritz .waffle .s28 {
-        background-color: #ffffff;
-        text-align: right;
-        font-weight: bold;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        body,
+        header {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .ritz .waffle .s31 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 18pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        body {
+            border-top: solid .3rem blue;
+            padding: 2rem;
+            border-radius: .5%;
+        }
 
-    .ritz .waffle .s20 {
-        background-color: #f3f3f3;
-        text-align: right;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        .separated {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
 
-    .ritz .waffle .s5 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: top;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        footer subtotal span,
+        .color-primary {
+            color: #283592;
+        }
 
-    .ritz .waffle .s8 {
-        background-color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-        color: #283592;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 33pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        .color-secondary {
+            color: #e01b84;
+        }
 
-    .ritz .waffle .s25 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #999999;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        header,
+        main,
+        footer {
+            width: 100%;
+            min-height: 10rem;
+        }
 
-    .ritz .waffle .s16 {
-        background-color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-        color: #2a3990;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        fecha,
+        name,
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
 
-    .ritz .waffle .s13 {
-        background-color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-        color: #ffffff;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        sub-total,
+        total,
+        iva,
+        ajuste,
+        total-iva,
+        receptor,
+        name,
+        direction,
+        phone,
+        dni,
+        fecha {
+            min-height: 1.8rem;
+        }
 
-    .ritz .waffle .s3 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #6d64e8;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 20pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        factura,
+        receptor {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .ritz .waffle .s12 {
-        background-color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-        color: #434343;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        factura {
+            width: 30%;
+        }
 
-    .ritz .waffle .s7 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        footer {
+            width: 100%;
+        }
 
-    .ritz .waffle .s14 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #ffffff;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        footer h4 {
+            color: gainsboro;
+        }
 
-    .ritz .waffle .s1 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        footer p {
+            font-size: .7rem;
+        }
 
-    .ritz .waffle .s21 {
-        background-color: #f3f3f3;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        footer subtotal {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+        }
 
-    .ritz .waffle .s11 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 13pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        sub-total,
+        iva,
+        ajuste {
+            display: flex;
+            justify-content: space-between;
+        }
 
-    .ritz .waffle .s23 {
-        border-bottom: 1px SOLID #b7b7b7;
-        background-color: #ffffff;
-        text-align: right;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        subtotal span {
+            margin-right: 0;
+            text-align: end;
+        }
 
-    .ritz .waffle .s27 {
-        background-color: #ffffff;
-        text-align: right;
-        color: #2a3990;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        lines {
+            min-height: 5rem;
+            border-top: gainsboro 1px solid;
+            border-bottom: gainsboro 1px solid;
+            display: flex;
+            flex-direction: column;
+            padding: .5rem 0;
+        }
 
-    .ritz .waffle .s22 {
-        background-color: #f3f3f3;
-        text-align: right;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .2rem;
+        }
 
-    .ritz .waffle .s29 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #434343;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+        line:nth-child(even) {
+            background-color: #dcdcdc50;
+        }
+    </style>
+</head>
 
-    .ritz .waffle .s17 {
-        border-left: none;
-        background-color: #ffffff;
-        text-align: right;
-        font-weight: bold;
-        color: #2a3990;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
+<body>
+    <header>
+        <name class="color-primary">@@nombre@@</name>
+        <direction>@@direccionUser@@</direction>
+        <phone>@@telefono@@</phone>
+        <dni>@@dni@@</dni>
+    </header>
+    <main>
+        <h1 class="color-primary">Factura</h1>
+        <fecha class="color-secondary">Fecha: @@date@@</fecha>
+        <div class="separated">
+            <receptor>
+                <name class="color-primary">@@nombreCom@@</name>
+                <direction>@@direccion@@</direction>
+                <dni>@@dninie@@</dni>
+            </receptor>
+            <factura>
+                Nº de factura:
+                <span>@@id@@</span>
+            </factura>
+        </div>
+        <lines>
+            <line class="color-primary">
+                <span>Descripción</span>
+                <span>Cantidad</span>
+                <span>Precio unitario</span>
+                <span>Precio total</span>
+            </line>
+            <line>
+                <description>@@descripcion@@</description>
+                1
+                <total-unitario>@@total@@</total-unitario>
+                <line-total>@@total@@</line-total>
+            </line>
+        </lines>
+    </main>
+    <footer class="separated">
+        <notes>
+            <h4>Notas:</h4>
+            <p>@@notas@@</p>
+        </notes>
+        <subtotal>
+            <sub-total>
+                <span>Subtotal:</span>
+                @@subtotal@@€
+            </sub-total>
+            <iva>
+                <span>IVA:</span>
+                <span>@@iva@@%</span>
+                @@ivaTotal@@€
+            </iva>
+            <ajuste>
+                <span>Ajustes:</span>
+                0,00€
+            </ajuste>
+            <span class="color-secondary">@@totalFactura@@</span>
+        </subtotal>
+    </footer>
+</body>
 
-    .ritz .waffle .s30 {
-        background-color: #ffffff;
-        text-align: right;
-        font-weight: bold;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s19 {
-        background-color: #f3f3f3;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s6 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s10 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #e01b84;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 11pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s24 {
-        border-bottom: 1px SOLID #b7b7b7;
-        background-color: #ffffff;
-        text-align: left;
-        color: #666666;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s18 {
-        background-color: #ffffff;
-        text-align: right;
-        font-weight: bold;
-        color: #2a3990;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s32 {
-        background-color: #ffffff;
-        text-align: right;
-        font-weight: bold;
-        color: #e01b84;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 20pt;
-        vertical-align: middle;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s9 {
-        background-color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-        color: #e01b84;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 12pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s2 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #000000;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s4 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #6d64e8;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: nowrap;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-
-    .ritz .waffle .s26 {
-        background-color: #ffffff;
-        text-align: left;
-        color: #999999;
-        font-family: 'docs-Roboto', Arial;
-        font-size: 10pt;
-        vertical-align: bottom;
-        white-space: normal;
-        overflow: hidden;
-        direction: ltr;
-        padding: 2px 3px 2px 3px;
-    }
-</style>
-<div class="ritz grid-container" dir="ltr">
-    <table class="waffle no-grid" style="margin: 0 auto;" cellspacing="0" cellpadding="0">
-        <thead style="height: 0px">
-            <tr style="height: 0px">
-                <th style="height: 0px"></th>
-                <th style="width:128px; height: 0px !important;"></th>
-                <th style="width:151px; height: 0px !important;"></th>
-                <th style="width:354px; height: 0px !important;"></th>
-                <th style="width:180px; height: 0px !important;"></th>
-                <th style="width:160px; height: 0px !important;"></th>
-                <th style="width:259px; height: 0px !important;"></th>
-                <th style="width:130px; height: 0px !important;"></th>
-                <th style="width:201px; height: 0px !important;"></th>
-                <th style="width:106px; height: 0px !important;"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style='height:7px;'>
-                <th id="790763898R0" style="height: 7px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-                <td class="s0"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R1" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R2" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s3" dir="ltr" colspan="3">@@nombre@@</td>
-                <td class="s3"></td>
-                <td class="s4"></td>
-                <td class="s4"></td>
-                <td class="s4"></td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:20px;'>
-                <th id="790763898R4" style="height: 20px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s5" dir="ltr" colspan="3">@@direccionUser@@</td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:20px;'>
-                <th id="790763898R5" style="height: 20px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s7" dir="ltr" colspan="2">@@telefono@@</td>
-                <td class="s7"></td>
-                <td class="s7"></td>
-                <td class="s7"></td>
-                <td class="s7"></td>
-                <td class="s7"></td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R6" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s1" dir="ltr" colspan="2">@@dni@@</td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R7" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6" dir="ltr"></td>
-                <td class="s8" dir="ltr" colspan="4">Factura</td>
-                <td class="s2"></td>
-                <td class="s2"></td>
-                <td class="s2"></td>
-                <td class="s6" dir="ltr"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R8" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s9" dir="ltr" colspan="2">Fecha: @@date@@</td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s7"></td>
-            </tr>
-            <tr style='height:20px;'>
-                <th id="790763898R9" style="height: 20px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s10" dir="ltr" colspan="2"></td>
-                <td class="s2" colspan="2"></td>
-                <td class="s2" colspan="3"></td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R10" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s11"></td>
-                <td class="s12" dir="ltr" colspan="2">A la atención de</td>
-                <td class="s13" dir="ltr" colspan="2">Pagar a</td>
-                <td class="s12" dir="ltr" colspan="3">N.º de factura</td>
-                <td class="s11"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R11" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s7" dir="ltr" colspan="2">@@nombreCom@@</td>
-                <td class="s14" dir="ltr" colspan="2"></td>
-                <td class="s7" dir="ltr" colspan="3">@@id@@</td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R12" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s7" dir="ltr" colspan="2">@@direccion@@</td>
-                <td class="s7" colspan="2"></td>
-                <td class="s1" colspan="3"></td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R13" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s7" dir="ltr" colspan="2">@@dninie@@</td>
-                <td class="s13" dir="ltr" colspan="2">Proyecto</td>
-                <td class="s13" dir="ltr" colspan="3">Fecha de vencimiento</td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:23px;'>
-                <th id="790763898R14" style="height: 23px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s7" dir="ltr" colspan="2"></td>
-                <td class="s14" dir="ltr" colspan="2">Nombre del proyecto</td>
-                <td class="s14" dir="ltr" colspan="3">@@date@@</td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:20px;'>
-                <th id="790763898R15" style="height: 20px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s15" colspan="2"></td>
-                <td class="s15" colspan="2"></td>
-                <td class="s15" colspan="3"></td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:20px;'>
-                <th id="790763898R16" style="height: 20px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s7"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s1"></td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:39px;'>
-                <th id="790763898R17" style="height: 39px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s16" dir="ltr" colspan="3">Descripción</td>
-                <td class="s17 softmerge" dir="ltr">
-                    <div class="softmerge-inner" style="width: 81px; left: -14px;">Cantidad</div>
-                </td>
-                <td class="s17" dir="ltr">Precio unitario</td>
-                <td class="s18" dir="ltr"></td>
-                <td class="s18" dir="ltr">Precio total</td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R18" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s19" dir="ltr" colspan="3">@@descripcion@@</td>
-                <td class="s20" dir="ltr">1</td>
-                <td class="s20" dir="ltr">@@total@@</td>
-                <td class="s21" dir="ltr"></td>
-                <td class="s22" dir="ltr">@@total@@</td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R19" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s6"></td>
-                <td class="s15" dir="ltr" colspan="3"></td>
-                <td class="s23"></td>
-                <td class="s15" dir="ltr"></td>
-                <td class="s15" dir="ltr"></td>
-                <td class="s24" dir="ltr"></td>
-                <td class="s6"></td>
-            </tr>
-            <tr style='height:31px;'>
-                <th id="790763898R21" style="height: 31px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s25" dir="ltr">Notas:</td>
-                <td class="s26" dir="ltr" colspan="3"></td>
-                <td class="s27" dir="ltr">Subtotal</td>
-                <td class="s27" dir="ltr"></td>
-                <td class="s28">@@subtotal@@</td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R22" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s29" dir="ltr"></td>
-                <td class="s29" dir="ltr"></td>
-                <td class="s29" dir="ltr"></td>
-                <td class="s29" dir="ltr"></td>
-                <td class="s27" dir="ltr">IVA</td>
-                <td class="s27" dir="ltr">@@iva@@</td>
-                <td class="s30" dir="ltr">@@ivaTotal@@</td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:25px;'>
-                <th id="790763898R23" style="height: 25px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s2"></td>
-                <td class="s29" dir="ltr" colspan="4" rowspan="2">@@notas@@</td>
-                <td class="s27" dir="ltr">Ajustes</td>
-                <td class="s27" dir="ltr"></td>
-                <td class="s30" dir="ltr">0,00 €</td>
-                <td class="s2"></td>
-            </tr>
-            <tr style='height:39px;'>
-                <th id="790763898R24" style="height: 39px;" class="row-headers-background">
-                    <div></div>
-                </th>
-                <td class="s31"></td>
-                <td class="s32" colspan="3">@@totalFactura@@</td>
-                <td class="s31"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+</html>

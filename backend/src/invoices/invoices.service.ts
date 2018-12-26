@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { db } from '../db';
 import { Invoice } from '../db/models/invoice';
+import { IsNull } from 'typeorm';
 
 import * as fs from 'fs';
 import * as moment from 'moment';
@@ -10,11 +11,11 @@ import * as path from 'path';
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoices!.find({ where: { user } });
+        return await db.models.invoices!.find({ where: { user, deletedAt: IsNull() } });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoices!.findOne({ where: { user, id } });
+        return await db.models.invoices!.findOne({ where: { user, id, deletedAt: IsNull() } });
     }
 
     async post(invoice: Invoice) {

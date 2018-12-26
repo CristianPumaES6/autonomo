@@ -15,20 +15,8 @@ export class InvoiceService extends BaseService<IInvoice> {
         this.SERVER_URL += '/invoice/';
     }
 
-    getChartTotal() {
-        return this.httpClient.get<any>(this.SERVER_URL + 'chart/total');
-    }
-
-    getChartEarned() {
-        return this.httpClient.get<any>(this.SERVER_URL + 'chart/earned');
-    }
-
-    getChartWasted() {
-        return this.httpClient.get<any>(this.SERVER_URL + 'chart/wasted');
-    }
-
-    getChartIvaEarn() {
-        return this.httpClient.get<any>(this.SERVER_URL + 'chart/ivaearn');
+    getCharts() {
+        return this.httpClient.get<any>(this.SERVER_URL + 'chart/all');
     }
 
     getNext() {

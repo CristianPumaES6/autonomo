@@ -45,27 +45,22 @@ export class MainComponent implements OnInit {
     constructor(protected readonly invoiceService: InvoiceService) { }
 
     ngOnInit() {
-        Observable.forkJoin(
-            this.invoiceService.getChartTotal(),
-            this.invoiceService.getChartEarned(),
-            this.invoiceService.getChartWasted(),
-            this.invoiceService.getChartIvaEarn(),
-        ).subscribe(
-            response => {
+        this.invoiceService.getCharts().subscribe(
+            charts => {
                 this.total.push({
-                    data: response[0],
+                    data: charts.total,
                     label: 'Total facturas'
                 });
                 this.chart.push({
-                    data: response[1],
+                    data: charts.earned,
                     label: 'Total ganado'
                 });
                 this.chart.push({
-                    data: response[2],
+                    data: charts.wasted,
                     label: 'Total gastado'
                 });
                 this.chart.push({
-                    data: response[3],
+                    data: charts.ivaearn,
                     label: 'IVA devuelto'
                 });
             }

@@ -6,6 +6,7 @@ import { InvoiceComponent } from './invoice/invoice.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../shared/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { IfFormModule } from '../form/form.module';
 
 @NgModule({
     declarations: [InvoiceComponent, InvoiceEditComponent, InvoiceAddComponent],
@@ -13,6 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
         CommonModule,
         MaterialModule,
         FormsModule,
+        IfFormModule,
         ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: InvoiceComponent },

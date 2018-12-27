@@ -58,4 +58,44 @@ body {
     td {
         text-align: center !important;
     }
+
+    .mat-form-field-wrapper {
+        height: 91%;
+
+        .mat-form-field-flex {
+            height: 100%;
+        }
+    }
+
+
+    .bottom-buttons {
+        .mat-figure {
+            justify-content: flex-start;
+        }
+    }
+
+    .mat-form-field-infix {
+        height: 83%;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
 }

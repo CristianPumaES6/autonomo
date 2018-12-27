@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import { ConfigService } from '../../config/config.service';
+import { FormStyle } from '../../form/classes/form-style';
 
 @Component({
     selector: 'app-invoice-add',
@@ -12,11 +12,10 @@ import { ConfigService } from '../../config/config.service';
 })
 export class InvoiceAddComponent implements OnInit {
     form: FormGroup;
+    style: FormStyle;
     cols: number;
     validID = true;
     nextID: number;
-
-    @ViewChild('htmlForm') htmlForm: HTMLFormElement;
 
     constructor(
         protected readonly invoiceService: InvoiceService,
@@ -26,35 +25,8 @@ export class InvoiceAddComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.form = new FormGroup({
-            visualID: new FormControl('', [
-                Validators.required,
-            ], [
-                    this.invoiceService.uniqueID(),
-                ]
-            ),
-            date: new FormControl(moment().format(), [
-                Validators.required,
-            ]),
-            cif: new FormControl(localStorage.getItem('cif') || '', [
-                Validators.required,
-            ]),
-            nameCompany: new FormControl(localStorage.getItem('nameCompany') || '', [
-                Validators.required,
-            ]),
-            fisicalAddress: new FormControl(localStorage.getItem('fisicalAddress') || '', [
-                Validators.required,
-            ]),
-            iva: new FormControl(0, [
-                Validators.required,
-            ]),
-            price: new FormControl(0, [
-                Validators.required,
-            ]),
-            description: new FormControl(),
-            notes: new FormControl(),
-            received: new FormControl(true),
-        });
+        this.form = this.invoiceService.createForm();
+        this.style = this.invoiceService.createStyle();
 
         this.invoiceService.getNext().subscribe(next => {
             this.nextID = next;
@@ -66,10 +38,9 @@ export class InvoiceAddComponent implements OnInit {
             this.form.get('iva').setValue(this.form.get('received').value ? config.ivaDefaultReceived : config.ivaDefaultSent);
             this.form.get('received').valueChanges.subscribe(received => this.form.get('iva').setValue(received ? config.ivaDefaultReceived : config.ivaDefaultSent));
         });
-        this.resize();
     };
 
-    createInvoide() {
+    create() {
         this.invoiceService.post(this.form.getRawValue()).subscribe(() => {
             localStorage.setItem('cif', this.form.get('cif').value);
             localStorage.setItem('nameCompany', this.form.get('nameCompany').value);
@@ -79,10 +50,4 @@ export class InvoiceAddComponent implements OnInit {
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }
-
-    resize() {
-        if (this.htmlForm.nativeElement.offsetWidth < 767) this.cols = 12;
-        else if (this.htmlForm.nativeElement.offsetWidth < 1025) this.cols = 6;
-        else this.cols = undefined;
-    }
 }

@@ -1,58 +1,11 @@
-<mat-card (window:resize)="resize()">
+<mat-card>
     <mat-card-header>
         <mat-card-title>
             Mi perfil
         </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content #htmlCardContent>
-        <form *ngIf="form" [formGroup]="form">
-            <mat-grid-list cols="12" rowHeight="75px">
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nombre y apellidos</mat-label>
-                        <input matInput formControlName="name">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="email">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 3">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 1">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Telefono</mat-label>
-                        <input matInput type="tel" formControlName="phone">
-                    </mat-form-field>
-                </mat-grid-tile>
-
-                <mat-grid-tile [colspan]="this.cols || 2">
-                    <mat-form-field appearance="outline">
-                        <mat-label>DNI</mat-label>
-                        <input matInput formControlName="dni">
-                        <mat-hint>
-                            <span style="color: red;"> ¡Importante! </span>
-                            Se ultiliza en las facturas
-                        </mat-hint>
-                        <mat-error *ngIf="form.get('dni').invalid">El DNI es requerido</mat-error>
-                    </mat-form-field>
-                </mat-grid-tile>
-
-            </mat-grid-list>
-        </form>
-    </mat-card-content>
-
+    <if-form *ngIf="form && style" [form]="form" [style]="style" [defaultCol]="3"></if-form>
     <h6>Los datos se guardan automáticamente.</h6>
 </mat-card>
 

@@ -5,6 +5,7 @@ import { MaterialModule } from '../shared/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfigModule } from '../config/config.module';
+import { IfFormModule } from '../form/form.module';
 
 @NgModule({
     declarations: [ProfileComponent],
@@ -14,6 +15,7 @@ import { ConfigModule } from '../config/config.module';
         FormsModule,
         ReactiveFormsModule,
         ConfigModule,
+        IfFormModule,
         RouterModule.forChild([
             { path: '', component: ProfileComponent },
         ]),

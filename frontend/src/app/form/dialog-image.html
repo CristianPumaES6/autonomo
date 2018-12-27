@@ -1,0 +1,10 @@
+<h1 mat-dialog-title> {{this.data.item.label}} </h1>
+<mat-dialog-content>
+    <img-cropper #cropper [image]="image" [settings]="cropperSettings"></img-cropper>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button color="primary" (click)="accept()"> Aceptar </button>
+    <small class="size">
+        tamaño final: {{this.data.item.width}} x {{this.data.item.height}}
+    </small>
+</mat-dialog-actions>

@@ -3,6 +3,7 @@ import { ProfileService } from './profile.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IUser } from '@isofocus/interfaces';
 import { MatSnackBar } from '@angular/material';
+import { FormStyle } from '../form/classes/form-style';
 
 @Component({
     selector: 'if-profile',
@@ -11,7 +12,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class ProfileComponent implements OnInit {
     form: FormGroup;
-    cols: number;
+    style: FormStyle;
     id: number;
     user: IUser;
     fisrtTime = true;
@@ -31,37 +32,13 @@ export class ProfileComponent implements OnInit {
     }
 
     createForm() {
-        this.form = new FormGroup({
-            name: new FormControl(this.user.name, [
-                Validators.required,
-            ]),
-            phone: new FormControl(this.user.phone, [
-                Validators.required,
-            ]),
-            email: new FormControl(this.user.email, [
-                Validators.required,
-            ]),
-            address: new FormControl(this.user.address, [
-                Validators.required,
-            ]),
-            dni: new FormControl(this.user.dni, [
-                Validators.required,
-            ]),
-        });
+        this.form = this.profileService.createForm(this.user);
+        this.style = this.profileService.createStyle();
         this.form.get('email').disable();
         this.form.valueChanges.debounceTime(1000).subscribe(() => !this.fisrtTime ? this.fisrtTime = !this.fisrtTime : this.editProfile());
-
-        this.resize();
     }
 
     editProfile() {
-        console.log('ENTRAAAA');
         this.profileService.putProfile(this.form.getRawValue()).subscribe(() => this.snack.open('Datos guardados con éxito', null, { duration: 5000 }));
-    }
-
-    resize() {
-        if (this.htmlCardContent.nativeElement.offsetWidth < 767) this.cols = 12;
-        else if (this.htmlCardContent.nativeElement.offsetWidth < 1025) this.cols = 6;
-        else this.cols = undefined;
     }
 }

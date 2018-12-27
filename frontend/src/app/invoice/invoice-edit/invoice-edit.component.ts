@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { InvoiceService } from '../invoice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackService } from 'src/app/shared/service/snack.service';
 import { IInvoice } from '@isofocus/interfaces';
+import { FormStyle } from '../../form/classes/form-style';
 
 @Component({
     selector: 'app-invoice-edit',
@@ -12,11 +13,10 @@ import { IInvoice } from '@isofocus/interfaces';
 })
 export class InvoiceEditComponent implements OnInit {
     form: FormGroup;
+    style: FormStyle;
     invoice: IInvoice;
     cols: number;
     id: number;
-
-    @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
 
     constructor(
         protected readonly invoiceService: InvoiceService,
@@ -37,43 +37,16 @@ export class InvoiceEditComponent implements OnInit {
                     if (!this.invoice) {
                         SnackService.send$.emit('No tienes permisos para ver esta factura.');
                         this.goBack();
-                    } else this.createForm();
+                    } else {
+                        this.form = this.invoiceService.createForm(this.invoice);
+                        this.style = this.invoiceService.createStyle();
+                    }
                 }
             );
         });
     };
 
-    createForm() {
-        this.form = new FormGroup({
-            visualID: new FormControl(this.invoice.visualID, [
-                Validators.required,
-            ]),
-            date: new FormControl(this.invoice.date, [
-                Validators.required,
-            ]),
-            cif: new FormControl(this.invoice.cif, [
-                Validators.required,
-            ]),
-            nameCompany: new FormControl(this.invoice.nameCompany, [
-                Validators.required,
-            ]),
-            fisicalAddress: new FormControl(this.invoice.fisicalAddress, [
-                Validators.required,
-            ]),
-            iva: new FormControl(this.invoice.iva, [
-                Validators.required,
-            ]),
-            price: new FormControl(this.invoice.price, [
-                Validators.required,
-            ]),
-            description: new FormControl(this.invoice.description),
-            notes: new FormControl(this.invoice.notes),
-            received: new FormControl(this.invoice.received),
-        });
-        this.resize();
-    }
-
-    createInvoide() {
+    edit() {
         if (this.form.valid) this.invoiceService.put({ id: this.id, ...this.form.getRawValue() }).subscribe(() => {
             this.goBack();
             SnackService.send$.emit('Editado con exito.');
@@ -81,10 +54,4 @@ export class InvoiceEditComponent implements OnInit {
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }
-
-    resize() {
-        if (this.htmlCardContent.nativeElement.offsetWidth < 767) this.cols = 12;
-        else if (this.htmlCardContent.nativeElement.offsetWidth < 1025) this.cols = 6;
-        else this.cols = undefined;
-    }
 }

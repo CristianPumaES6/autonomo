@@ -1,0 +1,245 @@
+<mat-card-content (window:resize)="resize()" [ngClass]="{'hide-card': !showCard}">
+    <mat-divider *ngIf="backButton || clearButton || deleteButton || newButton || title || subtitle"></mat-divider>
+    <form #formElement [formGroup]="form">
+        <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
+            <mat-grid-tile *ngFor="let item of style.styles" [colspan]="item.type === 'divider' ? cols : (item.cols || col)"
+                [rowspan]="item.rows || row">
+                <ng-container [ngSwitch]="item.type">
+
+                    <ng-container *ngSwitchCase="'chips'">
+                        <mat-form-field [appearance]="item.appearance || 'outline'">
+                            <mat-chip-list #chipList>
+                                <mat-chip *ngFor="let name of form.get(item.name).value" [selectable]="true"
+                                    [removable]="true" (removed)="removeChips(item, name)">
+                                    {{name}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                            </mat-chip-list>
+                            <mat-label>{{item.label}}</mat-label>
+                            <input matInput [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
+                                (matChipInputTokenEnd)="addChips(item, $event)">
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'autocomplete'">
+
+                        <mat-form-field [appearance]="item.appearance || 'outline'">
+                            <mat-label>{{item.label}}</mat-label>
+                            <input type="text" [required]="hasRequiredField(form.get(item.name)) || false"
+                                [placeholder]="item.placeholder" matInput [formControlName]="item.name"
+                                [matAutocomplete]="auto">
+                        </mat-form-field>
+
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <ng-container *ngIf="item.options[0] && item.options[0].optionGroup; else elseSelect">
+                                <mat-optgroup *ngFor="let optionGroup of item.options" [label]="optionGroup.optionGroup.label">
+                                    <mat-option [value]="items.value" *ngFor="let items of optionGroup.optionGroup.options">
+                                        {{items.label }}
+                                    </mat-option>
+                                </mat-optgroup>
+                            </ng-container>
+                            <ng-template #elseSelect>
+                                <mat-option *ngFor="let option of item.options" [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </ng-template>
+                        </mat-autocomplete>
+
+                        <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
+                        <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">
+                            {{ item.info[1] }}
+                        </mat-hint>
+                        s <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                            <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
+                                <ng-container *ngSwitchCase="'required'">
+                                    El campo
+                                    <strong> {{item.label}} </strong>
+                                    es requerido.
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'minlength'">
+                                    <strong> {{form.get(item.name).errors['minlength'].actualLength}} </strong> /
+                                    {{form.get(item.name).errors['minlength'].requiredLength}}
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'maxlength'">
+                                    <strong> {{form.get(item.name).errors['maxlength'].actualLength}} </strong> /
+                                    {{form.get(item.name).errors['maxlength'].requiredLength}}
+                                </ng-container>
+                            </div>
+                        </mat-error>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'checkbox'">
+                        <mat-label class="label-group">{{item.label}}</mat-label>
+                        <mat-checkbox class="align-start" [formControlName]="item.name">
+                            {{item.placeholder}}
+                        </mat-checkbox>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'divider'">
+                        <div class="full form-divider">
+                            <h5 mat-line> {{item.label}} </h5>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'sliderToggle'">
+                        <mat-label class="label-group">{{item.label}}</mat-label>
+                        <mat-slide-toggle class="align-start" [formControlName]="item.name">
+                            {{item.placeholder}}
+                        </mat-slide-toggle>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'slider'">
+                        <mat-label class="label-group">{{item.label}}</mat-label>
+                        <mat-slider thumbLabel class="input-form full slider" [formControlName]="item.name" [min]="item.min || 0"
+                            [max]="item.max || 10" [step]="item.step || 1">
+                            {{item.placeholder}}
+                        </mat-slider>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'date'">
+                        <mat-form-field [appearance]="item.appearance || 'outline'">
+                            <mat-label>{{item.label}}</mat-label>
+                            <input matInput [required]="hasRequiredField(form.get(item.name)) || false" [matDatepicker]="picker"
+                                [placeholder]="item.placeholder" [formControlName]="item.name">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker [touchUi]="item.touchUi" #picker></mat-datepicker>
+
+                            <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
+                            <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">{{item.info[1]}}</mat-hint>
+                            <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                                <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
+                                    <ng-container *ngSwitchCase="'required'">
+                                        El campo
+                                        <strong> {{item.label}} </strong>
+                                        es requerido.
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'minlength'">
+                                        <strong> {{form.get(item.name).errors['minlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['minlength'].requiredLength}}
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'maxlength'">
+                                        <strong> {{form.get(item.name).errors['maxlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['maxlength'].requiredLength}}
+                                    </ng-container>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'select'">
+                        <mat-form-field [appearance]="item.appearance || 'outline'">
+                            <mat-label>{{item.label}}</mat-label>
+                            <mat-select matInput [multiple]="item.multiple" [required]="hasRequiredField(form.get(item.name)) || false"
+                                [placeholder]="item.placeholder" [formControlName]="item.name">
+                                <ng-container *ngIf="item.options[0] && item.options[0].optionGroup; else elseSelect">
+                                    <mat-optgroup *ngFor="let optionGroup of item.options" [label]="optionGroup.optionGroup.label">
+                                        <mat-option [value]="items.value" *ngFor="let items of optionGroup.optionGroup.options">{{items.label}}</mat-option>
+                                    </mat-optgroup>
+                                </ng-container>
+                                <ng-template #elseSelect>
+                                    <mat-option *ngFor="let option of item.options; let i = index" [value]="option.value">{{
+                                        option.label }}</mat-option>
+                                </ng-template>
+                            </mat-select>
+
+                            <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
+                            <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">{{item.info[1]}}</mat-hint>
+                            <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                                <!-- {{form.get(item.name).errors | json}} -->
+                                <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
+                                    <ng-container *ngSwitchCase="'required'">
+                                        El campo
+                                        <strong> {{item.label}} </strong>
+                                        es requerido.
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'minlength'">
+                                        <strong> {{form.get(item.name).errors['minlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['minlength'].requiredLength}}
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'maxlength'">
+                                        <strong> {{form.get(item.name).errors['maxlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['maxlength'].requiredLength}}
+                                    </ng-container>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'textarea'">
+                        <mat-form-field [appearance]="item.appearance || 'outline'" class="textarea full">
+                            <mat-label>{{item.label}}</mat-label>
+                            <textarea matInput [required]="hasRequiredField(form.get(item.name)) || false"
+                                [placeholder]="item.placeholder" [formControlName]="item.name">
+                                </textarea>
+
+                            <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
+                            <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">{{item.info[1]}}</mat-hint>
+                            <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                                <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
+                                    <ng-container *ngSwitchCase="'required'">
+                                        El campo
+                                        <strong> {{item.label}} </strong>
+                                        es requerido.
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'minlength'">
+                                        <strong> {{form.get(item.name).errors['minlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['minlength'].requiredLength}}
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'maxlength'">
+                                        <strong> {{form.get(item.name).errors['maxlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['maxlength'].requiredLength}}
+                                    </ng-container>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        <mat-form-field [appearance]="item.appearance || 'outline'">
+                            <mat-label>{{item.label}}</mat-label>
+                            <span *ngIf="item.prefix && !item.prefix.icon" matPrefix>{{item.prefix}} &nbsp;</span>
+                            <mat-icon matPrefix *ngIf="item.prefix && item.prefix['icon']">{{item.prefix['icon']}}</mat-icon>
+                            <input [placeholder]="item.placeholder" [required]="hasRequiredField(form.get(item.name)) || false"
+                                matInput [type]="item.type" [formControlName]="item.name">
+                            <span *ngIf="item.suffix && !item.suffix.icon" matSuffix>{{item.suffix}} &nbsp;</span>
+                            <mat-icon matSuffix *ngIf="item.suffix && item.suffix['icon']" [fontSet]="item.suffix['icon'].split(' ')[0]"
+                                [fontIcon]="item.suffix['icon'].split(' ')[1]"></mat-icon>
+
+                            <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
+                            <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">{{item.info[1]}}</mat-hint>
+                            <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                                <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
+                                    <ng-container *ngSwitchCase="'required'">
+                                        El campo
+                                        <strong> {{item.label}} </strong>
+                                        es requerido.
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'minlength'">
+                                        <strong> {{form.get(item.name).errors['minlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['minlength'].requiredLength}}
+                                    </ng-container>
+                                    <ng-container *ngSwitchCase="'maxlength'">
+                                        <strong> {{form.get(item.name).errors['maxlength'].actualLength}} </strong>
+                                        / {{form.get(item.name).errors['maxlength'].requiredLength}}
+                                    </ng-container>
+                                </div>
+                            </mat-error>
+                            <mat-error *ngIf="form.get('visualID').hasError('invalidID')">
+                                Ya existe una ID con ese número.
+                            </mat-error>
+                        </mat-form-field>
+                    </ng-container>
+                </ng-container>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-card-actions *ngIf="acceptButton || cancelButton || deleteButton" class="bottom-buttons">
+            <button *ngIf="acceptButton" [disabled]="sended" class="accept-button" mat-button color="primary" (click)="dataForm()">
+                <mat-spinner diameter="18" *ngIf="sended"></mat-spinner>
+                <span> {{labelAccept || 'Aceptar'}} </span>
+            </button>
+            <button type="button" *ngIf="cancelButton" mat-button color="warn" (click)="cancelForm()">Cancelar</button>
+        </mat-card-actions>
+    </form>
+</mat-card-content>

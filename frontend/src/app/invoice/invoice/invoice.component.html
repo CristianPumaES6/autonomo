@@ -65,6 +65,6 @@
             <tr mat-row class="row-item" *matRowDef="let row; columns: displayedColumns;" (click)="clickRow(row)"></tr>
         </table>
     </mat-card-content>
-    <mat-paginator *ngIf="config" [pageSizeOptions]="pageSizeOptions" [pageSize]="config.totalItemsByTable"
+    <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="config ? config.totalItemsByTable : 10"
         showFirstLastButtons></mat-paginator>
 </mat-card>

@@ -44,8 +44,8 @@ interface pre_suf_fix {
 }
 
 interface options {
-    value: string;
-    label: string;
+    value: string | number;
+    label: string | number;
 }
 
 type types = 'text' | 'select' | 'sliderToggle' | 'textarea' | 'color' | 'date' | 'datetime-local'

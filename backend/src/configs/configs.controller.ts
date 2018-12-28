@@ -8,9 +8,11 @@ export class ConfigsController {
     constructor(private configService: ConfigsService) { }
 
     @Get()
-    get(@Headers('authorization') authorization: string) {
+    async get(@Headers('authorization') authorization: string) {
         const id = auth.decode(authorization);
-        return this.configService.get(id);
+        const config = await this.configService.get(id);
+        delete config!.id;
+        return config;
     }
 
     @Put()

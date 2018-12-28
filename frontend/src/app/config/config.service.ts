@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IConfig } from '@isofocus/interfaces';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormStyle } from '../form/classes/form-style';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,21 @@ export class ConfigService extends BaseService<IConfig> {
     }
 
     getMy() {
-        return this.httpClient.get<IConfig>(this.SERVER_URL);
+        const config = JSON.parse(localStorage.getItem('config'));
+        if (!config) return this.httpClient.get<IConfig>(this.SERVER_URL).map(config => {
+            localStorage.setItem('config', JSON.stringify(config));
+            return config;
+        });
+        return new Observable(subscriber => {
+            subscriber.next(config);
+            subscriber.complete();
+        });
+    }
+
+
+    put(data: IConfig) {
+        localStorage.setItem('confg', JSON.stringify(data));
+        return this.httpClient.put<IConfig>(this.SERVER_URL, data);
     }
 
     createForm(config: IConfig) {
@@ -36,9 +51,19 @@ export class ConfigService extends BaseService<IConfig> {
             name: 'ivaDefaultSent',
             label: 'Iva emitido por defecto',
         }, {
-            type: 'number',
+            type: 'select',
             name: 'totalItemsByTable',
             label: 'Total de registros por tabla',
+            options: [{
+                label: 10,
+                value: 10,
+            }, {
+                label: 50,
+                value: 50,
+            }, {
+                label: 100,
+                value: 100,
+            }]
         }]);
     }
 }

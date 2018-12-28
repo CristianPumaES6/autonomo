@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IConfig } from '@isofocus/interfaces';
 import { ConfigService } from './config.service';
 import { SnackService } from '../shared/service/snack.service';
+import { FormStyle } from '../form/classes/form-style';
 
 @Component({
     selector: 'app-config',
@@ -10,8 +11,8 @@ import { SnackService } from '../shared/service/snack.service';
     styleUrls: ['./config.component.scss']
 })
 export class ConfigComponent implements OnInit {
-    formConfig: FormGroup;
-    cols: number;
+    form: FormGroup;
+    style: FormStyle;
     firstTime = true;
 
     @ViewChild('htmlCardContent') htmlCardContent: HTMLElement | any;
@@ -20,25 +21,14 @@ export class ConfigComponent implements OnInit {
 
     ngOnInit() {
         this.configService.getMy().subscribe(config => {
-            this.formConfig = new FormGroup({
-                ivaDefaultReceived: new FormControl(config.ivaDefaultReceived, [Validators.required]),
-                ivaDefaultSent: new FormControl(config.ivaDefaultSent, [Validators.required]),
-                totalItemsByTable: new FormControl(config.totalItemsByTable, [Validators.required]),
-            });
-
-            this.formConfig.valueChanges.debounceTime(1000).subscribe(() => this.updateConfig());
+            this.form = this.configService.createForm(config);
+            this.style = this.configService.createStyle();
+            this.form.valueChanges.debounceTime(1000).subscribe(() => this.updateConfig());
         });
     }
 
     updateConfig() {
-        const config: IConfig = this.formConfig.getRawValue();
+        const config: IConfig = this.form.getRawValue();
         this.configService.put(config).subscribe(() => SnackService.send$.emit('Configuración cambiada con éxito'));
-    }
-
-
-    resize() {
-        if (this.htmlCardContent.nativeElement.offsetWidth < 767) this.cols = 12;
-        else if (this.htmlCardContent.nativeElement.offsetWidth < 1025) this.cols = 6;
-        else this.cols = undefined;
     }
 }

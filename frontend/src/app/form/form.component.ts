@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { FormStyle } from './classes/form-style';
 import { IStyle } from './entities/iStyle';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
+import { MatDialog } from '@angular/material';
 import { SnackService } from '../shared/service/snack.service';
 
 @Component({
@@ -226,33 +225,33 @@ export class FormComponent implements OnInit {
     }
 }
 
-@Component({
-    selector: 'dialog-image',
-    templateUrl: 'dialog-image.html',
-    styleUrls: ['./dialog-image.scss']
-})
-export class dialogImageComponent {
-    cropperSettings: CropperSettings;
-    image = new Image();
-    @ViewChild('cropper') cropper: ImageCropperComponent;
-    constructor(
-        public dialogRef: MatDialogRef<dialogImageComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
-    ) {
-        this.cropperSettings = new CropperSettings();
-        this.cropperSettings.noFileInput = true;
-        this.cropperSettings.croppedWidth = this.data.item.width;
-        this.cropperSettings.croppedHeight = this.data.item.height;
-        this.cropperSettings.width = this.data.item.width;
-        this.cropperSettings.height = this.data.item.height;
-        this.cropperSettings.canvasWidth = 600;
-        this.image.src = this.data.image.data;
-        setTimeout(() => this.cropper.setImage(this.image));
-    }
+// @Component({
+//     selector: 'dialog-image',
+//     templateUrl: 'dialog-image.html',
+//     styleUrls: ['./dialog-image.scss']
+// })
+// export class dialogImageComponent {
+//     cropperSettings: CropperSettings;
+//     image = new Image();
+//     @ViewChild('cropper') cropper: ImageCropperComponent;
+//     constructor(
+//         public dialogRef: MatDialogRef<dialogImageComponent>,
+//         @Inject(MAT_DIALOG_DATA) public data: any
+//     ) {
+//         this.cropperSettings = new CropperSettings();
+//         this.cropperSettings.noFileInput = true;
+//         this.cropperSettings.croppedWidth = this.data.item.width;
+//         this.cropperSettings.croppedHeight = this.data.item.height;
+//         this.cropperSettings.width = this.data.item.width;
+//         this.cropperSettings.height = this.data.item.height;
+//         this.cropperSettings.canvasWidth = 600;
+//         this.image.src = this.data.image.data;
+//         setTimeout(() => this.cropper.setImage(this.image));
+//     }
 
-    accept(): void {
-        this.data.image.data = this.cropper.image.image;
-        this.dialogRef.close(this.data);
-    }
+//     accept(): void {
+//         this.data.image.data = this.cropper.image.image;
+//         this.dialogRef.close(this.data);
+//     }
 
-}
+// }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ConfigComponent } from './config.component';
 import { MaterialModule } from '../shared/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IfFormModule } from '../form/form.module';
 
 @NgModule({
     declarations: [ConfigComponent],
@@ -11,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MaterialModule,
         FormsModule,
         ReactiveFormsModule,
+        IfFormModule,
     ],
     exports: [ConfigComponent]
 })

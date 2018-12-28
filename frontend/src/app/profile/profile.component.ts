@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from './profile.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { IUser } from '@isofocus/interfaces';
 import { MatSnackBar } from '@angular/material';
 import { FormStyle } from '../form/classes/form-style';

@@ -225,7 +225,7 @@
                                     </ng-container>
                                 </div>
                             </mat-error>
-                            <mat-error *ngIf="form.get('visualID').hasError('invalidID')">
+                            <mat-error *ngIf="form.get(item.name).hasError('invalidID')">
                                 Ya existe una ID con ese número.
                             </mat-error>
                         </mat-form-field>

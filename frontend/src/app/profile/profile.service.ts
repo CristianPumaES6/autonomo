@@ -57,11 +57,12 @@ export class ProfileService extends BaseService<IUser> {
             type: 'email',
             name: 'email',
             label: 'Email',
+            cols: 2,
         }, {
             type: 'text',
             name: 'address',
             label: 'Dirección',
-            cols: 1,
+            cols: 2,
         }, {
             type: 'text',
             name: 'dni',

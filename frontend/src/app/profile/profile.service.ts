@@ -50,13 +50,13 @@ export class ProfileService extends BaseService<IUser> {
             name: 'name',
             label: 'Nombre',
         }, {
-            type: 'tel',
-            name: 'phone',
-            label: 'Teléfono',
-        }, {
             type: 'email',
             name: 'email',
             label: 'Email',
+        }, {
+            type: 'tel',
+            name: 'phone',
+            label: 'Teléfono',
             cols: 2,
         }, {
             type: 'text',

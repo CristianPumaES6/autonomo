@@ -21,7 +21,7 @@ export class ConfigService extends BaseService<IConfig> {
             localStorage.setItem('config', JSON.stringify(config));
             return config;
         });
-        return new Observable(subscriber => {
+        return new Observable<IConfig>(subscriber => {
             subscriber.next(config);
             subscriber.complete();
         });

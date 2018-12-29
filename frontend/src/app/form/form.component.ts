@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Inject } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { FormStyle } from './classes/form-style';
 import { IStyle } from './entities/iStyle';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { SnackService } from '../shared/service/snack.service';
 
 @Component({
@@ -15,11 +16,11 @@ export class FormComponent implements OnInit {
     sended = false;
     firstSizes = [];
     send = false;
-    imageDefault = '../../assets/img/';
+    imageDefault = '../../assets/imgs/';
     lastLength: number;
 
     @Input() title: string;
-    @Input() image = 'user_default.png';
+    @Input() image = 'avatarDefault.web';
     @Input() subtitle: string;
     @Input() cols = 12;
     @Input() labelAccept: string;
@@ -28,12 +29,9 @@ export class FormComponent implements OnInit {
     @Input() backButton = false;
     @Input() cancelButton = true;
     @Input() acceptButton = true;
-    @Input() deleteButton = false;
-    @Input() clearButton = false;
     @Input() form: FormGroup;
     @Input() style: FormStyle;
     @Input() defaultCol = 3;
-    @Input() col = this.defaultCol;
     @Input() row = 1;
 
     @Output() data: EventEmitter<any> = new EventEmitter();
@@ -41,7 +39,7 @@ export class FormComponent implements OnInit {
     @Output() cancel: EventEmitter<boolean> = new EventEmitter();
     @Output() add: EventEmitter<boolean> = new EventEmitter();
 
-    @ViewChild('formElement') formElement;
+    @ViewChild('formElement') formElement: HTMLFormElement;
 
     constructor(public dialog: MatDialog) {
         this.imageDefault += this.image;
@@ -69,7 +67,9 @@ export class FormComponent implements OnInit {
         if (this.form.valid) {
             this.sended = true;
             let itemToSend = {};
-            for (const i in this.form.getRawValue()) if (this.form.getRawValue()[i] !== undefined && this.form.getRawValue()[i] !== null) itemToSend[i] = this.form.getRawValue()[i];
+            for (const i in this.form.getRawValue())
+                if (this.form.getRawValue()[i] !== undefined && this.form.getRawValue()[i] !== null)
+                    itemToSend[i] = this.form.getRawValue()[i];
             this.data.emit(itemToSend);
         }
     }
@@ -129,7 +129,7 @@ export class FormComponent implements OnInit {
                             if (readers[i]) {
                                 items.push({
                                     name: file.name,
-                                    data: readers[i].result
+                                    data: readers[i].result,
                                 });
                                 this.form.get(item.name).setValue(items);
                             }
@@ -145,67 +145,40 @@ export class FormComponent implements OnInit {
         this.form.get(item.name).setValue(this.form.get(item.name).value.filter((f, index) => i !== index));
     }
 
-    // setIcon(name: string): string {
-    //     let file = 'fa-file';
-    //     switch (name.split('.')[name.split('.').length - 1].toLocaleLowerCase()) {
-    //         case 'jpg': case 'jpeg': case 'png': case 'gif': case 'svg': case 'ico':
-    //             return file + '-image';
-    //         case 'pdf':
-    //             return file + '-pdf';
-    //         case 'doc': case 'docx': case 'gdoc': case 'odt':
-    //             return file + '-word';
-    //         case 'xlsx': case 'xlsm': case 'clsb': case 'xltx': case 'xltm': case 'xls': case 'xlt': case 'xlm': case 'gsheet': case 'csv':
-    //             return file + '-excel';
-    //         case 'avi': case 'mpeg': case 'mov': case 'wmv': case 'mp4': case 'rm': case 'flv':
-    //             return file + '-video';
-    //         case 'mp3': case 'raw': case 'm4p': case 'abc': case 'ogg': case 'wma': case 'webm': case 'aa':
-    //             return file + '-audio';
-    //         case 'zip': case 'rar': case 'gz': case '7zip':
-    //             return file + '-archive';
-    //         case 'txt': case 'ini': case 'log':
-    //             return file + '-alt';
-    //         case 'html': case 'htm': case 'js': case 'ts': case 'css': case 'scss': case 'sass': case 'php': case 'xml': case 'c': case 'csharp': case 'cpp': case 'java': case 'go':
-    //             return file + '-code';
-    //     }
-    //     return file;
-    // }
+    dropFiles(event: any, item) {
+        event.preventDefault();
+        let files = [];
+        for (let i = 0; i < event.dataTransfer.items.length; i++)
+            if (event.dataTransfer.items[i].kind === 'file')
+                files.push(event.dataTransfer.items[i].getAsFile());
+        let ev = { target: { files } };
+        this.fileChange(ev, item);
+    }
 
-    // dropFiles(event, item) {
-    //     event.preventDefault();
-    //     let files = [];
-    //     for (let i = 0; i < event.dataTransfer.items.length; i++) if (event.dataTransfer.items[i].kind === 'file') files.push(event.dataTransfer.items[i].getAsFile());
-    //     let ev = {
-    //         target: {
-    //             files: files
-    //         }
-    //     };
-    //     this.fileChange(ev, item);
-    // }
+    dragOverFiles(event) {
+        event.preventDefault();
+    }
 
-    // dragOverFiles(event) {
-    //     event.preventDefault();
-    // }
+    imageChange(event, item) {
+        let file: File = event.target.files[0],
+            myReader: FileReader = new FileReader();
+        myReader.onloadend = (loadEvent: any) => this.openImageCropper(item, loadEvent.target.result, file.name);
+        myReader.readAsDataURL(file);
+    }
 
-    // imageChange(event, item) {
-    //     let file: File = event.target.files[0],
-    //         myReader: FileReader = new FileReader();
-    //     myReader.onloadend = (loadEvent: any) => this.openImageCropper(item, loadEvent.target.result, file.name);
-    //     myReader.readAsDataURL(file);
-    // }
-
-    // openImageCropper(item, image, name) {
-    //     this.dialog.open(dialogImageComponent, {
-    //         data: {
-    //             item: item,
-    //             image: {
-    //                 name: name,
-    //                 data: image
-    //             }
-    //         }
-    //     }).afterClosed().subscribe(result => {
-    //         if (result) this.form.get(result.item.name).setValue(result.image);
-    //     });
-    // }
+    openImageCropper(item, image, name) {
+        this.dialog.open(dialogImageComponent, {
+            data: {
+                item,
+                image: {
+                    name: name,
+                    data: image
+                }
+            }
+        }).afterClosed().subscribe(result => {
+            if (result) this.form.get(result.item.name).setValue(result.image);
+        });
+    }
 
     removeChips(item, name) {
         let value = this.form.get(item.name).value;
@@ -225,33 +198,33 @@ export class FormComponent implements OnInit {
     }
 }
 
-// @Component({
-//     selector: 'dialog-image',
-//     templateUrl: 'dialog-image.html',
-//     styleUrls: ['./dialog-image.scss']
-// })
-// export class dialogImageComponent {
-//     cropperSettings: CropperSettings;
-//     image = new Image();
-//     @ViewChild('cropper') cropper: ImageCropperComponent;
-//     constructor(
-//         public dialogRef: MatDialogRef<dialogImageComponent>,
-//         @Inject(MAT_DIALOG_DATA) public data: any
-//     ) {
-//         this.cropperSettings = new CropperSettings();
-//         this.cropperSettings.noFileInput = true;
-//         this.cropperSettings.croppedWidth = this.data.item.width;
-//         this.cropperSettings.croppedHeight = this.data.item.height;
-//         this.cropperSettings.width = this.data.item.width;
-//         this.cropperSettings.height = this.data.item.height;
-//         this.cropperSettings.canvasWidth = 600;
-//         this.image.src = this.data.image.data;
-//         setTimeout(() => this.cropper.setImage(this.image));
-//     }
+@Component({
+    selector: 'dialog-image',
+    templateUrl: 'dialog-image.html',
+    styleUrls: ['./dialog-image.scss']
+})
+export class dialogImageComponent {
+    cropperSettings: CropperSettings;
+    image = new Image();
+    @ViewChild('cropper') cropper: ImageCropperComponent;
+    constructor(
+        public dialogRef: MatDialogRef<dialogImageComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.noFileInput = true;
+        this.cropperSettings.croppedWidth = this.data.item.width;
+        this.cropperSettings.croppedHeight = this.data.item.height;
+        this.cropperSettings.width = this.data.item.width;
+        this.cropperSettings.height = this.data.item.height;
+        this.cropperSettings.canvasWidth = 600;
+        this.image.src = this.data.image.data;
+        setTimeout(() => this.cropper.setImage(this.image));
+    }
 
-//     accept(): void {
-//         this.data.image.data = this.cropper.image.image;
-//         this.dialogRef.close(this.data);
-//     }
+    accept() {
+        this.data.image.data = this.cropper.image.image;
+        this.dialogRef.close(this.data);
+    }
 
-// }
+}

@@ -1,5 +1,5 @@
 <mat-card-content (window:resize)="resize()" [ngClass]="{'hide-card': !showCard}">
-    <mat-divider *ngIf="backButton || clearButton || deleteButton || newButton || title || subtitle"></mat-divider>
+    <mat-divider *ngIf="backButton || newButton || title || subtitle"></mat-divider>
     <form #formElement [formGroup]="form">
         <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
             <mat-grid-tile *ngFor="let item of style.styles" [colspan]="item.type === 'divider' ? cols : (item.cols || col)"
@@ -146,7 +146,6 @@
                             <mat-hint *ngIf="item.info" align="start">{{!item.info.map ? item.info : item.info[0]}}</mat-hint>
                             <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">{{item.info[1]}}</mat-hint>
                             <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
-                                <!-- {{form.get(item.name).errors | json}} -->
                                 <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
                                     <ng-container *ngSwitchCase="'required'">
                                         El campo
@@ -164,6 +163,49 @@
                                 </div>
                             </mat-error>
                         </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'image'">
+                        <mat-label class="label-group">{{item.label}}</mat-label>
+                        <div class="image-container">
+                            <div [ngStyle]="{'width.px': item.width , 'height.px': item.height}" class="img-hover"
+                                (click)="inputImage.click()">
+                                <mat-icon [fontSet]="'fas'" [fontIcon]="'fa-exchange-alt'"></mat-icon>
+                            </div>
+                            <img [width]="item.width" [height]="item.height" [src]="form.get(item.name)?.value?.data || imageDefault"
+                                (click)="inputImage.click()">
+                            <input #inputImage type="file" (change)="imageChange($event, item)" hidden>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'file'">
+                        <div class="file-label">
+                            <label class="file-label">{{item.label}}</label>
+                            <span>{{form.get(item.name).value?.length || 0}}/{{item.max ? item.max : (item.multiple
+                                ? '&infin;'
+                                : 1)}}</span>
+                        </div>
+                        <div class="file-container" (drop)="dropFiles($event, item)" (dragover)="dragOverFiles($event)">
+                            <button (click)="inputFile.click()" mat-raised-button color="primary">
+                                <mat-icon fontSet="far" [fontIcon]="'fa-folder-open'"></mat-icon>
+                                Seleccionar...
+                            </button>
+                            <span>Arrastra aqui {{item.multiple ? 'los archivos' : 'el archivo'}}</span>
+                            <input #inputFile type="file" (change)="fileChange($event, item)" [multiple]="item.multiple"
+                                hidden>
+                        </div>
+                        <div class="files-list" *ngIf="form.get(item.name).value">
+                            <div class="file-item" *ngFor="let file of form.get(item.name).value; let i = index">
+                                <div class="file-name">
+                                    {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...' +
+                                    file.name.split('.')[file.name.split('.').length
+                                    - 1])}}
+                                </div>
+                                <button (click)="deleteFile(item, i)" mat-icon-button>
+                                    <mat-icon fontSet="fas" fontIcon="fa-times"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'textarea'">
@@ -234,7 +276,7 @@
             </mat-grid-tile>
         </mat-grid-list>
 
-        <mat-card-actions *ngIf="acceptButton || cancelButton || deleteButton" class="bottom-buttons">
+        <mat-card-actions *ngIf="acceptButton || cancelButton" class="bottom-buttons">
             <button *ngIf="acceptButton" [disabled]="sended" class="accept-button" mat-button color="primary" (click)="dataForm()">
                 <mat-spinner diameter="18" *ngIf="sended"></mat-spinner>
                 <span> {{labelAccept || 'Aceptar'}} </span>

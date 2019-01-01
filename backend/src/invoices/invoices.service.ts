@@ -5,19 +5,18 @@ import * as fs from 'fs';
 import * as pdf from 'html-pdf';
 import * as path from 'path';
 import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
-import { InvoiceLine } from '../db_/models/invoiceLine';
 
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoice.find({ where: { user }, include: [db.models.invoiceLine] });
+        return await db.models.invoice.findAll({ where: { user }, include: [db.models.invoiceLine] });
     }
 
     async getID(user: number, id: number) {
         return await db.models.invoice.findOne({ where: { user, id }, include: [db.models.invoiceLine] });
     }
 
-    async post(invoice: IInvoice & { invoiceLine: InvoiceLine[] }, userID: number) {
+    async post(invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, userID: number) {
         delete invoice.id;
         const invoiceLine = invoice.invoiceLine;
         (<any>invoice).userID = userID;

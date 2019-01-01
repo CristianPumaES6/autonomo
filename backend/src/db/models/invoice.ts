@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './user';
+import { InvoiceLine } from './invoiceLine';
 
 @Entity('invoices')
 export class Invoice {
@@ -8,9 +9,6 @@ export class Invoice {
 
     @Column()
     date?: Date;
-
-    @Column()
-    iva?: number;
 
     @Column()
     visualID?: string;
@@ -23,12 +21,6 @@ export class Invoice {
 
     @Column()
     fisicalAddress?: string;
-
-    @Column({ type: 'decimal', default: 0 })
-    price?: number;
-
-    @Column({ nullable: true })
-    description?: string;
 
     @Column({ nullable: true })
     notes?: string;
@@ -48,24 +40,6 @@ export class Invoice {
     @ManyToOne(type => User, user => user.invoice)
     user?: User | number;
 
-    constructor(invoice: Invoice) {
-        if (invoice) {
-            const { id, date, iva, visualID, cif, nameCompany, fisicalAddress, price, description, notes, received, createdAt, updatedAt, deletedAt, user } = invoice;
-            this.id = id;
-            this.date = date;
-            this.iva = iva;
-            this.visualID = visualID;
-            this.cif = cif;
-            this.nameCompany = nameCompany;
-            this.fisicalAddress = fisicalAddress;
-            this.price = price;
-            this.description = description;
-            this.notes = notes;
-            this.received = received;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-            this.deletedAt = deletedAt;
-            this.user = user;
-        }
-    }
+    @OneToMany(type => InvoiceLine, invoiceLine => invoiceLine.invoice)
+    invoiceLine?: InvoiceLine[] | number[];
 }

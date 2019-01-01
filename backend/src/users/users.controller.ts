@@ -18,6 +18,6 @@ export class UsersController {
     async getById(@Body() body: User, @Headers('authorization') authorization: string) {
         const id = auth.decode(authorization);
         body.id = id;
-        return await this.usersService.update(new User(body));
+        return await this.usersService.update(body);
     }
 }

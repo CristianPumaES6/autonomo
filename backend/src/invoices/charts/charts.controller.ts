@@ -6,14 +6,20 @@ import { auth } from '../../shared/classes/auth';
 export class ChartsController {
     constructor(private chartsService: ChartsService) { }
 
-    @Get('all')
+    @Get()
     async getAll(@Headers('authorization') authorization: string) {
         const id = auth.decode(authorization);
+        // return {
+        //     total: await this.chartsService.getTotal(id),
+        //     earned: await this.chartsService.geEarned(id),
+        //     wasted: await this.chartsService.getWasted(id),
+        //     ivaEarn: await this.chartsService.getIvaEarn(id),
+        // }
         return {
-            total: await this.chartsService.getTotal(id),
-            earned: await this.chartsService.geEarned(id),
-            wasted: await this.chartsService.getWasted(id),
-            ivaEarn: await this.chartsService.getIvaEarn(id),
+            total: 0,
+            earned: 0,
+            wasted: 0,
+            ivaEarn: 0,
         }
     }
 }

@@ -54,6 +54,7 @@ export class InvoicesController {
     @Put()
     put(@Body() invoice: Invoice, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
+        delete invoice.user;
         return this.invoiceService.put(invoice, userID);
     }
 

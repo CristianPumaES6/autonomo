@@ -1,7 +1,10 @@
 import { FormControl } from '@angular/forms';
 
 export interface IStyle {
-    type: types;
+    type: ('text' | 'select' | 'sliderToggle' | 'textarea' | 'color' | 'date' | 'datetime-local'
+        | 'email' | 'month' | 'number' | 'password' | 'search' | 'tel' | 'checkbox' | 'time' | 'week'
+        | 'url' | 'divider' | 'slider' | 'radio' | 'image' | 'file' | 'chips' | 'geoname' | 'autocomplete'
+        | 'iban' | 'icon' | 'swift' | 'multiple');
     name?: string;
     cols?: number;
     rows?: number;
@@ -37,6 +40,7 @@ export interface IStyle {
             options: options[];
         }
     }[];
+    children?: IStyle;
 }
 
 interface pre_suf_fix {
@@ -51,4 +55,4 @@ interface options {
 type types = 'text' | 'select' | 'sliderToggle' | 'textarea' | 'color' | 'date' | 'datetime-local'
     | 'email' | 'month' | 'number' | 'password' | 'search' | 'tel' | 'checkbox' | 'time' | 'week'
     | 'url' | 'divider' | 'slider' | 'radio' | 'image' | 'file' | 'chips' | 'geoname' | 'autocomplete'
-    | 'iban' | 'icon' | 'swift';
+    | 'iban' | 'icon' | 'swift' | 'multiple';

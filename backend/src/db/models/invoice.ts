@@ -1,45 +1,41 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { User } from './user';
-import { InvoiceLine } from './invoiceLine';
+import { IInvoice } from '../../../../global/interfaces';
+import { DataTypes, Sequelize } from 'sequelize';
+import { IInstance } from '../instance';
 
-@Entity('invoices')
-export class Invoice {
-    @PrimaryGeneratedColumn()
-    id?: number;
-
-    @Column()
-    date?: Date;
-
-    @Column()
-    visualID?: string;
-
-    @Column()
-    cif?: string;
-
-    @Column()
-    nameCompany?: string;
-
-    @Column()
-    fisicalAddress?: string;
-
-    @Column({ nullable: true })
-    notes?: string;
-
-    @Column({ default: false })
-    received?: boolean;
-
-    @CreateDateColumn({ type: 'timestamp' })
-    createdAt?: Date;
-
-    @UpdateDateColumn({ type: 'timestamp' })
-    updatedAt?: Date;
-
-    @Column({ type: 'timestamp', nullable: true })
-    deletedAt?: Date | null;
-
-    @ManyToOne(type => User, user => user.invoice)
-    user?: User | number;
-
-    @OneToMany(type => InvoiceLine, invoiceLine => invoiceLine.invoice)
-    invoiceLine?: InvoiceLine[] | number[];
+export default function (sequelize: Sequelize, dataType: DataTypes) {
+    return sequelize.define<IInstance<IInvoice>, IInvoice>('invoice', {
+        id: {
+            type: dataType.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        cif: {
+            type: dataType.STRING,
+            allowNull: false,
+        },
+        date: {
+            type: dataType.DATE,
+            defaultValue: new Date(),
+        },
+        fisicalAddress: {
+            type: dataType.STRING,
+        },
+        nameCompany: {
+            type: dataType.STRING,
+        },
+        notes: {
+            type: dataType.TEXT,
+        },
+        visualID: {
+            type: dataType.INTEGER,
+        },
+        received: {
+            type: dataType.BOOLEAN,
+            defaultValue: true,
+        },
+    }, {
+            timestamps: true,
+            paranoid: true
+        }
+    );
 }

@@ -1,12 +1,11 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { db } from '../db';
-import { User } from '../db/models/user';
-import { IsNull } from 'typeorm';
+import { IUser } from '../../../global/interfaces';
 
 @Injectable()
 export class UsersService {
     async get(id: number) {
-        const user = await db.models.users!.findOne({ where: { id, deletedAt: IsNull() } });
+        const user = await db.models.user.findOne({ where: { id } });
 
         if (!user) throw new HttpException('No se ha podido obtener el usuario', HttpStatus.NOT_FOUND);
 
@@ -15,9 +14,8 @@ export class UsersService {
         return user;
     }
 
-    async update(user: User) {
-        delete user.root; delete user.password; delete user.deletedAt;
-        delete user.updatedAt; delete user.createdAt; delete user.email;
-        return db.models.users!.save(user);
+    async update(user: IUser) {
+        delete user.root; delete user.password; delete user.email;
+        return db.models.user.create(user);
     }
 }

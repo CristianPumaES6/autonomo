@@ -1,32 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { User } from './user';
+import { DataTypes, Sequelize } from 'sequelize';
+import { IInstance } from '../instance';
+import { IConfig } from '../../../../global/interfaces';
 
-@Entity('configs')
-export class Config {
-    @PrimaryGeneratedColumn()
-    id?: number;
-
-    @Column({ default: 21 })
-    ivaDefaultReceived?: number;
-
-    @Column({ default: 0 })
-    ivaDefaultSent?: number;
-
-    @Column({ default: 0 })
-    totalItemsByTable?: number;
-
-    @OneToOne(type => User, (user: User) => user.config)
-    @JoinColumn()
-    user?: User | number;
-
-    constructor(config?: Config) {
-        if (config) {
-            const { id, ivaDefaultReceived, ivaDefaultSent, totalItemsByTable, user } = config;
-            this.id = id;
-            this.ivaDefaultReceived = ivaDefaultReceived;
-            this.ivaDefaultSent = ivaDefaultSent;
-            this.totalItemsByTable = totalItemsByTable;
-            this.user = user;
+export default function (sequelize: Sequelize, dataType: DataTypes) {
+    return sequelize.define<IInstance<IConfig>, IConfig>('config', {
+        id: {
+            type: dataType.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        ivaDefaultReceived: {
+            type: dataType.INTEGER,
+            defaultValue: 21
+        },
+        ivaDefaultSent: {
+            type: dataType.INTEGER,
+            defaultValue: 0
+        },
+        totalItemsByTable: {
+            type: dataType.INTEGER,
+            defaultValue: 5
         }
-    }
+    });
 }

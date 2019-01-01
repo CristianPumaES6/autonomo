@@ -1,32 +1,30 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
-import { Invoice } from './invoice';
+import { IInvoiceLine } from '../../../../global/interfaces';
+import { DataTypes, Sequelize } from 'sequelize';
+import { IInstance } from '../instance';
 
-@Entity('invoiceLines')
-export class InvoiceLine {
-    @PrimaryGeneratedColumn()
-    id?: number;
-
-    @Column()
-    iva?: number;
-
-    @Column()
-    desciption?: string;
-
-    @Column()
-    cuantity?: number;
-
-    @Column({ type: 'decimal' })
-    price?: number;
-
-    @CreateDateColumn({ type: 'timestamp' })
-    createdAt?: Date;
-
-    @UpdateDateColumn({ type: 'timestamp' })
-    updatedAt?: Date;
-
-    @Column({ type: 'timestamp', nullable: true, default: null })
-    deletedAt?: Date | null;
-
-    @ManyToOne(type => Invoice, invoice => invoice.invoiceLine)
-    invoice?: Invoice | number;
+export default function (sequelize: Sequelize, dataType: DataTypes) {
+    return sequelize.define<IInstance<IInvoiceLine>, IInvoiceLine>('invoiceLine', {
+        id: {
+            type: dataType.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        cuantity: {
+            type: dataType.INTEGER,
+            allowNull: false,
+        },
+        description: {
+            type: dataType.STRING,
+        },
+        iva: {
+            type: dataType.INTEGER,
+        },
+        price: {
+            type: dataType.DOUBLE,
+        },
+    }, {
+            timestamps: true,
+            paranoid: true,
+        },
+    );
 }

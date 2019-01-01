@@ -1,59 +1,54 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { db } from '../db';
-import { Invoice } from '../db/models/invoice';
-import { IsNull } from 'typeorm';
 
 import * as fs from 'fs';
-import * as moment from 'moment';
 import * as pdf from 'html-pdf';
 import * as path from 'path';
-import { InvoiceLine } from '../db/models/invoiceLine';
+import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
+import { InvoiceLine } from '../db_/models/invoiceLine';
 
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoices!.find({ where: { user, deletedAt: IsNull() }, relations: ['invoiceLine'] });
+        return await db.models.invoice.find({ where: { user }, include: [db.models.invoiceLine] });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoices!.findOne({ where: { user, id, deletedAt: IsNull() }, relations: ['invoiceLine'] });
+        return await db.models.invoice.findOne({ where: { user, id }, include: [db.models.invoiceLine] });
     }
 
-    async post(invoice: Invoice) {
-        delete invoice.deletedAt; delete invoice.createdAt; delete invoice.id;
-        (<InvoiceLine[]>invoice.invoiceLine).map(i => i.invoice = invoice);
-        await db.models.invoiceLine!.save(invoice.invoiceLine as InvoiceLine[]);
-        return await db.models.invoices!.insert(invoice);
+    async post(invoice: IInvoice & { invoiceLine: InvoiceLine[] }, userID: number) {
+        delete invoice.id;
+        const invoiceLine = invoice.invoiceLine;
+        (<any>invoice).userID = userID;
+        const invoiceDB = await db.models.invoice.create(invoice);
+        invoiceDB.setInvoices(invoiceLine);
+        return invoiceDB;
     }
 
-    async put(invoice: Invoice, user: number) {
-        delete invoice.deletedAt; delete invoice.createdAt;
-        return await db.models.invoices!.update({ id: invoice.id, user }, invoice);
+    async put(invoice: IInvoice, user: number) {
+        return await db.models.invoice.update(invoice, { where: { id: invoice.id!, user } });
     }
 
     async delete(id: number, user: number) {
-        return await db.models.invoices!.update({ id, user }, { deletedAt: moment().format() });
+        return await db.models.invoice.destroy({ where: { id, user } });
     }
 
     async restore(id: number, user: number) {
-        return await db.models.invoices!.update({ id, user }, { deletedAt: null });
+        return await db.models.invoice.restore({ where: { id, user } });
     }
 
     async next(user: number) {
-        return await db.models.invoices!.createQueryBuilder()
-            .select('MAX(visualID) as max')
-            .where('userID = :user')
-            .setParameters({ user })
-            .getRawOne();
+        return await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max from invoices WHERE userID = ?', values: [user] });
     }
 
     async check(visualID: number, user: number) {
-        return (await db.models.invoices!.find({ where: { visualID, user }, select: ['id'] })).length !== 1;
+        return (await db.models.invoice.find({ where: { visualID, user }, attributes: ['id'] })).length !== 1;
     }
 
     async generatePDF(id: number, user: number) {
-        const invoice = await db.models.invoices!.findOne({ where: { id, user } });
-        const userDB = await db.models.users!.findOne({ where: { id: user } });
+        const invoice = await db.models.invoice.findOne({ where: { id, user } });
+        const userDB = await db.models.user!.findOne({ where: { id: user } });
 
         if (!userDB || !invoice) throw new HttpException('No puedes generar el PDF', HttpStatus.UNAUTHORIZED);
 

@@ -1,4 +1,4 @@
-import { Injectable, MiddlewareFunction, NestMiddleware, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, MiddlewareFunction, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { auth } from '../classes/auth';
 
 @Injectable()

@@ -1,10 +1,10 @@
-import { User } from '../../db/models/user';
 import * as jwt from 'jsonwebtoken';
 import { JWT_SECRET, JWT_ISSUER, JWT_EXPIRES } from '../../app.constants';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { IUser } from '../../../../global/interfaces';
 
 class Auth {
-    encode(user: User) {
+    encode(user: IUser) {
         return jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES, issuer: JWT_ISSUER });
     }
 

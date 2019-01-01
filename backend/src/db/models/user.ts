@@ -1,48 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
-import { Config } from './config';
-import { Invoice } from './invoice';
+import { IUser, IConfig } from '../../../../global/interfaces';
+import { DataTypes, Sequelize } from 'sequelize';
+import { IInstance, IUnionConfig, IUnionInvoice } from '../instance';
 
-@Entity('users')
-export class User {
-    @PrimaryGeneratedColumn()
-    id?: number;
-
-    @Column()
-    name?: string;
-
-    @Column()
-    password?: string;
-
-    @Column()
-    photo?: string;
-
-    @Column()
-    phone?: string;
-
-    @Column()
-    email?: string;
-
-    @Column()
-    dni?: string;
-
-    @Column()
-    address?: string;
-
-    @Column({ default: false })
-    root?: boolean;
-
-    @CreateDateColumn()
-    createdAt?: Date;
-
-    @UpdateDateColumn()
-    updatedAt?: Date;
-
-    @Column({ type: 'timestamp', nullable: true })
-    deletedAt?: Date | null;
-
-    @OneToOne(type => Config, (config: Config) => config.user)
-    config?: Config | number;
-
-    @OneToMany(type => Invoice, invoice => invoice.user)
-    invoice?: Invoice[];
+export default function (sequelize: Sequelize, dataType: DataTypes) {
+    return sequelize.define<IInstance<IUser> & IUnionConfig & IUnionInvoice, IUser>('user', {
+        id: {
+            type: dataType.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: dataType.STRING,
+            allowNull: false,
+        },
+        password: {
+            type: dataType.STRING,
+        },
+        phone: {
+            type: dataType.STRING,
+        },
+        photo: {
+            type: dataType.STRING,
+            defaultValue: 'default.png',
+        },
+        email: {
+            type: dataType.STRING,
+            unique: true,
+            allowNull: false,
+        },
+        dni: {
+            type: dataType.STRING,
+            unique: true,
+            allowNull: false,
+        },
+        address: {
+            type: dataType.STRING,
+        },
+        root: {
+            type: dataType.BOOLEAN,
+            defaultValue: false,
+        },
+    }, {
+            timestamps: true,
+            paranoid: true,
+        },
+    );
 }

@@ -7,61 +7,58 @@ type IChart = { day: string, total: string }[];
 @Injectable()
 export class ChartsService {
     async getTotal(id: number) {
-        const chart: IChart = await db.models.invoices!
-            .createQueryBuilder('invoice')
-            .select('COUNT(*)', 'total')
-            .addSelect('MONTH(date)', 'day')
-            .where('userID = :id')
-            .andWhere(this.checkDeleted())
-            .groupBy('MONTH(date)')
-            .setParameters({ id })
-            .getRawMany();
+        const chart: IChart = await db.sequelize.query({
+            query: `
+                SELECT COUNT(*) total, MONTH(date) as day
+                FROM invoices 
+                    WHERE userID = ? AND
+                    ${this.checkDeleted()}
+                GROUP BY MONTH(date);
+            `, values: [id]
+        });
 
         return this.setMonth(chart);
     }
 
     async geEarned(id: number) {
-        const chart: IChart = await db.models.invoices!
-            .createQueryBuilder('invoice')
-            .select('SUM(price)', 'total')
-            .addSelect('MONTH(date)', 'day')
-            .where('userID = :id')
-            .andWhere('received = false')
-            .andWhere(this.checkDeleted())
-            .groupBy('MONTH(date)')
-            .setParameters({ id })
-            .getRawMany();
-
+        const chart: IChart = await db.sequelize.query({
+            query: `
+            SELECT sum(price) total, MONTH(date) as day
+            FROM invoices 
+            WHERE userID = ? AND 
+                received = false AND
+                ${this.checkDeleted()}
+            GROUP BY MONTH(date);
+        `, values: [id]
+        });
         return this.setMonth(chart);
     }
 
     async getWasted(id: number) {
-        const chart: IChart = await db.models.invoices!
-            .createQueryBuilder('invoice')
-            .select('SUM(price)', 'total')
-            .addSelect('MONTH(date)', 'day')
-            .where('userID = :id')
-            .andWhere('received = true')
-            .andWhere(this.checkDeleted())
-            .groupBy('MONTH(date)')
-            .setParameters({ id })
-            .getRawMany();
-
+        const chart: IChart = await db.sequelize.query({
+            query: `
+            SELECT sum(price) total, MONTH(date) as day
+            FROM invoices 
+            WHERE userID = ? AND
+                received = true AND
+                ${this.checkDeleted()}
+            GROUP BY MONTH(date);
+        `, values: [id]
+        });
         return this.setMonth(chart);
     }
 
     async getIvaEarn(id: number) {
-        const chart: IChart = await db.models.invoices!
-            .createQueryBuilder('invoice')
-            .select('SUM(iva * price) / 100', 'total')
-            .addSelect('MONTH(date)', 'day')
-            .where('userID = :id')
-            .andWhere('received = true')
-            .andWhere(this.checkDeleted())
-            .groupBy('MONTH(date)')
-            .setParameters({ id })
-            .getRawMany();
-
+        const chart: IChart = await db.sequelize.query({
+            query: `
+            SELECT sum((iva * price) / 100) total, MONTH(date) as day
+            FROM invoices 
+            WHERE userID = ? AND
+                received = true AND
+                ${this.checkDeleted()}
+            GROUP BY MONTH(date);
+        `, values: [id]
+        });
         return this.setMonth(chart);
     }
 

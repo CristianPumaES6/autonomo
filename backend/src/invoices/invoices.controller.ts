@@ -1,8 +1,8 @@
 import { Controller, Get, Headers, Param, Post, Body, Put, Delete, Header } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { auth } from '../shared/classes/auth';
-import { IInvoice } from '../../../global/interfaces';
-import { InvoiceLine } from '../db_/models/invoiceLine';
+import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
+
 @Controller('invoice')
 export class InvoicesController {
     constructor(private invoiceService: InvoicesService) { }
@@ -45,7 +45,7 @@ export class InvoicesController {
     }
 
     @Post()
-    post(@Body() invoice: IInvoice & { invoiceLine: InvoiceLine[] }, @Headers('authorization') authorization: string) {
+    post(@Body() invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
         return this.invoiceService.post(invoice, userID);
     }

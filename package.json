@@ -22,5 +22,8 @@
     "homepage": "https://github.com/miguelmoya1/autonomo#readme",
     "devDependencies": {
         "concurrently": "*"
+    },
+    "dependencies": {
+        "@types/sequelize": "^4.27.33"
     }
 }

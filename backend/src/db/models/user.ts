@@ -24,12 +24,12 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             defaultValue: 'default.png',
         },
         email: {
-            type: dataType.STRING,
+            type: dataType.STRING(191),
             unique: true,
             allowNull: false,
         },
         dni: {
-            type: dataType.STRING,
+            type: dataType.STRING(191),
             unique: true,
             allowNull: false,
         },

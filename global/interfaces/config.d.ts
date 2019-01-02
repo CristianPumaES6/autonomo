@@ -3,4 +3,6 @@ export interface IConfig {
     ivaDefaultReceived?: number;
     ivaDefaultSent?: number;
     totalItemsByTable?: number;
+
+    userID: number;
 }

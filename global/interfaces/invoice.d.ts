@@ -1,3 +1,5 @@
+import { IUser } from './user';
+
 export interface IInvoice {
     id?: number;
     date?: Date;
@@ -7,4 +9,6 @@ export interface IInvoice {
     notes?: string;
     received?: boolean;
     visualID?: number;
+
+    userID?: number | IUser;
 }

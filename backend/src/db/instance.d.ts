@@ -6,7 +6,7 @@ export interface IInstance<T> extends Sequelize.Instance<T> {
 }
 
 export interface IUnionInvoice {
-    setInvoices(invoice: IInvoice[]): void;
+    setInvoices(invoice: IInvoice[] | IInstance<IInvoice>[]): void;
     getInvoices(): IInvoice[];
 }
 
@@ -16,6 +16,6 @@ export interface IUnionConfig {
 }
 
 export interface IUnionInvoiceLine {
-    setInvoiceLines(invoiceLine: IInvoiceLine[]): void;
+    setInvoiceLines(invoiceLine: IInvoiceLine[] | IInstance<IInvoiceLine>[]): void;
     getInvoiceLines(): IInvoiceLine;
 }

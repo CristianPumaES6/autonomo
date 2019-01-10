@@ -10,23 +10,21 @@ import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 export class InvoicesService {
     async get(user: number) {
         return await db.models.invoice.findAll({ where: { userID: user }, include: [db.models.invoiceLine] });
-        // { where: { userId: user }, include: [db.models.invoiceLine] }
     }
 
     async getID(user: number, id: number) {
         return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine] });
     }
 
-    async post(invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, userID: number) {
-        delete invoice.id;
-        const invoiceLine = invoice.invoiceLine;
-        (<any>invoice).userID = userID;
+    async post(invoice: IInvoice & { invoiceLine: IInvoiceLine[] }) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLine);
         const invoiceDB = await db.models.invoice.create(invoice);
-        invoiceDB.setInvoiceLines(invoiceLine);
+        await invoiceDB.setInvoiceLines(invoiceLine);
         return invoiceDB;
     }
 
     async put(invoice: IInvoice, user: number) {
+        // TODO: Mirar como hacer el update de las lineas de factura (borrassssssssr todas las de una linea y añadirle las nuevas).
         return await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
     }
 
@@ -38,8 +36,8 @@ export class InvoicesService {
         return await db.models.invoice.restore({ where: { id, userID: user } });
     }
 
-    async next(user: number) {
-        return await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max from invoices WHERE userID = ?', values: [user] });
+    async next(user: number): Promise<{ max: number }> {
+        return (await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max FROM invoices WHERE userID = ?', values: [user] }))[0][0];
     }
 
     async check(visualID: number, user: number) {

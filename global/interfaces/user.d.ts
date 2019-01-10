@@ -1,3 +1,5 @@
+import { IConfig } from './config';
+
 export interface IUser {
     id?: number;
     name?: string;
@@ -8,4 +10,7 @@ export interface IUser {
     email?: string;
     dni?: string;
     root?: boolean;
+    deletedAt?: Date;
+
+    config?: IConfig;
 }

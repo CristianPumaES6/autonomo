@@ -73,13 +73,8 @@ export class InvoiceService extends BaseService<IInvoice> {
     createStyle() {
         return new FormStyle([{
             type: 'text',
-            name: 'visualID',
-            label: 'ID',
-        }, {
-            type: 'date',
-            name: 'date',
-            label: 'Fecha',
-            info: 'Formato mm/dd/yyyy',
+            name: 'nameCompany',
+            label: 'Nombre de la compañia',
         }, {
             type: 'text',
             name: 'fisicalAddress',
@@ -91,12 +86,20 @@ export class InvoiceService extends BaseService<IInvoice> {
             rows: 3,
         }, {
             type: 'text',
-            name: 'cif',
-            label: 'DNI/NIF',
+            name: 'visualID',
+            label: 'ID',
+            cols: 2,
+        }, {
+            type: 'date',
+            name: 'date',
+            label: 'Fecha',
+            info: 'Formato mm/dd/yyyy',
+            cols: 3,
         }, {
             type: 'text',
-            name: 'nameCompany',
-            label: 'Nombre de la compañia',
+            name: 'cif',
+            label: 'DNI/NIF',
+            cols: 3,
         }, {
             type: 'sliderToggle',
             name: 'received',

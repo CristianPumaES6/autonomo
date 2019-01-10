@@ -8,7 +8,7 @@ export class InvoicesController {
     constructor(private invoiceService: InvoicesService) { }
 
     @Get()
-    get(@Headers('authorization') authorization: string) {
+    async get(@Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
         return this.invoiceService.get(userID);
     }
@@ -16,15 +16,14 @@ export class InvoicesController {
     @Get('next')
     async next(@Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
-        return (+(await this.invoiceService.next(userID)).max || 0) + 1;
+        return ((await this.invoiceService.next(userID)).max || 0) + 1;
     }
 
     @Get('restore/:id')
-    restore(@Headers('authorization') authorization: string, @Param('id') id: number) {
+    async restore(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return this.invoiceService.restore(id, userID);
     }
-
     @Get('check/:id')
     async check(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
@@ -32,32 +31,34 @@ export class InvoicesController {
     }
 
     @Get(':id')
-    getID(@Headers('authorization') authorization: string, @Param('id') id: number) {
+    async getID(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return this.invoiceService.getID(userID, id);
     }
 
     @Get('pdf/:id')
     @Header('Content-Type', 'application/pdf')
-    pdf(@Headers('authorization') authorization: string, @Param('id') id: number) {
+    async pdf(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return this.invoiceService.generatePDF(id, userID);
     }
 
     @Post()
-    post(@Body() invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, @Headers('authorization') authorization: string) {
+    async post(@Body() invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
-        return this.invoiceService.post(invoice, userID);
+        delete invoice.id;
+        invoice.userID = userID;
+        return this.invoiceService.post(invoice);
     }
 
     @Put()
-    put(@Body() invoice: IInvoice, @Headers('authorization') authorization: string) {
+    async put(@Body() invoice: IInvoice, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
         return this.invoiceService.put(invoice, userID);
     }
 
     @Delete(':id')
-    delete(@Headers('authorization') authorization: string, @Param('id') id: number) {
+    async delete(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return this.invoiceService.delete(id, userID);
     }

@@ -6,8 +6,6 @@
     "scripts": {
         "frontend": "cd frontend && npm start",
         "backend": "cd backend && npm start",
-        "pre-frontend": "cd frontend && npm i",
-        "pre-backend": "cd backend && npm i",
         "start": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "repository": {
@@ -22,8 +20,5 @@
     "homepage": "https://github.com/miguelmoya1/autonomo#readme",
     "devDependencies": {
         "concurrently": "*"
-    },
-    "dependencies": {
-        "@types/sequelize": "^4.27.33"
     }
 }

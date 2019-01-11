@@ -19,7 +19,7 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         },
         totalItemsByTable: {
             type: dataType.INTEGER,
-            defaultValue: 5
+            defaultValue: 10
         }
     });
 }

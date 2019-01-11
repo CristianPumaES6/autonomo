@@ -21,19 +21,14 @@ export class AuthService {
     async register(user: IUser) {
         const userDB = await db.models.user.findOne({ where: { email: user.email } });
         if (!userDB) {
-            // BORRAMOS LOS CAMPOS QUE NO DEBEN DE ESTAR, POR SI ACASO
             delete user.id; delete user.root;
             try {
                 user.password = bcrypt.hashSync(user.password!, 10);
                 const configDB = await db.models.config.create();
                 const userDB = await db.models.user.create(user);
-                userDB.setConfig(configDB.dataValues);
-                delete userDB!.dataValues.password;
+                await configDB.setUser(userDB);
                 return auth.encode(userDB.dataValues);
-            } catch (e) {
-                throw new HttpException('No se ha podido crear el usuario', HttpStatus.NOT_ACCEPTABLE);
-            }
+            } catch (e) { throw new HttpException('No se ha podido crear el usuario', HttpStatus.NOT_ACCEPTABLE); }
         } else throw new HttpException('El email ya esta en uso', HttpStatus.FORBIDDEN);
-
     }
 }

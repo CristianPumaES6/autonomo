@@ -57,27 +57,22 @@ class DB {
      */
     private async createDefaultValues() {
         if (!PROD) {
-            let miguel: IInstance<IUser> & IUnionConfig & IUnionInvoice, invoices: any[] = [];
+            let miguel: IInstance<IUser> & IUnionInvoice, invoices: any[] = [];
             if (await db.models.user.count() === 0) {
-                try {
-                    miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' }))!;
-                    const configDB = await db.models.config.create();
-                    await miguel.setConfig(configDB.dataValues);
-                } catch (e) {
-                    console.log(e);
-                }
+                miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' }))!;
+                const configDB = await db.models.config.create();
+                await configDB.setUser(miguel);
             }
-
             if (await db.models.invoice.count() === 0) {
                 miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') }));
                 await miguel.setInvoices(invoices);
             }
         }

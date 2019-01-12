@@ -13,6 +13,6 @@ export class UsersService {
 
     async update(user: IUser) {
         delete user.root; delete user.password; delete user.email;
-        return db.models.user.create(user);
+        return db.models.user.update(user, { where: { id: user.id! } });
     }
 }

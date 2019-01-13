@@ -11,15 +11,15 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         },
         ivaDefaultReceived: {
             type: dataType.INTEGER,
-            defaultValue: 21
+            defaultValue: 21,
         },
         ivaDefaultSent: {
             type: dataType.INTEGER,
-            defaultValue: 0
+            defaultValue: 0,
         },
         totalItemsByTable: {
             type: dataType.INTEGER,
-            defaultValue: 10
-        }
+            defaultValue: 10,
+        },
     });
 }

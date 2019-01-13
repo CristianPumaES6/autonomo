@@ -9,7 +9,7 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             autoIncrement: true,
             primaryKey: true,
         },
-        cuantity: {
+        quantity: {
             type: dataType.INTEGER,
             allowNull: false,
         },

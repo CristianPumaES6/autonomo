@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../shared/service/base.service';
-import { IInvoice } from '@isofocus/interfaces';
+import { IInvoice, IInvoiceLine } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -11,11 +11,6 @@ import { FormStyle } from '../form/classes/form-style';
     providedIn: 'root'
 })
 export class InvoiceService extends BaseService<IInvoice> {
-    public style: FormStyle;
-    public form: FormGroup;
-    public invoiceLinesStyles: FormStyle[] = [];
-    public invoiceLinesForm: FormGroup[] = [];
-
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
         this.SERVER_URL += '/invoice/';
@@ -48,7 +43,7 @@ export class InvoiceService extends BaseService<IInvoice> {
     }
 
     createForm(invoice?: IInvoice) {
-        this.form = new FormGroup({
+        return new FormGroup({
             visualID: new FormControl(invoice ? invoice.visualID : '', [
                 Validators.required,
             ], invoice ? undefined : [
@@ -70,11 +65,10 @@ export class InvoiceService extends BaseService<IInvoice> {
             notes: new FormControl(invoice ? invoice.notes : ''),
             received: new FormControl(invoice ? invoice.received : true),
         });
-        return this;
     }
 
     createStyle() {
-        this.style = new FormStyle([{
+        return new FormStyle([{
             type: 'text',
             name: 'nameCompany',
             label: 'Nombre de la compañia',
@@ -109,42 +103,39 @@ export class InvoiceService extends BaseService<IInvoice> {
             placeholder: 'Recibida',
             cols: 2,
         }]);
-        return this;
     }
 
-    public addLine() {
-        this.invoiceLinesForm.push(this.getFormLine());
-        this.invoiceLinesStyles.push(this.getFormStyle());
-        return this;
-    }
-
-    private getFormLine() {
+    getFormLine(invoiceLine?: IInvoiceLine) {
         return new FormGroup({
-            description: new FormControl(),
-            iva: new FormControl(21),
-            quantity: new FormControl(0),
-            price: new FormControl(0),
+            description: new FormControl(invoiceLine ? invoiceLine.description : ''),
+            iva: new FormControl(invoiceLine ? invoiceLine.iva : ''),
+            quantity: new FormControl(invoiceLine ? invoiceLine.quantity : ''),
+            price: new FormControl(invoiceLine ? invoiceLine.price : ''),
         });
     }
 
-    private getFormStyle() {
+    getFormStyle() {
         return new FormStyle([
             {
                 type: 'text',
                 name: 'description',
                 label: 'Descripción',
+                cols: 6,
             }, {
                 type: 'number',
                 name: 'iva',
                 label: 'IVA',
+                cols: 2,
             }, {
                 type: 'number',
                 name: 'quantity',
                 label: 'Cantidad',
+                cols: 2,
             }, {
                 type: 'number',
                 name: 'price',
                 label: 'Precio',
+                cols: 2,
             },
         ]);
     }

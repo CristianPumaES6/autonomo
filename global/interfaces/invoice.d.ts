@@ -1,4 +1,5 @@
 import { IUser } from './user';
+import { IInvoiceLine } from './invoiceLine';
 
 export interface IInvoice {
     id?: number;
@@ -11,4 +12,7 @@ export interface IInvoice {
     visualID?: number;
 
     userID?: number | IUser;
+
+    invoiceLines?: IInvoiceLine[];
+    invoiceLinesID?: number;
 }

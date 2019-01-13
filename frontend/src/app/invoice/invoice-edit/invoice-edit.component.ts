@@ -12,11 +12,14 @@ import { FormStyle } from '../../form/classes/form-style';
     styleUrls: ['./invoice-edit.component.scss']
 })
 export class InvoiceEditComponent implements OnInit {
-    form: FormGroup;
-    style: FormStyle;
     invoice: IInvoice;
     cols: number;
     id: number;
+
+    form: FormGroup;
+    style: FormStyle;
+    invoiceLinesStyles: FormStyle[] = [];
+    invoiceLinesForm: FormGroup[] = [];
 
     constructor(
         protected readonly invoiceService: InvoiceService,
@@ -40,17 +43,35 @@ export class InvoiceEditComponent implements OnInit {
                     } else {
                         this.form = this.invoiceService.createForm(this.invoice);
                         this.style = this.invoiceService.createStyle();
+                        this.invoice.invoiceLines.forEach(i => {
+                            this.invoiceLinesForm.push(this.invoiceService.getFormLine(i));
+                            this.invoiceLinesStyles.push(this.invoiceService.getFormStyle());
+                        });
                     }
                 }
             );
         });
     };
 
+    addLine() {
+        this.invoiceLinesForm.push(this.invoiceService.getFormLine());
+        this.invoiceLinesStyles.push(this.invoiceService.getFormStyle());
+    }
+
+    deleteLine() {
+        if (this.invoiceLinesForm.length > 1) {
+            this.invoiceLinesForm.pop();
+            this.invoiceLinesStyles.pop();
+        }
+    }
+
     edit() {
-        if (this.form.valid) this.invoiceService.put({ id: this.id, ...this.form.getRawValue() }).subscribe(() => {
-            this.goBack();
-            SnackService.send$.emit('Editado con exito.');
-        });
+        if (this.form.valid) {
+            this.invoiceService.put({ id: this.id, ...this.form.getRawValue(), invoiceLines: this.invoiceLinesForm.map(i => i.getRawValue()) }).subscribe(() => {
+                this.goBack();
+                SnackService.send$.emit('Editado con exito.');
+            });
+        }
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }

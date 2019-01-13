@@ -16,16 +16,21 @@ export class InvoicesService {
         return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine] });
     }
 
-    async post(invoice: IInvoice & { invoiceLine: IInvoiceLine[] }) {
-        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLine);
+    async post(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
         const invoiceDB = await db.models.invoice.create(invoice);
         await invoiceDB.setInvoiceLines(invoiceLine);
         return invoiceDB;
     }
 
-    async put(invoice: IInvoice, user: number) {
-        // TODO: Mirar como hacer el update de las lineas de factura (borrassssssssr todas las de una linea y añadirle las nuevas).
-        return await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
+    async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, user: number) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
+        const invoiceDBSelect = (await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } }))!;
+        // db.models.invoiceLine.bulkDelete(invoice.invoiceLines);
+        // FIXME: SI NO BORRA TODAS LAS LINEAS DE FACTURA, BORRARLAS CON LA MISMA FUNCION DE BULKDEKETE PERO HACIENDO UN SELECT ANTES DE LA FACTURA MADRE.
+        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user }, returning: true });
+        await invoiceDBSelect.setInvoiceLines(invoiceLine); // TODO: COMPROBAR SI BORRA TODAS LAS LIENAS Y LAS INSETA DE NUEVO
+        return invoiceDB;
     }
 
     async delete(id: number, user: number) {

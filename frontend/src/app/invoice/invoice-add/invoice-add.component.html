@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="invoiceService.from">
     <mat-card-header>
         <mat-card-title>
             <button matTooltip="Atrás" mat-icon-button color="warn" routerLink="..">
@@ -8,5 +8,25 @@
         </mat-card-title>
     </mat-card-header>
 
-    <if-form [form]="form" [style]="style" [defaultCol]="4" (data)="create()" (cancel)="goBack()" labelAccept="Añadir"></if-form>
+    <h4>Datos generales de la factura</h4>
+    <if-form [form]="invoiceService.from" [style]="invoiceService.style" [defaultCol]="4" [cancelButton]="false"
+        [acceptButton]="false" labelAccept="Añadir"></if-form>
+
+    <h4>Lineas de factura</h4>
+    <ng-container *ngFor="let styleLine of invoiceService.invoiceLinesStyles; let i = index">
+        <if-form *ngIf="styleLine" [cancelButton]="false" [acceptButton]="false" [form]="invoiceService.invoiceLinesForm[i]"
+            [style]="styleLine"></if-form>
+    </ng-container>
+
+    <button (click)="addLine()" mat-icon-button>
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <mat-card-actions class="bottom-buttons">
+        <button class="accept-button" mat-button color="primary" (click)="create()">
+            <span> Añadir </span>
+        </button>
+        <button type="button" mat-button color="warn" (click)="goBack()">Cancelar</button>
+    </mat-card-actions>
+
 </mat-card>

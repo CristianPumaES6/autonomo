@@ -13,12 +13,12 @@ import {
 } from '../app.constants';
 
 import { IUser, IInvoice, IConfig, IInvoiceLine } from '../../../global/interfaces';
-import { IInstance, IUnionConfig, IUnionInvoice, IUnionInvoiceLine } from './instance';
+import { IInstance, IUnionInvoice, IUnionInvoiceLine, IUnionUser } from './instance';
 
 export interface IModels {
-    user: Sequelize.Model<IInstance<IUser> & IUnionConfig & IUnionInvoice, IUser>;
+    user: Sequelize.Model<IInstance<IUser> & IUnionInvoice, IUser>;
     invoice: Sequelize.Model<IInstance<IInvoice> & IUnionInvoiceLine, IInvoice>;
-    config: Sequelize.Model<IInstance<IConfig>, IConfig>;
+    config: Sequelize.Model<IInstance<IConfig> & IUnionUser, IConfig>;
     invoiceLine: Sequelize.Model<IInstance<IInvoiceLine>, IInvoiceLine>;
 }
 
@@ -57,18 +57,23 @@ class DB {
      */
     private async createDefaultValues() {
         if (!PROD) {
+            let miguel: IInstance<IUser> & IUnionInvoice, invoices: any[] = [];
             if (await db.models.user.count() === 0) {
-                const miguel = await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' });
-                const invoice0 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') });
-                const invoice1 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') });
-                const invoice2 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') });
-                const invoice3 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') });
-                const invoice4 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon' });
-                const invoice5 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, });
-                const invoice6 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon' });
-                const invoice7 = await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') });
-
-                await miguel.setInvoices([invoice1, invoice0, invoice2, invoice3, invoice4, invoice5, invoice6, invoice7]);
+                miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' }))!;
+                const configDB = await db.models.config.create();
+                await configDB.setUser(miguel);
+            }
+            if (await db.models.invoice.count() === 0) {
+                miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') }));
+                await miguel.setInvoices(invoices);
             }
         }
     }

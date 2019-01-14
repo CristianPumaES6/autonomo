@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../shared/service/base.service';
-import { IInvoice } from '@isofocus/interfaces';
+import { IInvoice, IInvoiceLine } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { FormStyle } from '../form/classes/form-style';
-import { types, IStyle } from '../form/entities/iStyle';
 
 @Injectable({
     providedIn: 'root'
 })
 export class InvoiceService extends BaseService<IInvoice> {
-
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
         this.SERVER_URL += '/invoice/';
@@ -93,11 +91,12 @@ export class InvoiceService extends BaseService<IInvoice> {
             name: 'date',
             label: 'Fecha',
             info: 'Formato mm/dd/yyyy',
-            cols: 2,
+            cols: 3,
         }, {
             type: 'text',
             name: 'cif',
             label: 'DNI/NIF',
+            cols: 3,
         }, {
             type: 'sliderToggle',
             name: 'received',
@@ -106,36 +105,38 @@ export class InvoiceService extends BaseService<IInvoice> {
         }]);
     }
 
-    getFormLine() {
+    getFormLine(invoiceLine?: IInvoiceLine) {
         return new FormGroup({
-            description: new FormControl('hola', [Validators.required]),
-            iva: new FormControl(21, [Validators.required]),
-            quantity: new FormControl(0, [Validators.required]),
-            price: new FormControl(0, [Validators.required]),
+            description: new FormControl(invoiceLine ? invoiceLine.description : ''),
+            iva: new FormControl(invoiceLine ? invoiceLine.iva : ''),
+            quantity: new FormControl(invoiceLine ? invoiceLine.quantity : ''),
+            price: new FormControl(invoiceLine ? invoiceLine.price : ''),
         });
     }
 
     getFormStyle() {
-        return new FormStyle([{
-            type: 'text',
-            name: 'description',
-            label: 'Descripción',
-            cols: 8,
-        }, {
-            type: 'number',
-            name: 'iva',
-            label: 'iva',
-            cols: 1,
-        }, {
-            type: 'number',
-            name: 'quantity',
-            label: 'Cantidad',
-            cols: 1,
-        }, {
-            type: 'number',
-            name: 'price',
-            label: 'Precio total',
-            cols: 2,
-        }]);
+        return new FormStyle([
+            {
+                type: 'text',
+                name: 'description',
+                label: 'Descripción',
+                cols: 6,
+            }, {
+                type: 'number',
+                name: 'iva',
+                label: 'IVA',
+                cols: 2,
+            }, {
+                type: 'number',
+                name: 'quantity',
+                label: 'Cantidad',
+                cols: 2,
+            }, {
+                type: 'number',
+                name: 'price',
+                label: 'Precio',
+                cols: 2,
+            },
+        ]);
     }
 }

@@ -2,6 +2,6 @@ export interface IInvoiceLine {
     id?: number;
     iva?: number;
     description?: string;
-    cuantity?: number;
+    quantity?: number;
     price?: number;
 }

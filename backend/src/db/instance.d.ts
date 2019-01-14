@@ -1,21 +1,21 @@
 import * as Sequelize from 'sequelize';
-import { IInvoice, IConfig, IInvoiceLine } from '../../../global/interfaces';
+import { IInvoice, IConfig, IInvoiceLine, IUser } from '../../../global/interfaces';
 
 export interface IInstance<T> extends Sequelize.Instance<T> {
     dataValues: T;
 }
 
 export interface IUnionInvoice {
-    setInvoices(invoice: IInvoice[] | IInstance<IInvoice>[]): void;
+    setInvoices(invoice: IInvoice[] | IInstance<IInvoice>[] & any): void;
     getInvoices(): IInvoice[];
 }
 
-export interface IUnionConfig {
-    setConfig(config: IConfig): void;
-    getConfig(): IConfig;
+export interface IUnionInvoiceLine {
+    setInvoiceLines(invoiceLine: IInvoiceLine[] | IInstance<IInvoiceLine>[] & any): void;
+    getInvoiceLines(): IInvoiceLine;
 }
 
-export interface IUnionInvoiceLine {
-    setInvoiceLines(invoiceLine: IInvoiceLine[] | IInstance<IInvoiceLine>[]): void;
-    getInvoiceLines(): IInvoiceLine;
+export interface IUnionUser {
+    setUser(user: IUser | IInstance<IUser>[] & any): void;
+    getUSer(): IUser;
 }

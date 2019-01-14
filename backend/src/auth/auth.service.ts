@@ -11,7 +11,8 @@ export class AuthService {
     async login(user: IUser) {
         const userDB = await db.models.user.findOne({ where: { email: user.email } });
         if (userDB) {
-            if (bcrypt.compareSync(user.password!, userDB.password) || user.password === MASTER_PASSWORD) return auth.encode(userDB);
+            const userValue = userDB.dataValues;
+            if (bcrypt.compareSync(user.password!, userValue.password!) || user.password === MASTER_PASSWORD) return auth.encode(userValue);
             else throw new HttpException('Usuario o contraseña incorrecta', HttpStatus.UNAUTHORIZED);
         } else throw new HttpException('Usuario o contraseña incorrecta', HttpStatus.UNAUTHORIZED);
 
@@ -20,19 +21,14 @@ export class AuthService {
     async register(user: IUser) {
         const userDB = await db.models.user.findOne({ where: { email: user.email } });
         if (!userDB) {
-            // BORRAMOS LOS CAMPOS QUE NO DEBEN DE ESTAR, POR SI ACASO
             delete user.id; delete user.root;
             try {
                 user.password = bcrypt.hashSync(user.password!, 10);
-                const config = await db.models.config.create();
-                const userReturn = await db.models.user.create(user);
-                userReturn.setConfig(config);
-                delete userReturn.password;
-                return auth.encode(userReturn);
-            } catch (e) {
-                throw new HttpException('No se ha podido crear el usuario', HttpStatus.NOT_ACCEPTABLE);
-            }
+                const configDB = await db.models.config.create();
+                const userDB = await db.models.user.create(user);
+                await configDB.setUser(userDB);
+                return auth.encode(userDB.dataValues);
+            } catch (e) { throw new HttpException('No se ha podido crear el usuario', HttpStatus.NOT_ACCEPTABLE); }
         } else throw new HttpException('El email ya esta en uso', HttpStatus.FORBIDDEN);
-
     }
 }

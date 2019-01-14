@@ -10,24 +10,27 @@ import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 export class InvoicesService {
     async get(user: number) {
         return await db.models.invoice.findAll({ where: { userID: user }, include: [db.models.invoiceLine] });
-        // { where: { userId: user }, include: [db.models.invoiceLine] }
     }
 
     async getID(user: number, id: number) {
         return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine] });
     }
 
-    async post(invoice: IInvoice & { invoiceLine: IInvoiceLine[] }, userID: number) {
-        delete invoice.id;
-        const invoiceLine = invoice.invoiceLine;
-        (<any>invoice).userID = userID;
+    async post(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
         const invoiceDB = await db.models.invoice.create(invoice);
-        invoiceDB.setInvoiceLines(invoiceLine);
+        await invoiceDB.setInvoiceLines(invoiceLine);
         return invoiceDB;
     }
 
-    async put(invoice: IInvoice, user: number) {
-        return await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
+    async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, user: number) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
+        const invoiceDBSelect = (await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } }))!;
+        // db.models.invoiceLine.bulkDelete(invoice.invoiceLines);
+        // FIXME: SI NO BORRA TODAS LAS LINEAS DE FACTURA, BORRARLAS CON LA MISMA FUNCION DE BULKDEKETE PERO HACIENDO UN SELECT ANTES DE LA FACTURA MADRE.
+        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user }, returning: true });
+        await invoiceDBSelect.setInvoiceLines(invoiceLine); // TODO: COMPROBAR SI BORRA TODAS LAS LIENAS Y LAS INSETA DE NUEVO
+        return invoiceDB;
     }
 
     async delete(id: number, user: number) {
@@ -38,8 +41,8 @@ export class InvoicesService {
         return await db.models.invoice.restore({ where: { id, userID: user } });
     }
 
-    async next(user: number) {
-        return await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max from invoices WHERE userID = ?', values: [user] });
+    async next(user: number): Promise<{ max: number }> {
+        return (await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max FROM invoices WHERE userID = ?', values: [user] }))[0][0];
     }
 
     async check(visualID: number, user: number) {

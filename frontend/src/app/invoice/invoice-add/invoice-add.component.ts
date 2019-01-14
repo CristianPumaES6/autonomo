@@ -12,13 +12,17 @@ import { TouchSequence } from 'selenium-webdriver';
     styleUrls: ['./invoice-add.component.scss']
 })
 export class InvoiceAddComponent implements OnInit {
-    form: FormGroup;
-    style: FormStyle;
     cols: number;
     validID = true;
     nextID: number;
     formArray: FormGroup[];
     styles: FormStyle[];
+
+    form: FormGroup;
+    style: FormStyle;
+    invoiceLinesStyles: FormStyle[] = [];
+    invoiceLinesForm: FormGroup[] = [];
+
 
     constructor(
         protected readonly invoiceService: InvoiceService,

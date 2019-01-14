@@ -1,0 +1,3 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DATABASE_NAME = 'isofocus', exports.DATABASE_USERNAME = 'root', exports.DATABASE_PASSWORD = '', exports.DATABASE_HOST = 'localhost', exports.DATABASE_PROD_NAME = 'isofocus', exports.DATABASE_PROD_USERNAME = 'root', exports.DATABASE_PROD_PASSWORD = 'mi1995guel.', exports.DATABASE_PROD_HOST = 'isofocus.es', exports.JSONWEBTOKEN_SECRET = 'Alg0#Muy@S3cr3t0.', exports.JSONWEBTOKEN_ISSUER = 'Isofocus2k', exports.JSONWEBTOKEN_EXPIRES = '8h', exports.LOGIN_MASTER_PASSWORD = 'isofocus.2$@', exports.VALUE_EMAIL_HOST = 'authsmtp.securemail.pro', exports.VALUE_EMAIL_USER = 'contacto@egeeks.es', exports.VALUE_EMAIL_PASSWORD = 'pyuDpe75';

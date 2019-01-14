@@ -6,7 +6,7 @@ import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators, 
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { FormStyle } from '../form/classes/form-style';
-import { types } from '../form/entities/iStyle';
+import { types, IStyle } from '../form/entities/iStyle';
 
 @Injectable({
     providedIn: 'root'
@@ -64,7 +64,6 @@ export class InvoiceService extends BaseService<IInvoice> {
             fisicalAddress: new FormControl(invoice ? invoice.fisicalAddress : localStorage.getItem('fisicalAddress') || '', [
                 Validators.required,
             ]),
-            invoiceLine: new FormArray([this.getFormLine()]),
             notes: new FormControl(invoice ? invoice.notes : ''),
             received: new FormControl(invoice ? invoice.received : true),
         });
@@ -73,13 +72,8 @@ export class InvoiceService extends BaseService<IInvoice> {
     createStyle() {
         return new FormStyle([{
             type: 'text',
-            name: 'visualID',
-            label: 'ID',
-        }, {
-            type: 'date',
-            name: 'date',
-            label: 'Fecha',
-            info: 'Formato mm/dd/yyyy',
+            name: 'nameCompany',
+            label: 'Nombre de la compañia',
         }, {
             type: 'text',
             name: 'fisicalAddress',
@@ -91,12 +85,19 @@ export class InvoiceService extends BaseService<IInvoice> {
             rows: 3,
         }, {
             type: 'text',
-            name: 'cif',
-            label: 'DNI/NIF',
+            name: 'visualID',
+            label: 'ID',
+            cols: 2,
+        }, {
+            type: 'date',
+            name: 'date',
+            label: 'Fecha',
+            info: 'Formato mm/dd/yyyy',
+            cols: 2,
         }, {
             type: 'text',
-            name: 'nameCompany',
-            label: 'Nombre de la compañia',
+            name: 'cif',
+            label: 'DNI/NIF',
         }, {
             type: 'sliderToggle',
             name: 'received',
@@ -107,18 +108,34 @@ export class InvoiceService extends BaseService<IInvoice> {
 
     getFormLine() {
         return new FormGroup({
-            description: new FormControl('hola'),
-            iva: new FormControl(9),
-            quantity: new FormControl(10),
-            price: new FormControl(999),
+            description: new FormControl('hola', [Validators.required]),
+            iva: new FormControl(21, [Validators.required]),
+            quantity: new FormControl(0, [Validators.required]),
+            price: new FormControl(0, [Validators.required]),
         });
     }
 
     getFormStyle() {
-        return new FormStyle([
-            {
-                type: 'multiple',
-            }
-        ]);
+        return new FormStyle([{
+            type: 'text',
+            name: 'description',
+            label: 'Descripción',
+            cols: 8,
+        }, {
+            type: 'number',
+            name: 'iva',
+            label: 'iva',
+            cols: 1,
+        }, {
+            type: 'number',
+            name: 'quantity',
+            label: 'Cantidad',
+            cols: 1,
+        }, {
+            type: 'number',
+            name: 'price',
+            label: 'Precio total',
+            cols: 2,
+        }]);
     }
 }

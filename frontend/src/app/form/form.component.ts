@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Inject, OnChanges } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { FormStyle } from './classes/form-style';
 import { IStyle } from './entities/iStyle';
@@ -105,11 +105,7 @@ export class FormComponent implements OnInit {
 
     resizeCols(type: 1 | 2 | 3) {
         for (const i in this.style.styles) {
-            // Ponemos las columnas fijas pero los row tienen que crecer por el doble grid
-            if (this.style.styles[i].type === 'geoname') {
-                this.style.styles[i].cols = 12;
-                this.style.styles[i].rows = (type === 1 ? 4 : type === 2 ? 2 : 1);
-            } else if (this.style.styles[i].type === 'file' && type === 2) this.style.styles[i].cols = this.cols;
+            if (this.style.styles[i].type === 'file' && type === 2) this.style.styles[i].cols = this.cols;
             else this.style.styles[i].cols = (type === 1 ? this.cols : type === 2 ? this.cols / 2 : this.firstSizes[i]);
         }
     }

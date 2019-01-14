@@ -2,13 +2,9 @@
     <mat-divider *ngIf="backButton || newButton || title || subtitle"></mat-divider>
     <form #formElement [formGroup]="form">
         <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
-            <mat-grid-tile *ngFor="let item of style.styles" [colspan]="item.type === 'divider' ? cols : (item.cols || defaultCol)"
+            <mat-grid-tile *ngFor="let item of style.styles" [colspan]="item.type === 'divider' || item.type === 'multiple' ? cols : (item.cols || defaultCol)"
                 [rowspan]="item.rows || row">
                 <ng-container [ngSwitch]="item.type">
-
-                    <ng-container *ngSwitchCase="'children'">
-                        <if-form [form]="form.get(item.name)" [style]="item.children"></if-form>
-                    </ng-container>
 
                     <ng-container *ngSwitchCase="'chips'">
                         <mat-form-field [appearance]="item.appearance || 'outline'">
@@ -271,7 +267,7 @@
                                     </ng-container>
                                 </div>
                             </mat-error>
-                            <mat-error *ngIf="form.get(item.name).hasError('invalidID')">
+                            <mat-error *ngIf="form.get(item.name)?.hasError('invalidID')">
                                 Ya existe una ID con ese número.
                             </mat-error>
                         </mat-form-field>

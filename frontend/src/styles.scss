@@ -98,4 +98,12 @@ body {
         background: #555;
     }
 
+
+    .accept-button {
+        display: inline;
+    }
+
+    .disabled {
+        cursor: wait;
+    }
 }

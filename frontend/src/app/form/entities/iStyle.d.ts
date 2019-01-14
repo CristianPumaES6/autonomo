@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { FormStyle } from '../classes/form-style';
 
 export interface IStyle {
     type: ('text' | 'select' | 'sliderToggle' | 'textarea' | 'color' | 'date' | 'datetime-local'
@@ -40,7 +41,7 @@ export interface IStyle {
             options: options[];
         }
     }[];
-    children?: IStyle;
+    children?: FormStyle;
 }
 
 interface pre_suf_fix {

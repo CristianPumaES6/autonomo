@@ -8,5 +8,24 @@
         </mat-card-title>
     </mat-card-header>
 
-    <if-form [form]="form" [style]="style" [defaultCol]="4" (data)="create()" (cancel)="goBack()" labelAccept="Añadir"></if-form>
+    <if-form [form]="form" [style]="style" [defaultCol]="4" [acceptButton]="false" [cancelButton]="false"></if-form>
+
+    <mat-divider></mat-divider>
+
+    <ng-container *ngFor="let styleArray of styles; let i = index">
+        <if-form [form]="formArray[i]" [style]="styleArray" [defaultCol]="4" [acceptButton]="false" [cancelButton]="false"></if-form>
+    </ng-container>
+
+    <div class="add-button">
+        <button (click)="addForm()" mat-icon-button>
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    <mat-card-actions>
+        <div class="accept-button" [ngClass]="{'disabled': !form.valid}" [matTooltip]="!form.valid ? 'Completa todos los campos' : ''">
+            <button mat-button (click)="create()" color="primary" [disabled]="!form.valid">Añadir</button>
+        </div>
+        <button mat-button type="button" color="warn">Cancelar</button>
+    </mat-card-actions>
 </mat-card>

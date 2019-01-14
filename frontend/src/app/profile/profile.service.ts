@@ -16,7 +16,7 @@ export class ProfileService extends BaseService<IUser> {
     }
 
     getMy() {
-        return this.httpClient.get(this.SERVER_URL + 'my');
+        return this.httpClient.get<IUser>(this.SERVER_URL + 'my');
     }
 
     putProfile(user: IUser) {

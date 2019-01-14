@@ -3,7 +3,7 @@ import { DataTypes, Sequelize } from 'sequelize';
 import { IInstance, IUnionConfig, IUnionInvoice } from '../instance';
 
 export default function (sequelize: Sequelize, dataType: DataTypes) {
-    return sequelize.define<IInstance<IUser> & IUnionConfig & IUnionInvoice, IUser>('user', {
+    return sequelize.define<IInstance<IUser>, IUser>('user', {
         id: {
             type: dataType.INTEGER,
             autoIncrement: true,

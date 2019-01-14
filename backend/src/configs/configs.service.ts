@@ -6,10 +6,8 @@ import { IConfig } from '../../../global/interfaces';
 export class ConfigsService {
     async get(id: number) {
         const user = (await db.models.user.findOne({ where: { id }, include: [db.models.config] }))!.dataValues;
-        console.log(user);
         if (!user) throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
-
-        // return await db.models.config.findOne({ where: { id: user.config } });
+        return user.config;
     }
 
     async update(config: IConfig, id: number) {

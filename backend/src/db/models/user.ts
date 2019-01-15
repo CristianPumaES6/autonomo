@@ -1,6 +1,6 @@
-import { IUser, IConfig } from '../../../../global/interfaces';
+import { IUser } from '../../../../global/interfaces';
 import { DataTypes, Sequelize } from 'sequelize';
-import { IInstance, IUnionConfig, IUnionInvoice } from '../instance';
+import { IInstance } from '../instance';
 
 export default function (sequelize: Sequelize, dataType: DataTypes) {
     return sequelize.define<IInstance<IUser>, IUser>('user', {

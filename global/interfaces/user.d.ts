@@ -10,6 +10,7 @@ export interface IUser {
     email?: string;
     dni?: string;
     root?: boolean;
+    deletedAt?: Date;
 
     configID?: number;
     config?: IConfig;

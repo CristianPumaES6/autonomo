@@ -12,13 +12,17 @@
 
     <mat-divider></mat-divider>
 
-    <ng-container *ngFor="let styleArray of styles; let i = index">
-        <if-form [form]="formArray[i]" [style]="styleArray" [defaultCol]="4" [acceptButton]="false" [cancelButton]="false"></if-form>
+    <ng-container *ngFor="let styleArray of invoiceLinesStyles; let i = index">
+        <if-form [form]="invoiceLinesForm[i]" [style]="styleArray" [defaultCol]="4" [acceptButton]="false"
+            [cancelButton]="false"></if-form>
     </ng-container>
 
     <div class="add-button">
-        <button (click)="addForm()" mat-icon-button>
+        <button (click)="addLine()" color="primary" mat-icon-button>
             <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="deleteLine()" color="warn" mat-icon-button>
+            <mat-icon>remove</mat-icon>
         </button>
     </div>
 

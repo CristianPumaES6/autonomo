@@ -135,6 +135,7 @@ export class InvoiceService extends BaseService<IInvoice> {
                 type: 'number',
                 name: 'price',
                 label: 'Precio',
+                info: 'Sin IVA',
                 cols: 2,
             },
         ]);

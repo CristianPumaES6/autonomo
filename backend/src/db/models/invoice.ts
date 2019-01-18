@@ -27,7 +27,7 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             type: dataType.TEXT,
         },
         visualID: {
-            type: dataType.INTEGER,
+            type: dataType.STRING,
         },
         received: {
             type: dataType.BOOLEAN,

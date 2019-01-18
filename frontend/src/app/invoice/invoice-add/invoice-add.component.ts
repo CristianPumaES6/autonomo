@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '../../config/config.service';
 import { FormStyle } from '../../form/classes/form-style';
 import { TouchSequence } from 'selenium-webdriver';
+import { IInvoice } from '@isofocus/interfaces';
 
 @Component({
     selector: 'app-invoice-add',
@@ -15,8 +16,6 @@ export class InvoiceAddComponent implements OnInit {
     cols: number;
     validID = true;
     nextID: number;
-    formArray: FormGroup[];
-    styles: FormStyle[];
 
     form: FormGroup;
     style: FormStyle;
@@ -34,8 +33,8 @@ export class InvoiceAddComponent implements OnInit {
     ngOnInit() {
         this.form = this.invoiceService.createForm();
         this.style = this.invoiceService.createStyle();
-        this.formArray = [this.invoiceService.getFormLine()];
-        this.styles = [this.invoiceService.getFormStyle()];
+        this.invoiceLinesForm = [this.invoiceService.getFormLine()];
+        this.invoiceLinesStyles = [this.invoiceService.getFormStyle()];
 
         this.invoiceService.getNext().subscribe(next => {
             this.nextID = next;
@@ -45,7 +44,11 @@ export class InvoiceAddComponent implements OnInit {
 
     create() {
         if (this.form.valid) {
-            this.invoiceService.post(this.form.getRawValue()).subscribe(() => {
+            const invoice: IInvoice = this.form.getRawValue();
+            console.log(this.invoiceLinesForm.map(il => il.getRawValue()));
+            invoice.invoiceLines = this.invoiceLinesForm.map(il => il.getRawValue());
+
+            this.invoiceService.post(invoice).subscribe(() => {
                 localStorage.setItem('cif', this.form.get('cif').value);
                 localStorage.setItem('nameCompany', this.form.get('nameCompany').value);
                 localStorage.setItem('fisicalAddress', this.form.get('fisicalAddress').value);
@@ -54,9 +57,16 @@ export class InvoiceAddComponent implements OnInit {
         }
     }
 
-    addForm() {
-        this.formArray.push(this.invoiceService.getFormLine());
-        this.styles.push(this.invoiceService.getFormStyle());
+    addLine() {
+        this.invoiceLinesForm.push(this.invoiceService.getFormLine());
+        this.invoiceLinesStyles.push(this.invoiceService.getFormStyle());
+    }
+
+    deleteLine() {
+        if (this.invoiceLinesForm.length > 1) {
+            this.invoiceLinesForm.pop();
+            this.invoiceLinesStyles.pop();
+        }
     }
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }

@@ -6,7 +6,8 @@
     "scripts": {
         "frontend": "cd frontend && npm start",
         "backend": "cd backend && npm start",
-        "start": "concurrently \"npm run backend\" \"npm run frontend\""
+        "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+        "prestart": "npm i"
     },
     "repository": {
         "type": "git",

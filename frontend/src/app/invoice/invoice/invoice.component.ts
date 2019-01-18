@@ -16,7 +16,7 @@ export class InvoiceComponent implements OnInit {
     dataSource: MatTableDataSource<IInvoice>;
     pageSizeOptions = [10, 50, 100];
     config: IConfig;
-    displayedColumns = ['id', 'date', 'received', 'cif', 'name', 'price', 'actions'];
+    displayedColumns = ['id', 'date', 'received', 'cif', 'name', 'actions'];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 

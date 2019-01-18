@@ -9,7 +9,7 @@ export interface IInvoice {
     fisicalAddress?: string;
     notes?: string;
     received?: boolean;
-    visualID?: number;
+    visualID?: string;
 
     userID?: number | IUser;
 

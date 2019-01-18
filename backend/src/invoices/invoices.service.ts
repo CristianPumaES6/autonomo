@@ -9,7 +9,7 @@ import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoice.findAll({ where: { userID: user }, include: [db.models.invoiceLine] });
+        return await db.models.invoice.findAll({ where: { userID: user } });
     }
 
     async getID(user: number, id: number) {
@@ -24,12 +24,11 @@ export class InvoicesService {
     }
 
     async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, user: number) {
+        await db.models.invoiceLine.destroy({ where: { invoiceID: invoice.id! } });
         const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
-        const invoiceDBSelect = (await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } }))!;
-        // db.models.invoiceLine.bulkDelete(invoice.invoiceLines);
-        // FIXME: SI NO BORRA TODAS LAS LINEAS DE FACTURA, BORRARLAS CON LA MISMA FUNCION DE BULKDEKETE PERO HACIENDO UN SELECT ANTES DE LA FACTURA MADRE.
-        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user }, returning: true });
-        await invoiceDBSelect.setInvoiceLines(invoiceLine); // TODO: COMPROBAR SI BORRA TODAS LAS LIENAS Y LAS INSETA DE NUEVO
+        const invoiceDBSelect = await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } });
+        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
+        await invoiceDBSelect!.setInvoiceLines(invoiceLine);
         return invoiceDB;
     }
 

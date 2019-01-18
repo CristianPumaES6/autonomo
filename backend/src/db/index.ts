@@ -65,14 +65,14 @@ class DB {
             }
             if (await db.models.invoice.count() === 0) {
                 miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
-                invoices.push(await db.models.invoice.create({ cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000001', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('12/12/2018') }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000002', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('8/8/2018') }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000003', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('10/10/2018') }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000004', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: false, date: new Date('9/9/2018') }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000005', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000006', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', received: true, }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000007', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon' }));
+                invoices.push(await db.models.invoice.create({ visualID: '2019000008', cif: '48778194R', fisicalAddress: 'Calle Rio Algar 30, 4ºE', nameCompany: 'Boon', date: new Date('12/5/2018') }));
                 await miguel.setInvoices(invoices);
             }
         }

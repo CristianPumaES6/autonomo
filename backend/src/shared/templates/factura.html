@@ -81,6 +81,28 @@
             min-height: 1.8rem;
         }
 
+        .description {
+            min-width: 35%;
+        }
+
+        .quantity {
+            min-width: 5%;
+
+        }
+
+        .iva-line {
+            min-width: 30%;
+        }
+
+        .total-unitario,
+        .line-total {
+            min-width: 15%;
+        }
+
+        .line>div {
+            text-align: center;
+        }
+
         .id {
             width: 20%;
         }
@@ -132,6 +154,9 @@
 
             justify-content: space-between;
         }
+        .ajustes {
+            margin-bottom: 1rem;
+        }
 
         .subtotal span {
             margin-right: 0;
@@ -165,8 +190,7 @@
         .sub-total>div,
         .ajustes>div,
         .iva>div,
-        footer>div,
-        .line>div {
+        footer>div {
             -webkit-box-flex: 1;
             -webkit-flex: 1;
             flex: 1;
@@ -191,12 +215,9 @@
             text-align: end;
         }
 
-        .sub-total:nth-child(even),
-        .line:nth-child(even),
-        .iva:nth-child(even),
-        .ajustes:nth-child(even),
-        footer:nth-child(even) {
+        .odd {
             background-color: #dcdcdc50;
+            border: 1px solid #dcdcdc50;
         }
 
         .description {
@@ -237,17 +258,13 @@
         </div>
         <div class="lines">
             <div class="line color-primary">
-                <div>Descripción</div>
-                <div>Cantidad</div>
-                <div>Precio unitario</div>
-                <div>Precio total</div>
+                <div class="description">Descripción</div>
+                <div class="quantity">Cantidad</div>
+                <div class="total-unitario">Precio unitario</div>
+                <div class="iva-line">IVA</div>
+                <div class="line-total">Precio total</div>
             </div>
-            <div class="line">
-                <div class="description">@@descripcion@@</div>
-                <div>1</div>
-                <div class="total-unitario">@@total@@</div>
-                <div class="line-total">@@total@@</div>
-            </div>
+            @@lines@@
         </div>
     </main>
     <footer class="separated">
@@ -260,16 +277,18 @@
                 <div>Subtotal:</div>
                 <div>@@subtotal@@</div>
             </div>
-            <div class="iva">
+            <div class="iva odd">
                 <div>IVA:</div>
-                <div>@@iva@@%</div>
                 <div>@@ivaTotal@@</div>
             </div>
             <div class="ajustes">
                 <div>Ajustes:</div>
                 <div>0,00€</div>
             </div>
-            <span class="color-secondary">@@totalFactura@@</span>
+            <div class="ajustes">
+                <div class="color-secondary"> TOTAL:</div>
+                <div class="color-secondary">@@totalFactura@@</div>
+            </div>
         </div>
     </footer>
 </body>

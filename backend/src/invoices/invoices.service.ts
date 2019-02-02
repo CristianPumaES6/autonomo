@@ -49,7 +49,7 @@ export class InvoicesService {
     }
 
     async generatePDF(id: number, user: number) {
-        const invoice = await db.models.invoice.findOne({ where: { id, userID: user } });
+        const invoice = await db.models.invoice.findOne({ where: { id, userID: user }, include: [db.models.invoiceLine] });
         const userDB = await db.models.user!.findOne({ where: { id: user } });
 
         if (!userDB || !invoice) throw new HttpException('No puedes generar el PDF', HttpStatus.UNAUTHORIZED);
@@ -57,6 +57,13 @@ export class InvoicesService {
         let template = fs.readFileSync(path.join(__dirname, '../shared/templates/factura.html'), 'utf-8');
         const userValue = userDB.dataValues,
             invoiceValues = invoice.dataValues;
+
+        let totalFactura = 0, ivaTotal = 0, subtotal = 0;
+        invoiceValues.invoiceLines!.forEach(e => {
+            subtotal += e.price! * e.quantity!;
+            ivaTotal += e.price! * e.iva! / 100 * e.quantity!;
+            totalFactura += e.quantity! * e.price! + (e.price! * e.iva! / 100);
+        });
 
         template = template
             .replace(/@@nombre@@/g, userValue.name!)
@@ -69,7 +76,19 @@ export class InvoicesService {
             .replace(/@@id@@/g, `${invoiceValues.visualID!}`)
             .replace(/@@dninie@@/g, invoiceValues.cif!)
             .replace(/@@subtotal@@/g, '------')
-            .replace(/@@notas@@/g, invoiceValues.notes || '');
+            .replace(/@@notas@@/g, invoiceValues.notes || '')
+            .replace(/@@ivaTotal@@/g, `${ivaTotal.toFixed(2)} €`)
+            .replace(/@@totalFactura@@/g, `${totalFactura.toFixed(2)} €`)
+            .replace(/@@subtotal@@/g, `${subtotal.toFixed(2)} €`)
+            .replace(/@@lines@@/g, invoiceValues.invoiceLines!.map((invoice, i) => `
+                <div class="line ${i % 2 === 0 ? '' : 'odd'}">
+                    <div class="description">${invoice.description}</div>
+                    <div class="quantity">${invoice.quantity}</div>
+                    <div class="total-unitario">${invoice.price!.toFixed(2)} €</div>
+                    <div class="iva-line"> ${invoice.iva}% (${(invoice.price! * invoice.iva! / 100 * invoice.quantity!).toFixed(2)} €) </div>
+                    <div class="line-total">${(invoice.quantity! * invoice.price!).toFixed(2)} €</div>
+                </div>
+            `).join('').trim());
 
         return new Promise((resolve, reject) => pdf.create(template).toBuffer((err, buf) => err ? reject(err) : resolve(buf)));
     }

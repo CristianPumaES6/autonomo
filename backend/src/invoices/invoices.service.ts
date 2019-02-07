@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as pdf from 'html-pdf';
 import * as path from 'path';
 import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
+import * as moment from 'moment';
 
 @Injectable()
 export class InvoicesService {
@@ -70,12 +71,12 @@ export class InvoicesService {
             .replace(/@@direccionUser@@/g, userValue.address!)
             .replace(/@@telefono@@/g, userValue.phone!)
             .replace(/@@dni@@/g, userValue.dni!)
-            .replace(/@@date@@/g, invoiceValues.date!.toLocaleDateString())
+            .replace(/@@date@@/g, moment(invoiceValues.date!).format('DD/MM/YYYY'))
             .replace(/@@nombreCom@@/g, invoiceValues.nameCompany!)
             .replace(/@@direccion@@/g, invoiceValues.fisicalAddress!)
             .replace(/@@id@@/g, `${invoiceValues.visualID!}`)
             .replace(/@@dninie@@/g, invoiceValues.cif!)
-            .replace(/@@subtotal@@/g, '------')
+            .replace(/@@subtotal@@/g, `${subtotal.toFixed(2)} €`)
             .replace(/@@notas@@/g, invoiceValues.notes || '')
             .replace(/@@ivaTotal@@/g, `${ivaTotal.toFixed(2)} €`)
             .replace(/@@totalFactura@@/g, `${totalFactura.toFixed(2)} €`)

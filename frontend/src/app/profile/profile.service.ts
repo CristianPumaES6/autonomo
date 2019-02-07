@@ -49,6 +49,7 @@ export class ProfileService extends BaseService<IUser> {
             type: 'text',
             name: 'name',
             label: 'Nombre',
+            cols: 2,
         }, {
             type: 'email',
             name: 'email',
@@ -57,12 +58,12 @@ export class ProfileService extends BaseService<IUser> {
             type: 'tel',
             name: 'phone',
             label: 'Teléfono',
-            cols: 2,
+            cols: 1,
         }, {
             type: 'text',
             name: 'address',
             label: 'Dirección',
-            cols: 2,
+            cols: 4,
         }, {
             type: 'text',
             name: 'dni',

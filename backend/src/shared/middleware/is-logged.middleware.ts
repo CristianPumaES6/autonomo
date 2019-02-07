@@ -13,7 +13,7 @@ export class IsLoggedMiddleware implements NestMiddleware {
                 try { auth.decode(headers); }
                 catch (e) { res.status(e.status).json({ statusCode: e.status, message: e.message }); }
             }
-            next!();
+            if (typeof next === 'function') next();
         };
     }
 }

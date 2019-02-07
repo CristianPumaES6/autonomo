@@ -5,18 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <title>Factura</title>
     <style>
-        @font-face {
-            font-family: if-sans;
-            src: url('./sans.ttf');
-        }
-
         html,
         body {
+            font-size: 18pt;
             margin: 0;
             letter-spacing: -.05rem;
-            font-family: if-sans;
+            font-family: 'Open Sans', sans-serif;
         }
 
         body,
@@ -86,12 +83,12 @@
         }
 
         .quantity {
-            min-width: 5%;
+            min-width: 15%;
 
         }
 
         .iva-line {
-            min-width: 30%;
+            min-width: 20%;
         }
 
         .total-unitario,
@@ -154,6 +151,7 @@
 
             justify-content: space-between;
         }
+
         .ajustes {
             margin-bottom: 1rem;
         }
@@ -247,15 +245,19 @@
         </div>
         <div class="separated">
             <div class="receptor">
+                <strong>A la atención de</strong>
                 <div class="name color-primary">@@nombreCom@@</div>
                 <div class="direction">@@direccion@@</div>
                 <div class="dni">@@dninie@@</div>
             </div>
             <div class="id">
-                Nº de factura:
+                <strong>Nº de factura</strong>
                 <span>@@id@@</span>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
         <div class="lines">
             <div class="line color-primary">
                 <div class="description">Descripción</div>
@@ -283,7 +285,7 @@
             </div>
             <div class="ajustes">
                 <div>Ajustes:</div>
-                <div>0,00€</div>
+                <div>0.00 €</div>
             </div>
             <div class="ajustes">
                 <div class="color-secondary"> TOTAL:</div>

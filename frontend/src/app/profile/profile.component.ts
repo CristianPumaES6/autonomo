@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { IUser } from '@isofocus/interfaces';
 import { MatSnackBar } from '@angular/material';
 import { FormStyle } from '../form/classes/form-style';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'if-profile',
@@ -37,7 +38,7 @@ export class ProfileComponent implements OnInit {
         this.form = this.profileService.createForm(this.user);
         this.style = this.profileService.createStyle();
         this.form.get('email').disable();
-        this.form.valueChanges.debounceTime(1000).subscribe(() => !this.fisrtTime ? this.fisrtTime = !this.fisrtTime : this.editProfile());
+        this.form.valueChanges.pipe(debounceTime(1000)).subscribe(() => !this.fisrtTime ? this.fisrtTime = !this.fisrtTime : this.editProfile());
     }
 
     editProfile() {

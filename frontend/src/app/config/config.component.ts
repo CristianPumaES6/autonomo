@@ -4,6 +4,7 @@ import { IConfig } from '@isofocus/interfaces';
 import { ConfigService } from './config.service';
 import { SnackService } from '../shared/service/snack.service';
 import { FormStyle } from '../form/classes/form-style';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-config',
@@ -23,7 +24,7 @@ export class ConfigComponent implements OnInit {
         this.configService.getMy().subscribe(config => {
             this.form = this.configService.createForm(config);
             this.style = this.configService.createStyle();
-            this.form.valueChanges.debounceTime(1000).subscribe(() => this.updateConfig());
+            this.form.valueChanges.pipe(debounceTime(1500)).subscribe(() => this.updateConfig());
         });
     }
 

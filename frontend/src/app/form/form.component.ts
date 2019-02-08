@@ -5,6 +5,7 @@ import { IStyle } from './entities/iStyle';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { SnackService } from '../shared/service/snack.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'if-form',
@@ -81,7 +82,7 @@ export class FormComponent implements OnInit {
     submitChange(send: IStyle) {
         if (!this.send && send.submitOnChanges) {
             this.send = true;
-            this.form.valueChanges.debounceTime(500).subscribe(() => this.dataForm());
+            this.form.valueChanges.pipe(debounceTime(500)).subscribe(() => this.dataForm());
         }
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InvoiceService } from '../invoice/invoice.service';
-import { Observable } from 'rxjs/Rx';
+import * as moment from 'moment';
 
 @Component({
     selector: 'if-main',
@@ -11,6 +11,9 @@ export class MainComponent implements OnInit {
     public chart = [];
     public total = [];
     public labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    year = moment().year();
+    min = 2018;
+    max = moment().year();
 
     public colors = [
         { //EARN
@@ -44,26 +47,42 @@ export class MainComponent implements OnInit {
 
     constructor(protected readonly invoiceService: InvoiceService) { }
 
-    ngOnInit() {
-        this.invoiceService.getCharts().subscribe(
+    ngOnInit() { this.getChar(); }
+
+    getChar() {
+        this.invoiceService.getCharts(this.year).subscribe(
             charts => {
-                this.total.push({
+                this.total = [({
                     data: charts.total,
                     label: 'Total facturas'
-                });
-                this.chart.push({
+                })];
+                this.chart = [({
                     data: charts.earned,
                     label: 'Total ganado'
-                });
+                })];
                 this.chart.push({
                     data: charts.wasted,
                     label: 'Total gastado'
                 });
                 this.chart.push({
-                    data: charts.ivaearn,
+                    data: charts.ivaEarn,
                     label: 'IVA devuelto'
                 });
             }
         );
+    }
+
+    moreYear() {
+        if (this.year !== this.max) {
+            this.year++;
+            this.getChar();
+        }
+    }
+
+    lessYear() {
+        if (this.year !== this.min) {
+            this.year--;
+            this.getChar();
+        }
     }
 }

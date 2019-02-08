@@ -4,7 +4,7 @@ import { IInvoice, IConfig } from '@isofocus/interfaces';
 import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../config/config.service';
-import { Observable } from 'rxjs/Rx';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-invoice',
@@ -29,7 +29,7 @@ export class InvoiceComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        Observable.forkJoin(
+        forkJoin(
             this.invoiceService.get(),
             this.configService.getMy(),
         ).subscribe(

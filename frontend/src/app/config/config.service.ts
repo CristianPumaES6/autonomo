@@ -5,6 +5,7 @@ import { IConfig } from '@isofocus/interfaces';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormStyle } from '../form/classes/form-style';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -17,10 +18,12 @@ export class ConfigService extends BaseService<IConfig> {
 
     getMy() {
         const config = JSON.parse(localStorage.getItem('config'));
-        if (!config) return this.httpClient.get<IConfig>(this.SERVER_URL).map(config => {
-            localStorage.setItem('config', JSON.stringify(config));
-            return config;
-        });
+        if (!config) return this.httpClient.get<IConfig>(this.SERVER_URL).pipe(
+            map(config => {
+                localStorage.setItem('config', JSON.stringify(config));
+                return config;
+            })
+        );
         return new Observable<IConfig>(subscriber => {
             subscriber.next(config);
             subscriber.complete();

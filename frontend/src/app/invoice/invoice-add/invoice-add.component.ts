@@ -4,7 +4,6 @@ import { InvoiceService } from '../invoice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '../../config/config.service';
 import { FormStyle } from '../../form/classes/form-style';
-import { TouchSequence } from 'selenium-webdriver';
 import { IInvoice } from '@isofocus/interfaces';
 
 @Component({

@@ -6,21 +6,21 @@ type IChart = [{ day: string, total: string }[]];
 
 @Injectable()
 export class ChartsService {
-    async getTotal(id: number) {
+    async getTotal(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
                 SELECT COUNT(*) total, MONTH(date) as day
                 FROM invoices as I
                     WHERE I.userID = ? AND
-                    YEAR(date) = ${moment().format('YYYY')} AND
+                    YEAR(date) = ? AND
                     ${this.checkDeleted(false)}
                 GROUP BY MONTH(date);
-            `, values: [id]
+            `, values: [id, year]
         });
         return this.setMonth(chart[0]);
     }
 
-    async geEarned(id: number) {
+    async geEarned(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
             SELECT SUM(IL.price * IL.quantity) total, MONTH(I.date) as day
@@ -28,16 +28,15 @@ export class ChartsService {
             WHERE I.userID = ? AND
             IL.invoiceID = I.id AND
             I.received = FALSE AND
-            YEAR(date) = ${moment().format('YYYY')} AND
+            YEAR(date) = ? AND
             ${this.checkDeleted()}
             GROUP BY MONTH(date);
-            `, values: [id]
+            `, values: [id, year],
         });
-        console.log(chart);
         return this.setMonth(chart[0]);
     }
 
-    async getWasted(id: number) {
+    async getWasted(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
             SELECT sum(IL.price * IL.quantity) total, MONTH(date) as day
@@ -45,15 +44,15 @@ export class ChartsService {
             WHERE I.userID = ? AND
                 IL.invoiceID = I.id AND
                 received = true AND
-                YEAR(date) = ${moment().format('YYYY')} AND
+                YEAR(date) = ? AND
                 ${this.checkDeleted()}
             GROUP BY MONTH(date);
-        `, values: [id]
+        `, values: [id, year],
         });
         return this.setMonth(chart[0]);
     }
 
-    async getIvaEarn(id: number) {
+    async getIvaEarn(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
             SELECT sum((IL.iva * IL.price * IL.quantity) / 100) total, MONTH(date) as day
@@ -61,10 +60,10 @@ export class ChartsService {
             WHERE I.userID = ? AND
                 IL.invoiceID = I.id AND
                 received = true AND
-                YEAR(date) = ${moment().format('YYYY')} AND
+                YEAR(date) = ? AND
                 ${this.checkDeleted()}
             GROUP BY MONTH(date);
-        `, values: [id]
+        `, values: [id, year],
         });
         return this.setMonth(chart[0]);
     }

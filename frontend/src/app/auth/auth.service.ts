@@ -1,8 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { SERVER_URL, TOKEN_NAME } from '../app.constants';
-import { Observable } from 'rxjs/Rx';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '@isofocus/interfaces';
+import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -27,27 +28,29 @@ export class AuthService {
     }
 
     private anyLogin(url: string, data: any) {
-        return this.httpClient
-            .post(url, data)
-            .map((response: any) => this.setLogged(true, response.token))
-            .catch(error => Observable.throw(error.error));
+        return this.httpClient.post(url, data).pipe(
+            map((response: any) => this.setLogged(true, response.token)),
+            catchError(error => Observable.throw(error.error))
+        );
     }
 
     isLogged() {
         if (!this.logged && localStorage.getItem(TOKEN_NAME)) {
-            return this.httpClient.get(this.SERVER_URL + 'token')
-                .map(() => this.setLogged(true))
-                .catch(() => Observable.of(false))
-                .do(logged => this.setLogged(logged));
+            return this.httpClient.get(this.SERVER_URL + 'token').pipe(
+                map(() => this.setLogged(true)),
+                catchError(() => of(false)),
+                tap(logged => this.setLogged(logged)),
+            );
         }
-        return Observable.of(this.logged);
+        return of(this.logged);
     }
 
     register(user: IUser) {
         return this.httpClient
-            .post(this.SERVER_URL + 'register', user)
-            .map((response: any) => this.setLogged(true, response.token))
-            .catch(error => Observable.throw(error));
+            .post(this.SERVER_URL + 'register', user).pipe(
+                map((response: any) => this.setLogged(true, response.token)),
+                catchError(error => Observable.throw(error)),
+            );
     }
 
     logout(): void {

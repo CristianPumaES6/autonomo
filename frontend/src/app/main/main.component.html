@@ -1,4 +1,12 @@
-<!-- <ng2-adsense [display]="'block'" [width]="728" [height]="90"></ng2-adsense> -->
+<div class="year-container">
+    <button (click)="lessYear()" mat-icon-button>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <h1>Año {{year}}</h1>
+    <button (click)="moreYear()" mat-icon-button>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+</div>
 
 <div class="chart-container">
     <mat-card>

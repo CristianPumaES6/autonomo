@@ -3,9 +3,10 @@ import { BaseService } from '../shared/service/base.service';
 import { IInvoice, IInvoiceLine } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { timer } from 'rxjs';
 import * as moment from 'moment';
 import { FormStyle } from '../form/classes/form-style';
+import { switchMap, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +17,8 @@ export class InvoiceService extends BaseService<IInvoice> {
         this.SERVER_URL += '/invoice/';
     }
 
-    getCharts() {
-        return this.httpClient.get<any>(this.SERVER_URL + 'chart');
+    getCharts(year: number | string) {
+        return this.httpClient.get<any>(`${this.SERVER_URL}chart/${year}`);
     }
 
     getNext() {
@@ -32,10 +33,7 @@ export class InvoiceService extends BaseService<IInvoice> {
      * VALIDATORS
      */
     uniqueID(): AsyncValidatorFn {
-        return (control: AbstractControl) =>
-            Observable.timer(750).switchMap(
-                () => !isNaN(control.value) ? this.checkID(control.value).map(response => !response.ok ? { invalidID: true } : null) : null
-            );
+        return (control: AbstractControl) => timer(750).pipe(switchMap(() => isNaN(control.value) ? this.checkID(control.value).pipe(map(response => !response.ok ? { invalidID: true } : null)) : null));
     }
 
     getPDF(id: number) {

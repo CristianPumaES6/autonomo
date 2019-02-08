@@ -1,7 +1,11 @@
-ng2-adsense {
+.year-container {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    button {
+        margin: 0 1rem;
+        display: block;
+    }
 }
 
 .chart-container {

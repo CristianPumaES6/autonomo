@@ -44,7 +44,6 @@ export class InvoiceAddComponent implements OnInit {
     create() {
         if (this.form.valid) {
             const invoice: IInvoice = this.form.getRawValue();
-            console.log(this.invoiceLinesForm.map(il => il.getRawValue()));
             invoice.invoiceLines = this.invoiceLinesForm.map(il => il.getRawValue());
 
             this.invoiceService.post(invoice).subscribe(() => {

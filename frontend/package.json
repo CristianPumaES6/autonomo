@@ -4,7 +4,7 @@
     "scripts": {
         "ng": "ng",
         "prestart": "npm i",
-        "start": "ng serve --host 0.0.0.0 --port 80 --public-host --disable-host-check",
+        "start": "ng serve --host 0.0.0.0 --public-host --disable-host-check",
         "build": "ng build --prod",
         "test": "ng test",
         "lint": "ng lint",

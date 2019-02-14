@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SERVER_URL } from '../../app.constants';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BaseService<T> {
-    SERVER_URL = SERVER_URL;
+    protected SERVER_URL: string;
     constructor(protected readonly httpClient: HttpClient) { }
 
     get(): Observable<T[]>;

@@ -1,9 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SERVER_URL, TOKEN_NAME } from '../app.constants';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '@isofocus/interfaces';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,14 +11,14 @@ import { map, catchError, tap } from 'rxjs/operators';
 export class AuthService {
     logged = false;
     logged$: EventEmitter<boolean> = new EventEmitter<boolean>();
-    SERVER_URL = SERVER_URL + '/auth/';
+    SERVER_URL = '/auth/';
 
     constructor(private httpClient: HttpClient) { }
 
     private setLogged(logged: boolean, token = ''): boolean {
         this.logged = logged;
-        if (logged && token) localStorage.setItem(TOKEN_NAME, token);
-        else if (!logged) localStorage.removeItem(TOKEN_NAME);
+        if (logged && token) localStorage.setItem(environment.TOKEN_NAME, token);
+        else if (!logged) localStorage.removeItem(environment.TOKEN_NAME);
         this.logged$.emit(logged);
         return logged;
     }
@@ -35,7 +35,7 @@ export class AuthService {
     }
 
     isLogged() {
-        if (!this.logged && localStorage.getItem(TOKEN_NAME)) {
+        if (!this.logged && localStorage.getItem(environment.TOKEN_NAME)) {
             return this.httpClient.get(this.SERVER_URL + 'token').pipe(
                 map(() => this.setLogged(true)),
                 catchError(() => of(false)),
@@ -59,6 +59,6 @@ export class AuthService {
     }
 
     getAuthorizationToken() {
-        return `Bearer ${localStorage.getItem(TOKEN_NAME)}`;
+        return `Bearer ${localStorage.getItem(environment.TOKEN_NAME)}`;
     }
 }

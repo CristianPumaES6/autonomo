@@ -14,7 +14,7 @@ import { switchMap, map } from 'rxjs/operators';
 export class InvoiceService extends BaseService<IInvoice> {
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL += '/invoice/';
+        this.SERVER_URL = '/invoice/';
     }
 
     getCharts(year: number | string) {

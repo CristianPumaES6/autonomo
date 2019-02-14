@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class ConfigService extends BaseService<IConfig> {
     constructor(httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL += '/config/';
+        this.SERVER_URL = '/config/';
     }
 
     getMy() {

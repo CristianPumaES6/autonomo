@@ -12,7 +12,7 @@ export class ProfileService extends BaseService<IUser> {
 
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL += '/user/';
+        this.SERVER_URL = '/user/';
     }
 
     getMy() {

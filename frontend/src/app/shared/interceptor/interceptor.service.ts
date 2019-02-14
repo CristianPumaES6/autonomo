@@ -18,20 +18,20 @@ export class Interceptor {
         // Clone the request and replace the original headers with
         // cloned headers, updated with the authorization.
         const authReq = req.clone({
-            url: environment.SERVER_URL + req.url,
+            url: environment.server_url + req.url,
             headers: req.headers.set('Authorization', authToken),
         });
 
         return next.handle(authReq).pipe(
             tap((result: any) => {
-                if (!environment.PROD) {
+                if (!environment.production) {
                     console.log(`[ %c${req.method}`, 'color: red;', `]: ${req.url}`);
                     console.log('        %cREQUEST', 'color: yellow;', req.body || '');
                     console.log('        %cRESPONSE', 'color: green;', result.body || '');
                 }
             }),
             catchError((error) => {
-                if (!environment.PROD) {
+                if (!environment.production) {
                     console.error(`[ %c${req.method}`, 'color: red;', `]: ${req.url}`);
                     console.log('        %cREQUEST', 'color: yellow;', req.body || '');
                     console.log('        %cERROR', 'color: red;', error.error);

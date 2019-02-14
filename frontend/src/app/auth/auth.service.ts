@@ -17,8 +17,8 @@ export class AuthService {
 
     private setLogged(logged: boolean, token = ''): boolean {
         this.logged = logged;
-        if (logged && token) localStorage.setItem(environment.TOKEN_NAME, token);
-        else if (!logged) localStorage.removeItem(environment.TOKEN_NAME);
+        if (logged && token) localStorage.setItem(environment.token_name, token);
+        else if (!logged) localStorage.removeItem(environment.token_name);
         this.logged$.emit(logged);
         return logged;
     }
@@ -35,7 +35,7 @@ export class AuthService {
     }
 
     isLogged() {
-        if (!this.logged && localStorage.getItem(environment.TOKEN_NAME)) {
+        if (!this.logged && localStorage.getItem(environment.token_name)) {
             return this.httpClient.get(this.SERVER_URL + 'token').pipe(
                 map(() => this.setLogged(true)),
                 catchError(() => of(false)),
@@ -59,6 +59,6 @@ export class AuthService {
     }
 
     getAuthorizationToken() {
-        return `Bearer ${localStorage.getItem(environment.TOKEN_NAME)}`;
+        return `Bearer ${localStorage.getItem(environment.token_name)}`;
     }
 }

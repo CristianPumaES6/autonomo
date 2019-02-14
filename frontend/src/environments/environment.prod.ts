@@ -1,5 +1,5 @@
 export const environment = {
-    PROD: true,
-    SERVER_URL: 'https://isofocus.es:3000',
-    TOKEN: 'id_token',
+    production: true,
+    server_url: 'https://isofocus.es:3000',
+    token_name: 'id_token',
 };

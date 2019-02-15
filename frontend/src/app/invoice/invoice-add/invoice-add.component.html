@@ -30,6 +30,6 @@
         <div class="accept-button" [ngClass]="{'disabled': !form.valid}" [matTooltip]="!form.valid ? 'Completa todos los campos' : ''">
             <button mat-button (click)="create()" color="primary" [disabled]="!form.valid">Añadir</button>
         </div>
-        <button mat-button type="button" color="warn">Cancelar</button>
+        <button mat-button (click)="goBack()" type="button" color="warn">Cancelar</button>
     </mat-card-actions>
 </mat-card>

@@ -6,7 +6,6 @@ import * as pdf from 'html-pdf';
 import * as path from 'path';
 import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 import * as moment from 'moment';
-import sequelize = require('sequelize');
 
 @Injectable()
 export class InvoicesService {
@@ -59,12 +58,21 @@ export class InvoicesService {
         let template = fs.readFileSync(path.join(__dirname, '../shared/templates/factura.html'), 'utf-8');
         const userValue = userDB.dataValues,
             invoiceValues = invoice.dataValues;
+        let linesWrite = '';
 
         let totalFactura = 0, ivaTotal = 0, subtotal = 0;
-        invoiceValues.invoiceLines!.forEach(e => {
+        invoiceValues.invoiceLines!.forEach((e, i) => {
             subtotal += e.price! * e.quantity!;
             ivaTotal += e.price! * e.iva! / 100 * e.quantity!;
             totalFactura += e.quantity! * e.price! + (e.price! * e.iva! / 100);
+            linesWrite += `
+            <div class="line ${i % 2 === 0 ? '' : 'odd'}">
+                <div class="description">${e.description}</div>
+                <div class="quantity">${e.quantity}</div>
+                <div class="total-unitario">${e.price!.toFixed(2)} €</div>
+                <div class="iva-line"> ${e.iva}% (${(e.price! * e.iva! / 100 * e.quantity!).toFixed(2)} €) </div>
+                <div class="line-total">${(e.quantity! * e.price!).toFixed(2)} €</div>
+            </div>`;
         });
 
         template = template
@@ -82,15 +90,7 @@ export class InvoicesService {
             .replace(/@@ivaTotal@@/g, `${ivaTotal.toFixed(2)} €`)
             .replace(/@@totalFactura@@/g, `${totalFactura.toFixed(2)} €`)
             .replace(/@@subtotal@@/g, `${subtotal.toFixed(2)} €`)
-            .replace(/@@lines@@/g, invoiceValues.invoiceLines!.map((invoice, i) => `
-                <div class="line ${i % 2 === 0 ? '' : 'odd'}">
-                    <div class="description">${invoice.description}</div>
-                    <div class="quantity">${invoice.quantity}</div>
-                    <div class="total-unitario">${invoice.price!.toFixed(2)} €</div>
-                    <div class="iva-line"> ${invoice.iva}% (${(invoice.price! * invoice.iva! / 100 * invoice.quantity!).toFixed(2)} €) </div>
-                    <div class="line-total">${(invoice.quantity! * invoice.price!).toFixed(2)} €</div>
-                </div>
-            `).join('').trim());
+            .replace(/@@lines@@/g, linesWrite);
 
         return new Promise((resolve, reject) => pdf.create(template).toBuffer((err, buf) => err ? reject(err) : resolve(buf)));
     }

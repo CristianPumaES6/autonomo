@@ -42,10 +42,6 @@ body {
         margin: 0;
     }
 
-    ng2-adsense {
-        margin: 0 auto;
-    }
-
     mat-card {
         margin-bottom: 1rem;
     }
@@ -105,5 +101,9 @@ body {
 
     .disabled {
         cursor: wait;
+    }
+
+    .mat-sort-header-button {
+        margin: 0 auto;
     }
 }

@@ -10,8 +10,7 @@
 
     <if-form [form]="form" [style]="style" [defaultCol]="4" [acceptButton]="false" [cancelButton]="false"></if-form>
 
-    <mat-divider></mat-divider>
-
+    <h4>Lineas de factura</h4>
     <ng-container *ngFor="let styleArray of invoiceLinesStyles; let i = index">
         <if-form [form]="invoiceLinesForm[i]" [style]="styleArray" [defaultCol]="4" [acceptButton]="false"
             [cancelButton]="false"></if-form>

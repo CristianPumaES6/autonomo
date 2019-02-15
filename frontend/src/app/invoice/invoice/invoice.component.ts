@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../invoice.service';
 import { IInvoice, IConfig } from '@isofocus/interfaces';
-import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSnackBar, MatSort } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../config/config.service';
 import { forkJoin } from 'rxjs';
@@ -17,8 +17,13 @@ export class InvoiceComponent implements OnInit {
     pageSizeOptions = [10, 50, 100];
     config: IConfig;
     displayedColumns = ['id', 'date', 'received', 'cif', 'name', 'actions'];
+    sort: MatSort;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) set matSort(sort: MatSort) {
+        if (this.dataSource) this.dataSource.sort = sort;
+        this.sort = sort;
+    };
 
     constructor(
         protected readonly invoiceService: InvoiceService,
@@ -38,6 +43,7 @@ export class InvoiceComponent implements OnInit {
                 this.config = response[1];
 
                 this.dataSource = new MatTableDataSource(this.invoices);
+                this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
 
                 // AÑADIMOS EL PAGINADOR POR DEFECTO Y QUITAMOS POR SI ESTA REPETIDO

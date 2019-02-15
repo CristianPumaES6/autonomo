@@ -10,8 +10,8 @@ export class ConfigsService {
         return (await db.models.config.findOne({ where: { id: user.config!.id } }))!.dataValues;
     }
 
-    async update(config: IConfig, id: number) {
+    async update(config: IConfig, userID: number) {
         delete config.id;
-        return await db.models.config.update(config, { where: { user: id } });
+        return await db.models.config.update(config, { where: { userID } });
     }
 }

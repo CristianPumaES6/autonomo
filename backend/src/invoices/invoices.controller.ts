@@ -15,8 +15,8 @@ export class InvoicesController {
 
     @Get('next')
     async next(@Headers('authorization') authorization: string) {
-        const userID = auth.decode(authorization);
-        return +((await this.invoiceService.next(userID)).max || 0) + 1;
+        const userID = auth.decode(authorization); 
+        return +((await this.invoiceService.next(userID)) || 0) + 1;
     }
 
     @Get('restore/:id')

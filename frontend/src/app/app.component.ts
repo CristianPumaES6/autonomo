@@ -13,5 +13,4 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         SnackService.send$.subscribe((message: string) => this.snack.open(message, null, { duration: 5000 }));
     }
-
 }

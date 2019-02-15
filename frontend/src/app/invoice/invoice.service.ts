@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseService } from '../shared/service/base.service';
 import { IInvoice, IInvoiceLine } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
-import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { timer } from 'rxjs';
 import * as moment from 'moment';
 import { FormStyle } from '../form/classes/form-style';
@@ -33,7 +33,7 @@ export class InvoiceService extends BaseService<IInvoice> {
      * VALIDATORS
      */
     uniqueID(): AsyncValidatorFn {
-        return (control: AbstractControl) => timer(750).pipe(switchMap(() => isNaN(control.value) ? this.checkID(control.value).pipe(map(response => !response.ok ? { invalidID: true } : null)) : null));
+        return (control: AbstractControl) => timer(750).pipe(switchMap(() => this.checkID(control.value).pipe(map(response => !response.ok ? { invalidID: true } : null))));
     }
 
     getPDF(id: number) {

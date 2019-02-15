@@ -6,15 +6,16 @@ import * as pdf from 'html-pdf';
 import * as path from 'path';
 import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 import * as moment from 'moment';
+import sequelize = require('sequelize');
 
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoice.findAll({ where: { userID: user } });
+        return await db.models.invoice.findAll({ where: { userID: user }, order: ['date'] });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine] });
+        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine], order: ['date'] });
     }
 
     async post(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }) {
@@ -41,12 +42,12 @@ export class InvoicesService {
         return await db.models.invoice.restore({ where: { id, userID: user } });
     }
 
-    async next(user: number): Promise<{ max: number }> {
-        return (await db.sequelize.query({ query: 'SELECT MAX(visualID) AS max FROM invoices WHERE userID = ?', values: [user] }))[0][0];
+    async next(user: number) {
+        return (await db.models.invoice.max('visualID', { where: { userID: user, received: false } }));
     }
 
     async check(visualID: number, user: number) {
-        return (await db.models.invoice.findAll({ where: { visualID, userID: user }, attributes: ['id'] })).length !== 1;
+        return (await db.models.invoice.findAll({ where: { visualID, userID: user, received: false }, attributes: ['id'] })).length !== 1;
     }
 
     async generatePDF(id: number, user: number) {

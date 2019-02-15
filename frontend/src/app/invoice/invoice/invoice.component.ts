@@ -18,6 +18,7 @@ export class InvoiceComponent implements OnInit {
     config: IConfig;
     displayedColumns = ['id', 'date', 'received', 'cif', 'name', 'actions'];
     sort: MatSort;
+    loading: number[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) set matSort(sort: MatSort) {
@@ -76,7 +77,8 @@ export class InvoiceComponent implements OnInit {
         });
     }
 
-    getPDF(id: number, event: Event) {
+    getPDF(id: number, event: Event, actual: number) {
+        this.loading.push(actual);
         event.stopPropagation();
         this.invoiceService.getPDF(id).subscribe(
             (response: any) => {
@@ -87,6 +89,7 @@ export class InvoiceComponent implements OnInit {
                 const fileName = id + '.pdf';
                 link.download = fileName;
                 link.click();
+                this.loading = this.loading.filter(e => e !== actual);
             }
         );
     }

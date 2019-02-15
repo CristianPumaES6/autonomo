@@ -14,7 +14,7 @@ mat-card-content {
 
             .actions-buttons {
                 display: flex;
-                align-items: flex-end;
+                align-items: center;
                 justify-content: flex-end;
                 height: 3rem;
                 width: 85%;
@@ -43,6 +43,7 @@ mat-card-content {
             &.small {
                 min-width: 6rem;
             }
+
         }
     }
 }

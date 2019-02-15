@@ -47,9 +47,10 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell class="actions-buttons small" *matCellDef="let element">
-                    <button mat-icon-button *ngIf="!element.received" (click)="getPDF(element.id, $event)">
+                    <button mat-icon-button *ngIf="!element.received && !loading.includes(element.id)" (click)="getPDF(element.id, $event, element.id)">
                         <mat-icon class="save" matTooltip="Descargar como PDF">save</mat-icon>
                     </button>
+                    <mat-spinner [diameter]="20" *ngIf="!element.received && loading.includes(element.id)"></mat-spinner>
                     <button mat-icon-button (click)="delete(element, $event)">
                         <mat-icon class="delete" matTooltip="Borrar">delete</mat-icon>
                     </button>

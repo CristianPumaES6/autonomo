@@ -1,9 +1,9 @@
 <mat-card class="year-container">
-    <button (click)="lessYear()" mat-icon-button>
+    <button (click)="lessYear()" [disabled]="year === min" mat-icon-button>
         <mat-icon>keyboard_arrow_left</mat-icon>
     </button>
     <h1>Año {{year}}</h1>
-    <button (click)="moreYear()" mat-icon-button>
+    <button (click)="moreYear()" [disabled]="year === max" mat-icon-button>
         <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
 </mat-card>

@@ -11,16 +11,17 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class ConfigService extends BaseService<IConfig> {
+    nameLocalStorage = 'config';
     constructor(httpClient: HttpClient) {
         super(httpClient);
         this.SERVER_URL = '/config';
     }
 
     getMy() {
-        const config = JSON.parse(localStorage.getItem('config'));
+        const config = JSON.parse(localStorage.getItem(this.nameLocalStorage));
         if (!config) return this.httpClient.get<IConfig>(this.SERVER_URL).pipe(
             map(config => {
-                localStorage.setItem('config', JSON.stringify(config));
+                localStorage.setItem(this.nameLocalStorage, JSON.stringify(config));
                 return config;
             })
         );
@@ -32,7 +33,7 @@ export class ConfigService extends BaseService<IConfig> {
 
 
     put(data: IConfig) {
-        localStorage.setItem('confg', JSON.stringify(data));
+        localStorage.setItem(this.nameLocalStorage, JSON.stringify(data));
         return this.httpClient.put<IConfig>(this.SERVER_URL, data);
     }
 

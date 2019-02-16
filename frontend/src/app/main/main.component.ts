@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InvoiceService } from '../invoice/invoice.service';
 import * as moment from 'moment';
+import { ConfigService } from '../config/config.service';
+import { IConfig } from '@isofocus/interfaces';
 
 @Component({
     selector: 'if-main',
@@ -8,9 +10,10 @@ import * as moment from 'moment';
     styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-    public chart = [];
-    public total = [];
-    public labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    config: IConfig;
+    chart = [];
+    total = [];
+    labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
     year = moment().year();
     min = 2018;
     max = moment().year();
@@ -45,9 +48,15 @@ export class MainComponent implements OnInit {
         borderColor: 'rgba(63, 81, 181, 1)',
     }];
 
-    constructor(protected readonly invoiceService: InvoiceService) { }
+    constructor(
+        protected readonly invoiceService: InvoiceService,
+        protected readonly configService: ConfigService,
+    ) { }
 
-    ngOnInit() { this.getChar(); }
+    ngOnInit() {
+        this.configService.getMy().subscribe(config => this.config = config); // TO SET ON LOCALSTORAGE
+        this.getChar();
+    }
 
     getChar() {
         this.invoiceService.getCharts(this.year).subscribe(

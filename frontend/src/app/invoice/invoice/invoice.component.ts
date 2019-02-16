@@ -35,21 +35,16 @@ export class InvoiceComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        forkJoin(
-            this.invoiceService.get(),
-            this.configService.getMy(),
-        ).subscribe(
-            response => {
-                this.invoices = response[0];
-                this.config = response[1];
+        this.configService.getMy().subscribe(config => this.config = config);
+        this.dataSource = new MatTableDataSource();
+        this.paginator.pageSize = this.config.totalItemsByTable;
 
-                this.dataSource = new MatTableDataSource(this.invoices);
+        this.invoiceService.get().subscribe(
+            invoice => {
+                this.invoices = invoice;
+                this.dataSource.data = this.invoices;
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
-
-                // AÑADIMOS EL PAGINADOR POR DEFECTO Y QUITAMOS POR SI ESTA REPETIDO
-                this.pageSizeOptions.push(this.config.totalItemsByTable);
-                this.pageSizeOptions.filter((v, i, a) => a.indexOf(v) === i);
                 this.pageSizeOptions.sort();
             }
         );

@@ -12,15 +12,15 @@ export class BaseService<T> {
     get(): Observable<T[]>;
     get(id: number): Observable<T>;
     get(id?: number) {
-        return this.httpClient.get<T | T[]>(this.SERVER_URL + (id || ''));
+        return this.httpClient.get<T | T[]>(`${this.SERVER_URL}/${id || ''}`);
     }
 
     restore(id: number) {
-        return this.httpClient.get(`${this.SERVER_URL}restore/${id}`);
+        return this.httpClient.get(`${this.SERVER_URL}/restore/${id}`);
     }
 
     getTable() {
-        return this.httpClient.get<T[]>(this.SERVER_URL + 'table');
+        return this.httpClient.get<T[]>(`${this.SERVER_URL}/table`);
     }
 
     post(data: T) {

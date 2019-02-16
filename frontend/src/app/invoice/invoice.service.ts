@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../shared/service/base.service';
-import { IInvoice, IInvoiceLine } from '@isofocus/interfaces';
+import { IInvoice, IInvoiceLine, IConfig } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { AsyncValidatorFn, AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { timer } from 'rxjs';
@@ -14,19 +14,19 @@ import { switchMap, map } from 'rxjs/operators';
 export class InvoiceService extends BaseService<IInvoice> {
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL = '/invoice/';
+        this.SERVER_URL = '/invoice';
     }
 
     getCharts(year: number | string) {
-        return this.httpClient.get<any>(`${this.SERVER_URL}chart/${year}`);
+        return this.httpClient.get<any>(`${this.SERVER_URL}/chart/${year}`);
     }
 
     getNext() {
-        return this.httpClient.get<number>(this.SERVER_URL + 'next');
+        return this.httpClient.get<number>(`${this.SERVER_URL}/next`);
     }
 
     checkID(id: number) {
-        return this.httpClient.get<{ ok: boolean }>(this.SERVER_URL + 'check/' + id);
+        return this.httpClient.get<{ ok: boolean }>(`${this.SERVER_URL}/check/${id}`);
     }
 
     /**
@@ -37,7 +37,7 @@ export class InvoiceService extends BaseService<IInvoice> {
     }
 
     getPDF(id: number) {
-        return this.httpClient.get(this.SERVER_URL + 'pdf/' + id);
+        return this.httpClient.get(`${this.SERVER_URL}/pdf/${id}`);
     }
 
     createForm(invoice?: IInvoice) {
@@ -104,10 +104,12 @@ export class InvoiceService extends BaseService<IInvoice> {
     }
 
     getFormLine(invoiceLine?: IInvoiceLine) {
+        // TODO: MIRAR UNA MEJOR FORMA DE PONERLO
+        const config = JSON.parse(localStorage.getItem('config')) as IConfig;
         return new FormGroup({
             description: new FormControl(invoiceLine ? invoiceLine.description : ''),
-            iva: new FormControl(invoiceLine ? invoiceLine.iva : ''),
-            quantity: new FormControl(invoiceLine ? invoiceLine.quantity : ''),
+            iva: new FormControl(invoiceLine ? invoiceLine.iva : config.ivaDefaultReceived || 0),
+            quantity: new FormControl(invoiceLine ? invoiceLine.quantity : 1),
             price: new FormControl(invoiceLine ? invoiceLine.price : ''),
         });
     }
@@ -123,6 +125,7 @@ export class InvoiceService extends BaseService<IInvoice> {
                 type: 'number',
                 name: 'iva',
                 label: 'IVA',
+                suffix: '%',
                 cols: 2,
             }, {
                 type: 'number',
@@ -134,6 +137,7 @@ export class InvoiceService extends BaseService<IInvoice> {
                 name: 'price',
                 label: 'Precio',
                 info: 'Sin IVA',
+                suffix: '€',
                 cols: 2,
             },
         ]);

@@ -12,15 +12,15 @@ export class ProfileService extends BaseService<IUser> {
 
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL = '/user/';
+        this.SERVER_URL = '/user';
     }
 
     getMy() {
-        return this.httpClient.get<IUser>(this.SERVER_URL + 'my');
+        return this.httpClient.get<IUser>(`${this.SERVER_URL}/my`);
     }
 
     putProfile(user: IUser) {
-        return this.httpClient.put(this.SERVER_URL + 'profile', user);
+        return this.httpClient.put(`${this.SERVER_URL}/profile`, user);
     }
 
     createForm(user: IUser) {

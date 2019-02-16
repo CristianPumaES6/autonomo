@@ -69,12 +69,3 @@ export class InvoiceAddComponent implements OnInit {
 
     goBack() { this.router.navigate(['..'], { relativeTo: this.route }); }
 }
-
-// SET THE DEFAULT VALUE, AND CHANGE WHEN IT CHANGES
-// this.configService.getMy().subscribe(config => {
-// this.form.get('iva').setValue(this.form.get('received').value ? config.ivaDefaultReceived : config.ivaDefaultSent);
-// this.form.get('received').valueChanges.subscribe(received => this.form.get('iva').setValue(received ? config.ivaDefaultReceived : config.ivaDefaultSent));
-// });
-
-
-

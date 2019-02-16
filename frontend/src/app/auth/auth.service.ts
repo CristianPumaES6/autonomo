@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
     logged = false;
     logged$: EventEmitter<boolean> = new EventEmitter<boolean>();
-    SERVER_URL = '/auth/';
+    SERVER_URL = '/auth';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -24,7 +24,7 @@ export class AuthService {
     }
 
     login(credentials: { email: string, password: string }) {
-        return this.anyLogin(this.SERVER_URL + 'login', credentials);
+        return this.anyLogin(`${this.SERVER_URL}/login`, credentials);
     }
 
     private anyLogin(url: string, data: any) {
@@ -36,7 +36,7 @@ export class AuthService {
 
     isLogged() {
         if (!this.logged && localStorage.getItem(environment.token_name)) {
-            return this.httpClient.get(this.SERVER_URL + 'token').pipe(
+            return this.httpClient.get(`${this.SERVER_URL}/token`).pipe(
                 map(() => this.setLogged(true)),
                 catchError(() => of(false)),
                 tap(logged => this.setLogged(logged)),
@@ -47,7 +47,7 @@ export class AuthService {
 
     register(user: IUser) {
         return this.httpClient
-            .post(this.SERVER_URL + 'register', user).pipe(
+            .post(`${this.SERVER_URL}/register`, user).pipe(
                 map((response: any) => this.setLogged(true, response.token)),
                 catchError(error => Observable.throw(error)),
             );

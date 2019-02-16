@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class ConfigService extends BaseService<IConfig> {
     constructor(httpClient: HttpClient) {
         super(httpClient);
-        this.SERVER_URL = '/config/';
+        this.SERVER_URL = '/config';
     }
 
     getMy() {
@@ -48,15 +48,21 @@ export class ConfigService extends BaseService<IConfig> {
         return new FormStyle([{
             type: 'number',
             name: 'ivaDefaultReceived',
-            label: 'IVA recibido por defecto',
-        }, {
-            type: 'number',
-            name: 'ivaDefaultSent',
-            label: 'Iva emitido por defecto',
-        }, {
+            label: 'IVA por defecto',
+            suffix: '%',
+            cols: 6,
+        },
+        // {
+            //     type: 'number',
+            //     name: 'ivaDefaultSent',
+            //     label: 'Iva emitido por defecto',
+            //     suffix: '%',
+            // },
+        {
             type: 'select',
             name: 'totalItemsByTable',
             label: 'Total de registros por tabla',
+            cols: 6,
             options: [{
                 label: 10,
                 value: 10,

@@ -62,6 +62,7 @@ export class InvoiceService extends BaseService<IInvoice> {
             ]),
             notes: new FormControl(invoice ? invoice.notes : ''),
             received: new FormControl(invoice ? invoice.received : true),
+            file: new FormControl(invoice ? invoice.file : null),
         });
     }
 
@@ -100,6 +101,13 @@ export class InvoiceService extends BaseService<IInvoice> {
             name: 'received',
             placeholder: 'Recibida',
             cols: 2,
+        }, {
+            type: 'file',
+            name: 'file',
+            label: 'Factura',
+            info: 'Tamaño máximo 1MB',
+            rows: 2,
+            cols: 4,
         }]);
     }
 

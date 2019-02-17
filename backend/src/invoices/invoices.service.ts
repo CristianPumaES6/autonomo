@@ -14,7 +14,7 @@ export class InvoicesService {
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine], order: ['date'] });
+        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: ['date'] });
     }
 
     async post(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }) {

@@ -10,7 +10,7 @@ export class LoggerMiddleware implements NestMiddleware {
                 // tslint:disable-next-line:no-console
                 console.log(`${moment().format('HH:mm:ss')} [${req.method}]: ${req.baseUrl}`);
             }
-            next!();
+            if (typeof next === 'function') next();
         };
     }
 }

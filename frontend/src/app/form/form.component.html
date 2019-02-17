@@ -2,7 +2,7 @@
     <mat-divider *ngIf="backButton || newButton || title || subtitle"></mat-divider>
     <form #formElement [formGroup]="form">
         <mat-grid-list [cols]="cols" [rowHeight]="rowHeight">
-            <mat-grid-tile *ngFor="let item of style.styles" [colspan]="item.type === 'divider' || item.type === 'multiple' ? cols : (item.cols || defaultCol)"
+            <mat-grid-tile *ngFor="let item of style.styles" [ngClass]="{'file-grid': item.type === 'file'}" [colspan]="item.type === 'divider' || item.type === 'multiple' ? cols : (item.cols || defaultCol)"
                 [rowspan]="item.rows || row">
                 <ng-container [ngSwitch]="item.type">
 
@@ -179,31 +179,31 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'file'">
-                        <div class="file-label">
-                            <label class="file-label">{{item.label}}</label>
-                            <span>{{form.get(item.name).value?.length || 0}}/{{item.max ? item.max : (item.multiple
-                                ? '&infin;'
-                                : 1)}}</span>
-                        </div>
-                        <div class="file-container" (drop)="dropFiles($event, item)" (dragover)="dragOverFiles($event)">
-                            <button (click)="inputFile.click()" mat-raised-button color="primary">
-                                <mat-icon fontSet="far" [fontIcon]="'fa-folder-open'"></mat-icon>
-                                Seleccionar...
-                            </button>
-                            <span>Arrastra aqui {{item.multiple ? 'los archivos' : 'el archivo'}}</span>
-                            <input #inputFile type="file" (change)="fileChange($event, item)" [multiple]="item.multiple"
-                                hidden>
-                        </div>
-                        <div class="files-list" *ngIf="form.get(item.name).value">
-                            <div class="file-item" *ngFor="let file of form.get(item.name).value; let i = index">
-                                <div class="file-name">
-                                    {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...' +
-                                    file.name.split('.')[file.name.split('.').length
-                                    - 1])}}
+                        <div class="file">
+                            <div class="file-label">
+                                <label class="file-label">{{item.label}}</label>
+                                <span>{{form.get(item.name).value?.length || 0}}/{{item.max ? item.max : (item.multiple
+                                    ? '&infin;'
+                                    : 1)}}</span>
+                            </div>
+                            <div class="file-container" (drop)="dropFiles($event, item)" (dragover)="dragOverFiles($event)">
+                                <div (click)="inputFile.click()" class="file-container-area">
+                                    <span>Pincha aquí o arrastra {{item.multiple ? 'los archivos' : 'el archivo'}}...</span>
                                 </div>
-                                <button (click)="deleteFile(item, i)" mat-icon-button>
-                                    <mat-icon fontSet="fas" fontIcon="fa-times"></mat-icon>
-                                </button>
+                                <input #inputFile type="file" (change)="fileChange($event, item)" [multiple]="item.multiple"
+                                    hidden>
+                            </div>
+                            <div class="files-list" *ngIf="form.get(item.name).value">
+                                <div class="file-item" *ngFor="let file of form.get(item.name).value; let i = index">
+                                    <div class="file-name">
+                                        {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...' +
+                                        file.name.split('.')[file.name.split('.').length
+                                        - 1])}}
+                                    </div>
+                                    <button (click)="deleteFile(item, i)" color="warn" mat-icon-button>
+                                        <mat-icon color="warn">close</mat-icon>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </ng-container>

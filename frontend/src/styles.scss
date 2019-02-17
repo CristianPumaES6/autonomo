@@ -107,3 +107,22 @@ body {
         margin: 0 auto;
     }
 }
+
+
+.dark {
+    .file {
+
+        .file-label,
+        span {
+            color: white !important;
+        }
+    }
+}
+
+.file-grid {
+    figure {
+        display: flex;
+        align-items: end;
+        margin-top: 1rem;
+    }
+}

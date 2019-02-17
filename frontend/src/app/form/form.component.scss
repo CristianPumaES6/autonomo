@@ -12,3 +12,66 @@ mat-grid-tile {
         width: 100%;
     }
 }
+
+////////////
+//  FILE  //
+////////////
+.file {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .file-label {
+        width: 100%;
+        display: flex;
+        margin-bottom: .5rem;
+
+        label {
+            margin-left: 1rem;
+            color: rgba(0, 0, 0, .5);
+        }
+
+        span {
+            margin-right: 1rem;
+            color: rgba(0, 0, 0, .5);
+            width: 3rem;
+        }
+    }
+
+    .files-list {
+        margin-top: .5rem;
+    }
+
+    .file-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: dotted 1px white;
+        border-radius: 50px 50px;
+        cursor: pointer;
+
+        .file-container-area {
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px 50px;
+        }
+    }
+
+    .files-list {
+        display: flex;
+        flex-direction: column;
+
+        .file-item {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            button {
+                color: red;
+            }
+        }
+    }
+}

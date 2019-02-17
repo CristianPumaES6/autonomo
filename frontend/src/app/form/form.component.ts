@@ -115,10 +115,13 @@ export class FormComponent implements OnInit {
         let readers: FileReader[] = [], items = [], totalItems;
         if (this.form.get(item.name).value && typeof this.form.get(item.name).value === 'object') items = this.form.get(item.name).value;
         totalItems = items.length;
-        if (!item.max || (item.max && totalItems < item.max)) {
+        item.max = item.max || 1;
+        console.log(totalItems, item.max);
+        if (totalItems < item.max) {
             for (const i in event.target.files) {
-                let file = event.target.files[i];
-                if (!item.max || (item.max && totalItems < item.max)) {
+                let file = event.target.files[i] || event.target.file;
+                console.log(totalItems, item.max);
+                if (totalItems < item.max) {
                     if (!isNaN(+i)) {
                         totalItems++;
                         readers[i] = new FileReader;
@@ -133,7 +136,9 @@ export class FormComponent implements OnInit {
                         };
                         readers[i].readAsDataURL(file);
                     }
-                } else SnackService.send$.emit(`No puedes subir más ficheros (${file.name.substring(0, 20)}...).`);
+                } else {
+                    if (!file) SnackService.send$.emit(`No puedes subir más ficheros (${file.name.substring(0, 20)}...).`);
+                }
             }
         } else SnackService.send$.emit('No puedes subir más ficheros.')
     }

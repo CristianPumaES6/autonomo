@@ -1,6 +1,7 @@
 import { IUser } from './user';
 import { IInvoiceLine } from './invoiceLine';
 import { IModel } from './model';
+import { IFile } from './file';
 
 export interface IInvoice extends IModel {
     id?: number;
@@ -12,8 +13,12 @@ export interface IInvoice extends IModel {
     received?: boolean;
     visualID?: string;
 
-    userID?: number | IUser;
+    user?: IUser;
+    userID?: number;
 
     invoiceLines?: IInvoiceLine[];
     invoiceLinesID?: number;
+
+    file?: IFile;
+    fileID?: number;
 }

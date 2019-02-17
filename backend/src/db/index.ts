@@ -14,12 +14,14 @@ import {
 
 import { IUser, IInvoice, IConfig, IInvoiceLine } from '../../../global/interfaces';
 import { IInstance, IUnionInvoice, IUnionInvoiceLine, IUnionUser } from './instance';
+import { IModel } from '../../../global/interfaces/model';
 
 export interface IModels {
     user: Sequelize.Model<IInstance<IUser> & IUnionInvoice, IUser>;
     invoice: Sequelize.Model<IInstance<IInvoice> & IUnionInvoiceLine, IInvoice>;
     config: Sequelize.Model<IInstance<IConfig> & IUnionUser, IConfig>;
     invoiceLine: Sequelize.Model<IInstance<IInvoiceLine>, IInvoiceLine>;
+    file: Sequelize.Model<IInstance<IModel>, IModel>;
 }
 
 class DB {
@@ -143,6 +145,9 @@ class DB {
 
         this.models.invoice.hasMany(this.models.invoiceLine, { foreignKey: 'invoiceID' });
         this.models.invoiceLine.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
+
+        this.models.invoice.hasOne(this.models.file, { foreignKey: 'fileID' });
+        this.models.file.belongsTo(this.models.invoice, { foreignKey: 'fileID' });
     }
 }
 

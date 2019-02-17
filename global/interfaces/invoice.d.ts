@@ -1,7 +1,8 @@
 import { IUser } from './user';
 import { IInvoiceLine } from './invoiceLine';
+import { IModel } from './model';
 
-export interface IInvoice {
+export interface IInvoice extends IModel {
     id?: number;
     date?: Date;
     cif?: string;

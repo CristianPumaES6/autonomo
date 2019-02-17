@@ -1,6 +1,7 @@
 import { IConfig } from './config';
+import { IModel } from './model';
 
-export interface IUser {
+export interface IUser extends IModel {
     id?: number;
     name?: string;
     password?: string;
@@ -10,7 +11,6 @@ export interface IUser {
     email?: string;
     dni?: string;
     root?: boolean;
-    deletedAt?: Date;
 
     configID?: number;
     config?: IConfig;

@@ -17,6 +17,9 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
         },
         size: { 
             type: dataType.DECIMAL,
+        },
+        type:{
+            type: dataType.STRING,
         }
     }, { timestamps: true, paranoid: true });
 }

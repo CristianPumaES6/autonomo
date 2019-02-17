@@ -5,9 +5,14 @@ export interface IInstance<T> extends Sequelize.Instance<T> {
     dataValues: T;
 }
 
-export interface IUnionInvoice {
+export interface IUnionInvoices {
     setInvoices(invoice: IInvoice[] | IInstance<IInvoice>[] & any): void;
     getInvoices(): IInvoice[];
+}
+
+export interface IUnionInvoice {
+    setInvoice(invoice: IInvoice[] | IInstance<IInvoice>[] & any): void;
+    getInvoice(): IInvoice[];
 }
 
 export interface IUnionInvoiceLine {

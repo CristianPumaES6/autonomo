@@ -12,16 +12,15 @@ import {
     PROD
 } from '../app.constants';
 
-import { IUser, IInvoice, IConfig, IInvoiceLine } from '../../../global/interfaces';
-import { IInstance, IUnionInvoice, IUnionInvoiceLine, IUnionUser } from './instance';
-import { IModel } from '../../../global/interfaces/model';
+import { IUser, IInvoice, IConfig, IInvoiceLine, IFile } from '../../../global/interfaces';
+import { IInstance, IUnionInvoices, IUnionInvoiceLine, IUnionUser, IUnionInvoice } from './instance';
 
 export interface IModels {
-    user: Sequelize.Model<IInstance<IUser> & IUnionInvoice, IUser>;
+    user: Sequelize.Model<IInstance<IUser> & IUnionInvoices, IUser>;
     invoice: Sequelize.Model<IInstance<IInvoice> & IUnionInvoiceLine, IInvoice>;
     config: Sequelize.Model<IInstance<IConfig> & IUnionUser, IConfig>;
     invoiceLine: Sequelize.Model<IInstance<IInvoiceLine>, IInvoiceLine>;
-    file: Sequelize.Model<IInstance<IModel>, IModel>;
+    file: Sequelize.Model<IInstance<IFile> & IUnionInvoice, IFile>;
 }
 
 class DB {

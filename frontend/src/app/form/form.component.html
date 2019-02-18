@@ -49,7 +49,7 @@
                         <mat-hint *ngIf=" item.info && item.info['map'] && item.info[1]" align="end">
                             {{ item.info[1] }}
                         </mat-hint>
-                        s <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
+                        <mat-error *ngIf="form.get(item.name) && form.get(item.name).errors">
                             <div [ngSwitch]="(form.get(item.name).errors | keys)[0]">
                                 <ng-container *ngSwitchCase="'required'">
                                     El campo

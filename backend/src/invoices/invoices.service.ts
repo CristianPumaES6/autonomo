@@ -29,15 +29,17 @@ export class InvoicesService {
         return invoiceDB;
     }
 
-    async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, user: number) {
+    async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[], file: { name: string, data: string }[] }, user: number) {
         await db.models.invoiceLine.destroy({ where: { invoiceID: invoice.id! } });
         const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
         const invoiceDBSelect = await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } });
-        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
+        const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user }, returning: true });
         await invoiceDBSelect!.setInvoiceLines(invoiceLine);
-        if (invoice.file) {
+
+        if (!invoice.file || invoice.file.length === 0) await db.models.file.destroy({ where: { invoiceID: invoice.id! } });
+        else if (invoice.file[0].data.startsWith('data:')) {
             const file = await saveImage(invoice.file[0] as any);
-            await (file as any).setInvoice(invoiceDB);
+            await (file as any).setInvoice(invoiceDBSelect);
         }
         return invoiceDB;
     }

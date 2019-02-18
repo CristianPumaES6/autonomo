@@ -61,7 +61,7 @@ class DB {
          * IF PROD, INSERT ALL DEFAULT VALUES
          */
         if (!PROD) {
-            let miguel: IInstance<IUser> & IUnionInvoice, invoices: (IInvoice & IUnionInvoiceLine[]) = [];
+            let miguel: IInstance<IUser> & IUnionInvoices, invoices: (IInvoice & IUnionInvoiceLine[]) = [];
             if (await db.models.user.count() === 0) {
                 miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' }))!;
                 const configDB = await db.models.config.create();
@@ -145,8 +145,8 @@ class DB {
         this.models.invoice.hasMany(this.models.invoiceLine, { foreignKey: 'invoiceID' });
         this.models.invoiceLine.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
 
-        this.models.invoice.hasOne(this.models.file, { foreignKey: 'fileID' });
-        this.models.file.belongsTo(this.models.invoice, { foreignKey: 'fileID' });
+        this.models.invoice.hasOne(this.models.file, { foreignKey: 'invoiceID' });
+        this.models.file.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
     }
 }
 

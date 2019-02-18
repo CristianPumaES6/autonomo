@@ -41,6 +41,7 @@ export class InvoiceEditComponent implements OnInit {
                         SnackService.send$.emit('No tienes permisos para ver esta factura.');
                         this.goBack();
                     } else {
+                        this.invoice.file = this.invoice.file ? [({ name: this.invoice.file.name, data: this.invoice.file.path } as any)] as any : null;
                         this.form = this.invoiceService.createForm(this.invoice);
                         this.style = this.invoiceService.createStyle();
                         this.invoice.invoiceLines.forEach(i => {
@@ -67,7 +68,8 @@ export class InvoiceEditComponent implements OnInit {
 
     edit() {
         if (this.form.valid) {
-            this.invoiceService.put({ id: this.id, ...this.form.getRawValue(), invoiceLines: this.invoiceLinesForm.map(i => i.getRawValue()) }).subscribe(() => {
+            let invoice = this.form.getRawValue();
+            this.invoiceService.put({ id: this.id, ...invoice, invoiceLines: this.invoiceLinesForm.map(i => i.getRawValue()) }).subscribe(() => {
                 this.goBack();
                 SnackService.send$.emit('Editado con exito.');
             });

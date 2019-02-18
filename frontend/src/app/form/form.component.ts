@@ -116,11 +116,9 @@ export class FormComponent implements OnInit {
         if (this.form.get(item.name).value && typeof this.form.get(item.name).value === 'object') items = this.form.get(item.name).value;
         totalItems = items.length;
         item.max = item.max || 1;
-        console.log(totalItems, item.max);
         if (totalItems < item.max) {
             for (const i in event.target.files) {
                 let file = event.target.files[i] || event.target.file;
-                console.log(totalItems, item.max);
                 if (totalItems < item.max) {
                     if (!isNaN(+i)) {
                         totalItems++;

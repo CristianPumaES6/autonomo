@@ -14,17 +14,18 @@ export async function saveImage(file: { name: string, data: string }) {
         binder = path2.substr(0, 3),
         name = path2.substr(3);
 
-    let pathFile = path.join(__dirname, '../../files/', binder);
+    let pathFile = path.join(__dirname, `../../files/${binder}/${name}`);
     ensureDirectoryExistence(pathFile);
-    pathFile += name;
-
+    
     if (!type) throw new HttpException('No se ha podido guardar el fichero', HttpStatus.NOT_ACCEPTABLE);
+    
+    pathFile += name + '.' + type[0].replace('data:', '').split('/')[1];
 
     fs.writeFileSync(pathFile, data, 'base64');
 
     const stats = fs.statSync(pathFile);
 
-    fileToSave.type = type[0];
+    fileToSave.type = type[0].replace('data:', '');
     fileToSave.path = pathFile;
     fileToSave.name = file.name;
     fileToSave.size = stats.size / 1000.0; // Convertirlo a KB

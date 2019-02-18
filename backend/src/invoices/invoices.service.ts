@@ -6,6 +6,7 @@ import * as pdf from 'html-pdf';
 import * as path from 'path';
 import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
 import * as moment from 'moment';
+import { saveImage } from 'src/shared/classes/file';
 
 @Injectable()
 export class InvoicesService {
@@ -21,6 +22,10 @@ export class InvoicesService {
         const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
         const invoiceDB = await db.models.invoice.create(invoice);
         await invoiceDB.setInvoiceLines(invoiceLine);
+        if (invoice.file) {
+            const file = await saveImage(invoice.file[0] as any);
+            await (file as any).setInvoice(invoiceDB);
+        }
         return invoiceDB;
     }
 
@@ -30,6 +35,10 @@ export class InvoicesService {
         const invoiceDBSelect = await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } });
         const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user } });
         await invoiceDBSelect!.setInvoiceLines(invoiceLine);
+        if (invoice.file) {
+            const file = await saveImage(invoice.file[0] as any);
+            await (file as any).setInvoice(invoiceDB);
+        }
         return invoiceDB;
     }
 

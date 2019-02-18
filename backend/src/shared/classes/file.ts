@@ -26,7 +26,7 @@ export async function saveImage(file: { name: string, data: string }) {
     const stats = fs.statSync(pathFile);
 
     fileToSave.type = type[0].replace('data:', '');
-    fileToSave.path = pathFile;
+    fileToSave.path = `/${binder}/${name}.${type[0].replace('data:', '').split('/')[1]}`;
     fileToSave.name = file.name;
     fileToSave.size = stats.size / 1000.0; // Convertirlo a KB
 

@@ -10,9 +10,10 @@ import { InvoicesController } from './invoices/invoices.controller';
 import { ConfigsModule } from './configs/configs.module';
 import { ConfigsController } from './configs/configs.controller';
 import { ChartsModule } from './invoices/charts/charts.module';
+import { FileModule } from './file/file.module';
 
 @Module({
-    imports: [ChartsModule, UserModule, InvoicesModule, AuthModule, ConfigsModule],
+    imports: [ChartsModule, UserModule, InvoicesModule, AuthModule, ConfigsModule, FileModule],
     controllers: [AppController],
     providers: [],
 })

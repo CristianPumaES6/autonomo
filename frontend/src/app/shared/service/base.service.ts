@@ -32,6 +32,6 @@ export class BaseService<T> {
     }
 
     delete(id: number) {
-        return this.httpClient.delete<T>(this.SERVER_URL + id);
+        return this.httpClient.delete<T>(`${this.SERVER_URL}/${id}`);
     }
 }

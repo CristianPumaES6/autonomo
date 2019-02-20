@@ -16,7 +16,7 @@ export class BaseService<T> {
     }
 
     restore(id: number) {
-        return this.httpClient.get(`${this.SERVER_URL}/restore/${id}`);
+        return this.httpClient.get<T>(`${this.SERVER_URL}/restore/${id}`);
     }
 
     getTable() {

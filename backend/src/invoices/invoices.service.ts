@@ -4,7 +4,7 @@ import { db } from '../db';
 import * as fs from 'fs';
 import * as pdf from 'html-pdf';
 import * as path from 'path';
-import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
+import { IInvoice } from '../../../global/interfaces';
 import * as moment from 'moment';
 import { saveImage } from 'src/shared/classes/file';
 
@@ -18,8 +18,8 @@ export class InvoicesService {
         return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: ['date'] });
     }
 
-    async post(invoice: IInvoice & { invoiceLines: IInvoiceLine[] }) {
-        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
+    async post(invoice: IInvoice) {
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines!);
         const invoiceDB = await db.models.invoice.create(invoice);
         await invoiceDB.setInvoiceLines(invoiceLine);
         if (invoice.file) {
@@ -29,9 +29,9 @@ export class InvoicesService {
         return invoiceDB;
     }
 
-    async put(invoice: IInvoice & { invoiceLines: IInvoiceLine[], file: { name: string, data: string }[] }, user: number) {
+    async put(invoice: IInvoice & { file: { name: string, data: string }[] }, user: number) {
         await db.models.invoiceLine.destroy({ where: { invoiceID: invoice.id! } });
-        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines);
+        const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines!);
         const invoiceDBSelect = await db.models.invoice.findOne({ where: { id: invoice.id!, userID: user } });
         const invoiceDB = await db.models.invoice.update(invoice, { where: { id: invoice.id!, userID: user }, returning: true });
         await invoiceDBSelect!.setInvoiceLines(invoiceLine);

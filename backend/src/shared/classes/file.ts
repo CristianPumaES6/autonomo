@@ -19,7 +19,7 @@ export async function saveImage(file: { name: string, data: string }) {
     
     if (!type) throw new HttpException('No se ha podido guardar el fichero', HttpStatus.NOT_ACCEPTABLE);
     
-    pathFile += name + '.' + type[0].replace('data:', '').split('/')[1];
+    pathFile += '.' + type[0].replace('data:', '').split('/')[1];
 
     fs.writeFileSync(pathFile, data, 'base64');
 

@@ -44,7 +44,7 @@ export class InvoicesController {
     }
 
     @Post()
-    async post(@Body() invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, @Headers('authorization') authorization: string) {
+    async post(@Body() invoice: IInvoice, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
         delete invoice.id;
         invoice.userID = userID;
@@ -52,7 +52,7 @@ export class InvoicesController {
     }
 
     @Put()
-    async put(@Body() invoice: IInvoice & { invoiceLines: IInvoiceLine[] }, @Headers('authorization') authorization: string) {
+    async put(@Body() invoice: IInvoice & { file: any }, @Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
         return this.invoiceService.put(invoice, userID);
     }

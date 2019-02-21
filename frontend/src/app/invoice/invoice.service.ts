@@ -107,7 +107,7 @@ export class InvoiceService extends BaseService<IInvoice> {
             label: 'Factura',
             info: 'Tamaño máximo 1MB',
             rows: 2,
-            cols: 4,
+            cols: 6,
         }]);
     }
 
@@ -128,18 +128,18 @@ export class InvoiceService extends BaseService<IInvoice> {
                 type: 'text',
                 name: 'description',
                 label: 'Descripción',
-                cols: 6,
+                cols: 8,
             }, {
                 type: 'number',
                 name: 'iva',
                 label: 'IVA',
                 suffix: '%',
-                cols: 2,
+                cols: 1,
             }, {
                 type: 'number',
                 name: 'quantity',
                 label: 'Cantidad',
-                cols: 2,
+                cols: 1,
             }, {
                 type: 'number',
                 name: 'price',

@@ -50,7 +50,7 @@ class DB {
      */
     public async init() {
         await this.createDatabase();
-        await this.sequelize.sync({force: true});
+        await this.sequelize.sync();
         await this.createDefaultValues();
     }
 

@@ -196,11 +196,14 @@
                             <div class="files-list" *ngIf="form.get(item.name).value">
                                 <div class="file-item" *ngFor="let file of form.get(item.name).value; let i = index">
                                     <div class="file-name">
-                                        <a [href]="file.data" target="_blank">
-                                            {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...' +
-                                            file.name.split('.')[file.name.split('.').length
-                                            - 1])}}
+                                        <a [href]="file.data" *ngIf="file.data && !file.data.startsWith('data:')" target="_blank">
+                                            {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...'
+                                            + file.name.split('.')[file.name.split('.').length - 1])}}
                                         </a>
+                                        <div *ngIf="file.data && file.data.startsWith('data:')">
+                                            {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...'
+                                            + file.name.split('.')[file.name.split('.').length - 1])}}
+                                        </div>
                                     </div>
                                     <button (click)="deleteFile(item, i)" color="warn" mat-icon-button>
                                         <mat-icon color="warn">close</mat-icon>

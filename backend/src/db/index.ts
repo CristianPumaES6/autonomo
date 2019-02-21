@@ -2,6 +2,7 @@ import * as Sequelize from 'sequelize';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
+import * as moment from 'moment';
 
 import {
     DB_NAME,
@@ -49,7 +50,7 @@ class DB {
      */
     public async init() {
         await this.createDatabase();
-        await this.sequelize.sync();
+        await this.sequelize.sync({force: true});
         await this.createDefaultValues();
     }
 
@@ -70,42 +71,15 @@ class DB {
             if (await db.models.invoice.count() === 0) {
                 miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;// FIND USER TO INSERT THE INVOICES
 
-                invoices.push(await db.models.invoice.create({ visualID: '2019000001', cif: '48771234R', fisicalAddress: 'Calle Rio Algar', nameCompany: 'Boon', date: new Date('12/12/2019') }));
-                let invoiceLine = await db.models.invoiceLine.bulkCreate([
-                    { iva: 21, description: 'Descripción de la linea 1', price: 35, quantity: 2 },
-                    { iva: 21, description: 'Descripción de la linea 2', price: 145, quantity: 6 },
-                    { iva: 21, description: 'Descripción de la linea 3', price: 5, quantity: 20 },
-                ]);
-                await invoices[0].setInvoiceLines(invoiceLine);
-
-                invoices.push(await db.models.invoice.create({ visualID: '2019000002', cif: '48771234R', fisicalAddress: 'Calle Rio Algar', nameCompany: 'Boon', date: new Date('3/3/2019') }));
-                invoiceLine = await db.models.invoiceLine.bulkCreate([
-                    { iva: 21, description: 'Descripción de la linea 4', price: 335, quantity: 2 },
-                    { iva: 21, description: 'Descripción de la linea 5', price: 15, quantity: 6 },
-                    { iva: 21, description: 'Descripción de la linea 6', price: 59, quantity: 80 },
-                ]);
-                await invoices[1].setInvoiceLines(invoiceLine);
-
-                await miguel.setInvoices(invoices);
-
-                invoices.push(await db.models.invoice.create({ visualID: '2019000003', cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: false, nameCompany: 'Boon', date: new Date('5/5/2019') }));
-                invoiceLine = await db.models.invoiceLine.bulkCreate([
-                    { iva: 21, description: 'Descripción de la linea 7', price: 335, quantity: 2 },
-                    { iva: 21, description: 'Descripción de la linea 8', price: 15, quantity: 6 },
-                    { iva: 21, description: 'Descripción de la linea 9', price: 59, quantity: 280 },
-                ]);
-                await invoices[2].setInvoiceLines(invoiceLine);
-
-                await miguel.setInvoices(invoices);
-
-                invoices.push(await db.models.invoice.create({ visualID: '2019000004', cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: false, nameCompany: 'Boon', date: new Date('11/11/2019') }));
-                invoiceLine = await db.models.invoiceLine.bulkCreate([
-                    { iva: 21, description: 'Descripción de la linea 10', price: 5, quantity: 9 },
-                    { iva: 21, description: 'Descripción de la linea 11', price: 105, quantity: 6 },
-                    { iva: 21, description: 'Descripción de la linea 12', price: 599, quantity: 10 },
-                ]);
-                await invoices[3].setInvoiceLines(invoiceLine);
-
+                for (let i = 0; i < 100; i++) {
+                    invoices.push(await db.models.invoice.create({ visualID: `${i}`, cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: i % 2 === 0, nameCompany: 'Boon', date: new Date(`${Math.random() * 28 + 1}/${Math.random() * 12 + 1}/2019`) }));
+                    let invoiceLine = await db.models.invoiceLine.bulkCreate([
+                        { iva: 21, description: 'Descripción de la linea 1', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
+                        { iva: 21, description: 'Descripción de la linea 2', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
+                        { iva: 21, description: 'Descripción de la linea 3', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
+                    ]);+
+                    await invoices[i].setInvoiceLines(invoiceLine);
+                }
                 await miguel.setInvoices(invoices);
             }
         }

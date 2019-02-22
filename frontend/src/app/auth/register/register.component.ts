@@ -10,7 +10,7 @@ import { SnackService } from '../../shared/service/snack.service';
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-    formRegister: FormGroup;
+    form: FormGroup;
 
     constructor(
         private authService: AuthService,
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.formRegister = new FormGroup({
+        this.form = new FormGroup({
             email: new FormControl('', [
                 Validators.required,
                 Validators.email,
@@ -40,14 +40,15 @@ export class RegisterComponent implements OnInit {
     }
 
     register() {
-        let user = this.formRegister.getRawValue();
+        let user = this.form.getRawValue();
 
         if (user.password !== user.rePassword) SnackService.send$.emit('Las contraseñas deben coincidir.');
         else {
-            this.authService.register(this.formRegister.getRawValue()).subscribe(() => {
-                SnackService.send$.emit('Registrado con éxito.');
-                this.router.navigate(['/']);
-            });
+            if (this.form.valid)
+                this.authService.register(this.form.getRawValue()).subscribe(() => {
+                    SnackService.send$.emit('Registrado con éxito.');
+                    this.router.navigate(['/']);
+                });
         }
     }
 

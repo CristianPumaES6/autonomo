@@ -58,13 +58,10 @@ class DB {
      * PRIVATE
      */
     private async createDefaultValues() {
-        /**
-         * IF PROD, INSERT ALL DEFAULT VALUES
-         */
         if (!PROD) {
             let miguel: IInstance<IUser> & IUnionInvoices, invoices: (IInvoice & IUnionInvoiceLine[]) = [];
             if (await db.models.user.count() === 0) {
-                miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R' }))!;
+                miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R', phone: '(+34) 646 74 95 70', address: 'Calle Riu Algar, 30, 4ºE 03690 San Vicente del Raspeig (Alicante)' }))!;
                 const configDB = await db.models.config.create();
                 await configDB.setUser(miguel);
             }

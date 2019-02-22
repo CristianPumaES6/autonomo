@@ -183,8 +183,7 @@
                             <div class="file-label">
                                 <label class="file-label">{{item.label}}</label>
                                 <span>{{form.get(item.name).value?.length || 0}}/{{item.max ? item.max :
-                                    (item.multiple? '&infin;'
-                                    : 1)}}</span>
+                                    (item.multiple? '&infin;' : 1)}}</span>
                             </div>
                             <div class="file-container" (drop)="dropFiles($event, item)" (dragover)="dragOverFiles($event)">
                                 <div (click)="inputFile.click()" class="file-container-area">
@@ -197,7 +196,7 @@
                                 <div class="file-item" *ngFor="let file of form.get(item.name).value; let i = index">
                                     <div class="file-name">
                                         <a [href]="file.data" *ngIf="file.data && !file.data.startsWith('data:')"
-                                            download>
+                                            download target="_blank">
                                             {{40 >= file.name.length ? file.name : (file.name.substring(0, 40) + '...'
                                             + file.name.split('.')[file.name.split('.').length - 1])}}
                                         </a>

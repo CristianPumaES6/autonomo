@@ -2,7 +2,6 @@ import * as Sequelize from 'sequelize';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
-import * as moment from 'moment';
 
 import {
     DB_NAME,
@@ -50,7 +49,7 @@ class DB {
      */
     public async init() {
         await this.createDatabase();
-        await this.sequelize.sync();
+        await this.sequelize.sync({ force: false });
         await this.createDefaultValues();
     }
 
@@ -66,16 +65,16 @@ class DB {
                 await configDB.setUser(miguel);
             }
             if (await db.models.invoice.count() === 0) {
-                miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;// FIND USER TO INSERT THE INVOICES
+                miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
 
                 for (let i = 0; i < 100; i++) {
-                    invoices.push(await db.models.invoice.create({ visualID: `${i}`, cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: i % 2 === 0, nameCompany: 'Boon', date: new Date(`${Math.random() * 28 + 1}/${Math.random() * 12 + 1}/2019`) }));
+                    invoices.push(await db.models.invoice.create({ visualID: `${i}`, cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: i % 2 === 0, nameCompany: 'Boon', date: new Date(`${+ (Math.random() * 28).toFixed(0) + 1}/${+(Math.random() * 12).toFixed(0) + 1}/2019`) }));
                     let invoiceLine = await db.models.invoiceLine.bulkCreate([
                         { iva: 21, description: 'Descripción de la linea 1', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                         { iva: 21, description: 'Descripción de la linea 2', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                         { iva: 21, description: 'Descripción de la linea 3', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
-                    ]);+
-                    await invoices[i].setInvoiceLines(invoiceLine);
+                    ]); +
+                        await invoices[i].setInvoiceLines(invoiceLine);
                 }
                 await miguel.setInvoices(invoices);
             }

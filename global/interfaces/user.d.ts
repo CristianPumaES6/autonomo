@@ -11,6 +11,7 @@ export interface IUser extends IModel {
     email?: string;
     dni?: string;
     root?: boolean;
+    max_file_size?: number;
 
     configID?: number;
     config?: IConfig;

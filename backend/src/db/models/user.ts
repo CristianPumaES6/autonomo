@@ -33,6 +33,10 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             unique: true,
             allowNull: false,
         },
+        max_file_size: {
+            type: dataType.INTEGER,
+            defaultValue: 5120,
+        },
         address: {
             type: dataType.STRING,
         },

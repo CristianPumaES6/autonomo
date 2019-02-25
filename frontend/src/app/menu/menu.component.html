@@ -21,6 +21,7 @@
                     </button>
                 </div>
 
+
                 <div class="bottom-buttons">
 
                     <button routerLink="/profile" (click)="sidenav.close()" mat-button>
@@ -29,11 +30,20 @@
 
                     <mat-slide-toggle (change)="changeDarkMode()" [checked]="dark">Modo oscuro</mat-slide-toggle>
 
+                    <div class="size">
+                        <div class="label">
+                            <span> {{((size || 1) / 1024).toFixed(2)}} MB </span>
+                            <span> {{ ((user ? user.max_file_size : 0) / 1024).toFixed(2)}} MB </span>
+                        </div>
+                        <mat-progress-bar mode="determinate" [value]="size * 100 / (user ? user.max_file_size : 1)"></mat-progress-bar>
+                    </div>
+
                     <mat-divider></mat-divider>
 
                     <button (click)="logout()" mat-button>
-                        <mat-icon>power_settings_new</mat-icon> Log out
+                        <mat-icon>power_settings_new</mat-icon> Salir
                     </button>
+
                 </div>
             </div>
         </mat-sidenav>

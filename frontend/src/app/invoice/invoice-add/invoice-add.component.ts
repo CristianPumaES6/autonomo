@@ -50,6 +50,7 @@ export class InvoiceAddComponent implements OnInit {
                 localStorage.setItem('cif', this.form.get('cif').value);
                 localStorage.setItem('nameCompany', this.form.get('nameCompany').value);
                 localStorage.setItem('fisicalAddress', this.form.get('fisicalAddress').value);
+                this.invoiceService.newFile$.emit(true);
                 this.goBack();
             });
         }

@@ -16,7 +16,6 @@ export class InvoiceEditComponent implements OnInit {
     invoice: IInvoice;
     cols: number;
     id: number;
-
     form: FormGroup;
     style: FormStyle;
     invoiceLinesStyles: FormStyle[] = [];
@@ -70,10 +69,13 @@ export class InvoiceEditComponent implements OnInit {
     edit() {
         if (this.form.valid) {
             let invoice = this.form.getRawValue();
-            this.invoiceService.put({ id: this.id, ...invoice, invoiceLines: this.invoiceLinesForm.map(i => i.getRawValue()) }).subscribe(() => {
-                this.goBack();
-                SnackService.send$.emit('Editado con exito.');
-            });
+            this.invoiceService.put({ id: this.id, ...invoice, invoiceLines: this.invoiceLinesForm.map(i => i.getRawValue()) }).subscribe(
+                () => {
+                    this.invoiceService.newFile$.emit(true);
+                    SnackService.send$.emit('Editado con exito.');
+                    this.goBack();
+                }
+            );
         }
     }
 

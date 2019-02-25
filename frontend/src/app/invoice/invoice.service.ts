@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { BaseService } from '../shared/service/base.service';
 import { IInvoice, IInvoiceLine, IConfig } from '@isofocus/interfaces';
 import { HttpClient } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { switchMap, map } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class InvoiceService extends BaseService<IInvoice> {
+    newFile$: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
         this.SERVER_URL = '/invoice';
@@ -29,15 +30,19 @@ export class InvoiceService extends BaseService<IInvoice> {
         return this.httpClient.get<{ ok: boolean }>(`${this.SERVER_URL}/check/${id}`);
     }
 
+    getTotalSize() {
+        return this.httpClient.get<number>(`${this.SERVER_URL}/total/size`);
+    }
+
+    getPDF(id: number) {
+        return this.httpClient.get(`${this.SERVER_URL}/pdf/${id}`);
+    }
+
     /**
      * VALIDATORS
      */
     uniqueID(): AsyncValidatorFn {
         return (control: AbstractControl) => timer(750).pipe(switchMap(() => this.checkID(control.value).pipe(map(response => !response.ok ? { invalidID: true } : null))));
-    }
-
-    getPDF(id: number) {
-        return this.httpClient.get(`${this.SERVER_URL}/pdf/${id}`);
     }
 
     createForm(invoice?: IInvoice) {

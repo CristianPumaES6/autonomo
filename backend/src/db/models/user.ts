@@ -34,7 +34,7 @@ export default function (sequelize: Sequelize, dataType: DataTypes) {
             allowNull: false,
         },
         max_file_size: {
-            type: dataType.INTEGER,
+            type: dataType.BIGINT,
             defaultValue: 5120,
         },
         address: {

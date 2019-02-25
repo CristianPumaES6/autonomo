@@ -60,4 +60,13 @@ main {
         bottom: 0;
     }
 
+    .size {
+        margin: 1rem;
+
+        .label {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
 }

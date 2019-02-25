@@ -1,7 +1,7 @@
 import { Controller, Get, Headers, Param, Post, Body, Put, Delete, Header } from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { auth } from '../shared/classes/auth';
-import { IInvoice, IInvoiceLine } from '../../../global/interfaces';
+import { IInvoice } from '../../../global/interfaces';
 
 @Controller('invoice')
 export class InvoicesController {
@@ -24,10 +24,17 @@ export class InvoicesController {
         const userID = auth.decode(authorization);
         return this.invoiceService.restore(id, userID);
     }
+
     @Get('check/:id')
     async check(@Headers('authorization') authorization: string, @Param('id') id: number) {
         const userID = auth.decode(authorization);
         return { ok: await this.invoiceService.check(id, userID) };
+    }
+    
+    @Get('total/size')
+    async getTotalSize(@Headers('authorization') authorization: string) {
+        const userID = auth.decode(authorization);
+        return await this.invoiceService.totalSizeUsed(userID);
     }
 
     @Get(':id')

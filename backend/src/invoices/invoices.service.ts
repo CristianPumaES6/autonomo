@@ -105,4 +105,16 @@ export class InvoicesService {
 
         return new Promise((resolve, reject) => pdf.create(template).toBuffer((err, buf) => err ? reject(err) : resolve(buf)));
     }
+
+    async totalSizeUsed(userID: number) {
+        return (await db.sequelize.query({ query: `
+        SELECT SUM(size) total 
+        FROM invoices, files 
+        WHERE 
+            files.invoiceID = invoices.id AND 
+            invoices.userID = ? AND 
+            (files.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR files.deletedAt IS NULL) AND
+            (invoices.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR invoices.deletedAt IS NULL)
+        `, values: [userID] }))[0][0].total as number;
+    }
 }

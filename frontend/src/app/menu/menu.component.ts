@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { InvoiceService } from '../invoice/invoice.service';
+import { ProfileService } from '../profile/profile.service';
 import { AuthService } from '../auth/auth.service';
 import { MatSidenav } from '@angular/material';
-import { Router } from '@angular/router';
-import { ProfileService } from '../profile/profile.service';
 import { IUser } from '@isofocus/interfaces';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'if-menu',
@@ -11,21 +12,28 @@ import { IUser } from '@isofocus/interfaces';
     styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-    logged: boolean;
-    user: IUser;
     dark = localStorage.getItem('dark') === 'true';
+    logged: boolean;
+    size: number;
+    user: IUser;
 
     @ViewChild('sidenav') sidenav: MatSidenav;
 
     constructor(
+        private readonly invoiceService: InvoiceService,
+        private readonly profileService: ProfileService,
         private readonly authService: AuthService,
         private readonly router: Router,
-        private readonly profileService: ProfileService,
     ) { }
 
     ngOnInit() {
-        this.authService.logged$.subscribe((logged: boolean) => this.logged = logged);
-        this.profileService.getMy().subscribe(user => this.user = user);
+        this.authService.logged$.subscribe((logged: boolean) => {
+            this.logged = logged;
+            if (this.logged) {
+                this.profileService.getMy().subscribe(user => this.user = user);
+            }
+        });
+        this.invoiceService.getTotalSize().subscribe(size => this.size = size);
     }
 
     logout() {
@@ -37,7 +45,6 @@ export class MenuComponent implements OnInit {
 
     changeDarkMode() {
         this.dark = !this.dark;
-
         localStorage.setItem('dark', `${this.dark}`);
     }
 }

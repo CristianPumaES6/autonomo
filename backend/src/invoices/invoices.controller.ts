@@ -34,7 +34,6 @@ export class InvoicesController {
     @Get('total/size')
     async getTotalSize(@Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
-        console.log(userID);
         return await this.invoiceService.totalSizeUsed(userID);
     }
 

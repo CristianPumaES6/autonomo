@@ -23,7 +23,7 @@ export class ChartsService {
     async geEarned(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
-            SELECT SUM(IL.price * IL.quantity) total, MONTH(I.date) as day
+            SELECT ROUND(SUM(IL.price * IL.quantity), 2) total, MONTH(I.date) as day
             FROM invoices AS I, invoiceLines AS IL
             WHERE I.userID = ? AND
             IL.invoiceID = I.id AND
@@ -39,7 +39,7 @@ export class ChartsService {
     async getWasted(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
-            SELECT sum(IL.price * IL.quantity) total, MONTH(date) as day
+            SELECT ROUND(SUM(IL.price * IL.quantity), 2) total, MONTH(date) as day
             FROM invoices AS I, invoiceLines AS IL
             WHERE I.userID = ? AND
                 IL.invoiceID = I.id AND
@@ -55,7 +55,7 @@ export class ChartsService {
     async getIvaEarn(id: number, year = moment().year()) {
         const chart: IChart = await db.sequelize.query({
             query: `
-            SELECT sum((IL.iva * IL.price * IL.quantity) / 100) total, MONTH(date) as day
+            SELECT ROUND(SUM((IL.iva * IL.price * IL.quantity) / 100), 2) total, MONTH(date) as day
             FROM invoices AS I, invoiceLines AS IL
             WHERE I.userID = ? AND
                 IL.invoiceID = I.id AND

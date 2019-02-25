@@ -15,7 +15,7 @@ export class InvoicesController {
 
     @Get('next')
     async next(@Headers('authorization') authorization: string) {
-        const userID = auth.decode(authorization); 
+        const userID = auth.decode(authorization);
         return +((await this.invoiceService.next(userID)) || 0) + 1;
     }
 
@@ -30,10 +30,11 @@ export class InvoicesController {
         const userID = auth.decode(authorization);
         return { ok: await this.invoiceService.check(id, userID) };
     }
-    
+
     @Get('total/size')
     async getTotalSize(@Headers('authorization') authorization: string) {
         const userID = auth.decode(authorization);
+        console.log(userID);
         return await this.invoiceService.totalSizeUsed(userID);
     }
 

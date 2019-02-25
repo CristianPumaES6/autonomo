@@ -30,10 +30,10 @@ export class MenuComponent implements OnInit {
         this.authService.logged$.subscribe((logged: boolean) => {
             this.logged = logged;
             if (this.logged) {
+                this.invoiceService.getTotalSize().subscribe(size => this.size = size);
                 this.profileService.getMy().subscribe(user => this.user = user);
             }
         });
-        this.invoiceService.getTotalSize().subscribe(size => this.size = size);
     }
 
     logout() {

@@ -68,13 +68,13 @@ class DB {
                 miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
 
                 for (let i = 0; i < 100; i++) {
-                    invoices.push(await db.models.invoice.create({ visualID: `${i}`, cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: i % 2 === 0, nameCompany: 'Boon', date: new Date(`${+ (Math.random() * 28).toFixed(0) + 1}/${+(Math.random() * 12).toFixed(0) + 1}/2019`) }));
+                    invoices.push(await db.models.invoice.create({ visualID: `${i}`, cif: '48771234R', fisicalAddress: 'Calle Rio Algar', received: i % 2 === 0, nameCompany: 'Boon', date: new Date(`${+ (Math.random() * 12).toFixed(0) + 1}/${+(Math.random() * 28).toFixed(0) + 1}/2019`) }));
                     let invoiceLine = await db.models.invoiceLine.bulkCreate([
                         { iva: 21, description: 'Descripción de la linea 1', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                         { iva: 21, description: 'Descripción de la linea 2', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                         { iva: 21, description: 'Descripción de la linea 3', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
-                    ]); +
-                        await invoices[i].setInvoiceLines(invoiceLine);
+                    ]);
+                    await invoices[i].setInvoiceLines(invoiceLine);
                 }
                 await miguel.setInvoices(invoices);
             }

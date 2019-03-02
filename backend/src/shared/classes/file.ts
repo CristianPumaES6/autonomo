@@ -1,12 +1,16 @@
 import { IFile } from '../../../../global/interfaces';
-import { db } from 'src/db';
+import { db } from '../../db';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
+import { MAX_SIZE_FILE } from '../../app.constants';
 
 export async function saveImage(file: { name: string, data: string }) {
-    let fileToSave: IFile = {};
+    let fileToSave: IFile = {},
+        size = (file.data.length * (3 / 4)) / 1000.0;
+
+    if ((size) >= MAX_SIZE_FILE) throw new HttpException('Archivo demasiado grande', HttpStatus.NOT_ACCEPTABLE);
 
     const type = file.data.match(/data:([\w])+\/*([\w])*/),
         data = file.data.replace(/data:([\w])+\/*([\w])*;base64,/, ''),
@@ -14,21 +18,22 @@ export async function saveImage(file: { name: string, data: string }) {
         binder = path2.substr(0, 3),
         name = path2.substr(3);
 
-    let pathFile = path.join(__dirname, `../../files/${binder}/${name}`);
-    ensureDirectoryExistence(pathFile);
-    
+    let pathAbsolute = path.join(__dirname, `../../files/${binder}/${name}`);
+    ensureDirectoryExistence(pathAbsolute);
+
     if (!type) throw new HttpException('No se ha podido guardar el fichero', HttpStatus.NOT_ACCEPTABLE);
-    
-    pathFile += '.' + type[0].replace('data:', '').split('/')[1];
 
-    fs.writeFileSync(pathFile, data, 'base64');
+    let extension = `.${type[0].replace('data:', '').split('/')[1]}`;
 
-    const stats = fs.statSync(pathFile);
+    pathAbsolute += extension;
+
+    fs.writeFileSync(pathAbsolute, data, 'base64');
+
 
     fileToSave.type = type[0].replace('data:', '');
-    fileToSave.path = `/${binder}/${name}.${type[0].replace('data:', '').split('/')[1]}`;
+    fileToSave.path = `/${binder}/${name}${extension}`;
     fileToSave.name = file.name;
-    fileToSave.size = stats.size / 1000.0; // Convertirlo a KB
+    fileToSave.size = size;
 
     return await db.models.file.create(fileToSave);
 }

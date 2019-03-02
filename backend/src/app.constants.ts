@@ -58,4 +58,8 @@ export const
     EMAIL_USER = VALUE_EMAIL_USER,
     EMAIL_PASSWORD = VALUE_EMAIL_PASSWORD,
     EMAIL_FROM = '"Isofocus" <soporte@isofocus.es>',
-    EMAIL_SERVICE = 'gmail';
+    EMAIL_SERVICE = 'gmail',
+    /**
+     * SIZE
+     */
+    MAX_SIZE_FILE = 2048;

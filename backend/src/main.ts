@@ -15,8 +15,8 @@ async function bootstrap() {
             cert: certFile,
         },
     }) : await NestFactory.create(AppModule);
-    app.use(bodyParser.json({ limit: '5mb' }));
-    app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
+    app.use(bodyParser.json({ limit: '50mb' }));
+    app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     app.enableCors();
     await app.listen(3000);
 }

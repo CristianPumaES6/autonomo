@@ -133,7 +133,7 @@ export class InvoiceService extends BaseService<IInvoice> {
                 type: 'text',
                 name: 'description',
                 label: 'Descripción',
-                cols: 8,
+                cols: 9,
             }, {
                 type: 'number',
                 name: 'iva',
@@ -151,7 +151,7 @@ export class InvoiceService extends BaseService<IInvoice> {
                 label: 'Precio',
                 info: 'Sin IVA',
                 suffix: '€',
-                cols: 2,
+                cols: 1,
             },
         ]);
     }

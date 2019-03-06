@@ -11,6 +11,8 @@ import { MaterialModule } from './shared/material.module';
 import { NotLogged } from './shared/guard/not-logged.guard';
 import { MenuComponent } from './menu/menu.component';
 import { ChartsModule } from 'ng2-charts';
+import { MAT_DATE_LOCALE, MatPaginatorIntl } from '@angular/material';
+import { getSpanishINTL } from './shared/translate/paginator';
 
 @NgModule({
     declarations: [
@@ -34,6 +36,8 @@ import { ChartsModule } from 'ng2-charts';
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+        { provide: MatPaginatorIntl, useValue: getSpanishINTL() },
     ],
     bootstrap: [AppComponent]
 })

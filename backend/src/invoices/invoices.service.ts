@@ -12,11 +12,11 @@ import { IInstance, IUnionInvoice } from 'src/db/instance';
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoice.findAll({ where: { userID: user }, order: ['date', 'DESC'] });
+        return await db.models.invoice.findAll({ where: { userID: user }, order: [['date', 'DESC']] });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: ['date', 'DESC'] });
+        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: [['date', 'DESC']] });
     }
 
     async post(invoice: IInvoice, user: number) {

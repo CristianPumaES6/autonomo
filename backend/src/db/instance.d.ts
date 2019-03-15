@@ -17,6 +17,7 @@ export interface IUnionInvoice {
 
 export interface IUnionInvoiceLine {
     setInvoiceLines(invoiceLine: IInvoiceLine[] | IInstance<IInvoiceLine>[] & any): void;
+    addInvoiceLine(invoiceLine: IInvoiceLine | IInstance<IInvoiceLine> & any): void; // TODO: DFOIBVHDFILVHSDFI
     getInvoiceLines(): IInvoiceLine;
 }
 

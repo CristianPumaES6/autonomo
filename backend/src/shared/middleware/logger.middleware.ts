@@ -1,16 +1,16 @@
-import { Injectable, MiddlewareFunction, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { PROD } from '../../app.constants';
 import * as moment from 'moment';
+import { Request, Response } from 'express';
+
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-    resolve(): MiddlewareFunction {
-        return (req, res, next) => {
-            if (!PROD) {
-                // tslint:disable-next-line:no-console
-                console.log(`${moment().format('HH:mm:ss')} [${req.method}]: ${req.baseUrl}`);
-            }
-            if (typeof next === 'function') next();
-        };
+    use(req: Request, res: Response, next: Function) {
+        if (!PROD) {
+            console.log(`${moment().format('HH:mm:ss')} [${req.method}]: ${req.baseUrl}`);
+        }
+        if (typeof next === 'function') next();
     }
+
 }

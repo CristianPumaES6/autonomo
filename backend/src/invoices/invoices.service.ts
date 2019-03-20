@@ -4,28 +4,30 @@ import { db } from '../db';
 import * as fs from 'fs';
 import * as pdf from 'html-pdf';
 import * as path from 'path';
-import { IInvoice } from '../../../global/interfaces';
+import { IInvoice, IFile } from '../../../global/interfaces';
 import * as moment from 'moment';
 import { saveImage } from 'src/shared/classes/file';
+import { IInstance, IUnionInvoice } from 'src/db/instance';
 
 @Injectable()
 export class InvoicesService {
     async get(user: number) {
-        return await db.models.invoice.findAll({ where: { userID: user }, order: ['date'] });
+        return await db.models.invoice.findAll({ where: { userID: user }, order: [['date', 'DESC']] });
     }
 
     async getID(user: number, id: number) {
-        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: ['date'] });
+        return await db.models.invoice.findOne({ where: { userID: user, id }, include: [db.models.invoiceLine, db.models.file], order: [['date', 'DESC']] });
     }
 
-    async post(invoice: IInvoice) {
+    async post(invoice: IInvoice, user: number) {
+        let file: IInstance<IFile> & IUnionInvoice;
+        if (invoice.file) file = await this.saveImage(user, invoice);
+
         const invoiceLine = await db.models.invoiceLine.bulkCreate(invoice.invoiceLines!);
         const invoiceDB = await db.models.invoice.create(invoice);
         await invoiceDB.setInvoiceLines(invoiceLine);
-        if (invoice.file) {
-            const file = await saveImage(invoice.file[0] as any);
-            await (file as any).setInvoice(invoiceDB);
-        }
+
+        if (file!) await file!.setInvoice(invoiceDB);
         return invoiceDB;
     }
 
@@ -38,8 +40,7 @@ export class InvoicesService {
 
         if (!invoice.file || invoice.file.length === 0) await db.models.file.destroy({ where: { invoiceID: invoice.id! } });
         else if (invoice.file[0].data.startsWith('data:')) {
-            const file = await saveImage(invoice.file[0] as any);
-            await (file as any).setInvoice(invoiceDBSelect);
+            await (await this.saveImage(user, invoice)).setInvoice(invoiceDBSelect);
         }
         return invoiceDB;
     }
@@ -107,7 +108,8 @@ export class InvoicesService {
     }
 
     async totalSizeUsed(userID: number) {
-        return (await db.sequelize.query({ query: `
+        return (await db.sequelize.query({
+            query: `
         SELECT SUM(size) total 
         FROM invoices, files 
         WHERE 
@@ -115,6 +117,14 @@ export class InvoicesService {
             invoices.userID = ? AND 
             (files.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR files.deletedAt IS NULL) AND
             (invoices.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR invoices.deletedAt IS NULL)
-        `, values: [userID] }))[0][0].total as number;
+        `, values: [userID]
+        }))[0][0].total as number;
+    }
+
+    private async saveImage(id: number, invoice: IInvoice) {
+        const userDB = (await db.models.user.findOne({ where: { id }, attributes: ['max_file_size'] }))!;
+        let totalSize = await this.totalSizeUsed(id);
+        if (userDB.dataValues.max_file_size! >= totalSize) return await saveImage(invoice.file![0] as any);
+        else throw new HttpException('No hay espacio suficiente', HttpStatus.NOT_ACCEPTABLE);
     }
 }

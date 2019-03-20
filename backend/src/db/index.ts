@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
@@ -44,18 +44,12 @@ class DB {
         this.init().then();
     }
 
-    /**
-     * PUBLIC
-     */
-    public async init() {
+    private async init() {
         await this.createDatabase();
         await this.sequelize.sync({ force: false });
         await this.createDefaultValues();
     }
 
-    /**
-     * PRIVATE
-     */
     private async createDefaultValues() {
         if (!PROD) {
             let miguel: IInstance<IUser> & IUnionInvoices, invoices: (IInvoice & IUnionInvoiceLine[]) = [];

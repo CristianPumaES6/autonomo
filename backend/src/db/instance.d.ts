@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { IInvoice, IConfig, IInvoiceLine, IUser } from '../../../global/interfaces';
 
-export interface IInstance<T> extends Sequelize.Instance<T> {
+export interface IInstance<T> extends Sequelize.Model<T> {
     dataValues: T;
 }
 
@@ -17,6 +17,7 @@ export interface IUnionInvoice {
 
 export interface IUnionInvoiceLine {
     setInvoiceLines(invoiceLine: IInvoiceLine[] | IInstance<IInvoiceLine>[] & any): void;
+    addInvoiceLine(invoiceLine: IInvoiceLine | IInstance<IInvoiceLine> & any): void; // TODO: DFOIBVHDFILVHSDFI
     getInvoiceLines(): IInvoiceLine;
 }
 

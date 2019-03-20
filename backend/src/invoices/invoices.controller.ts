@@ -55,7 +55,7 @@ export class InvoicesController {
         const userID = auth.decode(authorization);
         delete invoice.id;
         invoice.userID = userID;
-        return this.invoiceService.post(invoice);
+        return this.invoiceService.post(invoice, userID);
     }
 
     @Put()

@@ -104,17 +104,18 @@ class DB {
         //     this.models[model.name] = model;
         //     await this.models[model.name].sync();
         // });
-        // this.models.user.hasMany(this.models.invoice, { foreignKey: 'userID' });
-        // this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });
+        
+        this.models.user.hasMany(this.models.invoice, { foreignKey: 'userID' });
+        this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });
 
-        // this.models.user.hasOne(this.models.config, { foreignKey: 'userID' });
-        // this.models.config.belongsTo(this.models.user, { foreignKey: 'userID' });
+        this.models.user.hasOne(this.models.config, { foreignKey: 'userID' });
+        this.models.config.belongsTo(this.models.user, { foreignKey: 'userID' });
 
-        // this.models.invoice.hasMany(this.models.invoiceLine, { foreignKey: 'invoiceID' });
-        // this.models.invoiceLine.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
+        this.models.invoice.hasMany(this.models.invoiceLine, { foreignKey: 'invoiceID' });
+        this.models.invoiceLine.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
 
-        // this.models.invoice.hasOne(this.models.file, { foreignKey: 'invoiceID' });
-        // this.models.file.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
+        this.models.invoice.hasOne(this.models.file, { foreignKey: 'invoiceID' });
+        this.models.file.belongsTo(this.models.invoice, { foreignKey: 'invoiceID' });
     }
 }
 

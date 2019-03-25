@@ -14,7 +14,7 @@ export class AuthController {
 
     @Get('token')
     token(@Headers('authorization') authorization: string) {
-        return { ok: auth.decode(authorization) ? true : false };
+        if (auth.decode(authorization)) return { ok: true };
     }
 
     @Post('register')

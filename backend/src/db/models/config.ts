@@ -1,25 +1,23 @@
-import { DataTypes, Sequelize } from 'sequelize';
-import { IInstance } from '../instance';
 import { IConfig } from '../../../../global/interfaces';
+import { IInstance } from '../instance';
+import { Table, Model, Column, DataType, AutoIncrement, PrimaryKey, Default, BelongsTo } from 'sequelize-typescript';
 
-export default function (sequelize: Sequelize, dataType: DataTypes) {
-    return sequelize.define<IInstance<IConfig>, IConfig>('config', {
-        id: {
-            type: dataType.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        ivaDefaultReceived: {
-            type: dataType.INTEGER,
-            defaultValue: 21,
-        },
-        ivaDefaultSent: {
-            type: dataType.INTEGER,
-            defaultValue: 0,
-        },
-        totalItemsByTable: {
-            type: dataType.INTEGER,
-            defaultValue: 10,
-        },
-    });
+@Table({ paranoid: true, timestamps: true })
+export class Config extends Model<IInstance<IConfig>, IConfig> {
+    @Column(DataType.UUIDV4)
+    @AutoIncrement
+    @PrimaryKey
+    id?: number;
+
+    @Column(DataType.INTEGER)
+    @Default(21)
+    IvaDefaultReceived?: number;
+
+    @Column
+    @Default(0)
+    ivaDefaultSent?: number;
+
+    @Column
+    @Default(10)
+    totalItemsByTable?: number;
 }

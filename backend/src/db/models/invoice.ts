@@ -1,41 +1,34 @@
 import { IInvoice } from '../../../../global/interfaces';
-import { DataTypes, Sequelize } from 'sequelize';
 import { IInstance } from '../instance';
+import { Table, Model, Column, DataType, PrimaryKey, AutoIncrement, AllowNull, Default } from 'sequelize-typescript';
 
-export default function (sequelize: Sequelize, dataType: DataTypes) {
-    return sequelize.define<IInstance<IInvoice>, IInvoice>('invoice', {
-        id: {
-            type: dataType.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        cif: {
-            type: dataType.STRING,
-            allowNull: false,
-        },
-        date: {
-            type: dataType.DATE,
-            defaultValue: new Date(),
-        },
-        fisicalAddress: {
-            type: dataType.STRING,
-        },
-        nameCompany: {
-            type: dataType.STRING,
-        },
-        notes: {
-            type: dataType.TEXT,
-        },
-        visualID: {
-            type: dataType.STRING,
-        },
-        received: {
-            type: dataType.BOOLEAN,
-            defaultValue: true,
-        },
-    }, {
-            timestamps: true,
-            paranoid: true
-        }
-    );
+@Table({ timestamps: true, paranoid: true })
+export class Invoice extends Model<IInstance<IInvoice>, IInvoice> {
+    @Column(DataType.UUIDV4)
+    @PrimaryKey
+    @AutoIncrement
+    id?: number;
+    
+    @Column
+    @AllowNull(false)
+    cif?: string;
+    
+    @Column
+    date?: Date;
+    
+    @Column
+    fisicalAddress?: string;
+    
+    @Column
+    nameCompany?: string;
+    
+    @Column(DataType.TEXT)
+    notes?: string;
+
+    @Column
+    visualID?: string;
+
+    @Column
+    @Default(true)
+    received?: boolean;
 }

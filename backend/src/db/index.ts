@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcryptjs';
-import { Config } from './models/config';
+import { Config } from './models/config.model';
 import { User } from './models/user.model';
-import { File } from './models/file';
-import { Invoice } from './models/invoice';
+import { File } from './models/file.model';
+import { Invoice } from './models/invoice.model';
 import { Sequelize } from 'sequelize-typescript';
 
 import {
@@ -13,7 +13,7 @@ import {
     DB_DIALECT,
     PROD
 } from '../app.constants';
-import { InvoiceLine } from './models/invoiceLine';
+import { InvoiceLine } from './models/invoiceLine.model';
 
 
 export interface IModels {

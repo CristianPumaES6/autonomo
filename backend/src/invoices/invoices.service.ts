@@ -68,12 +68,12 @@ export class InvoicesService {
         if (!userDB || !invoice) throw new HttpException('No puedes generar el PDF', HttpStatus.UNAUTHORIZED);
 
         let template = fs.readFileSync(path.join(__dirname, '../shared/templates/factura.html'), 'utf-8');
-        const userValue = userDB.dataValues,
-            invoiceValues = invoice.dataValues;
+        const userValue = userDB,
+            invoiceValues = invoice;
         let linesWrite = '';
 
         let totalFactura = 0, ivaTotal = 0, subtotal = 0;
-        invoiceValues.invoiceLines!.forEach((e, i) => {
+        (invoiceValues as any).invoiceLines!.forEach((e, i) => { // TODO: AHHHH QUITAR
             subtotal += e.price! * e.quantity!;
             ivaTotal += e.price! * e.iva! / 100 * e.quantity!;
             totalFactura += e.quantity! * e.price! + (e.price! * e.iva! / 100);
@@ -108,23 +108,24 @@ export class InvoicesService {
     }
 
     async totalSizeUsed(userID: number) {
-        return (await db.sequelize.query({
-            query: `
-        SELECT SUM(size) total 
-        FROM invoices, files 
-        WHERE 
-            files.invoiceID = invoices.id AND 
-            invoices.userID = ? AND 
-            (files.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR files.deletedAt IS NULL) AND
-            (invoices.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR invoices.deletedAt IS NULL)
-        `, values: [userID]
-        }))[0][0].total as number;
+        // return (await db.sequelize.query({
+        //     query: `
+        // SELECT SUM(size) total 
+        // FROM invoices, files 
+        // WHERE 
+        //     files.invoiceID = invoices.id AND 
+        //     invoices.userID = ? AND 
+        //     (files.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR files.deletedAt IS NULL) AND
+        //     (invoices.deletedAt > '${moment().format('YYYY/MM/DD HH:mm:ss')}' OR invoices.deletedAt IS NULL)
+        // `, values: [userID]
+        // }))[0][0].total as number;
+        return 0;
     }
 
     private async saveImage(id: number, invoice: IInvoice) {
         const userDB = (await db.models.user.findOne({ where: { id }, attributes: ['max_file_size'] }))!;
         let totalSize = await this.totalSizeUsed(id);
-        if (userDB.dataValues.max_file_size! >= totalSize) return await saveImage(invoice.file![0] as any);
+        if (userDB && userDB.max_file_size! >= totalSize) return await saveImage(invoice.file![0] as any);
         else throw new HttpException('No hay espacio suficiente', HttpStatus.NOT_ACCEPTABLE);
     }
 }

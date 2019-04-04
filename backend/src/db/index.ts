@@ -58,7 +58,8 @@ class DB {
             if (await db.models.user.count() === 0) {
                 miguel = (await db.models.user.create({ name: 'Miguel Moya Ortega', email: 'miguelmoyaortega@gmail.com', password: bcrypt.hashSync('1234', 10), root: true, dni: '48778194R', phone: '(+34) 646 74 95 70', address: 'Calle Riu Algar, 30, 4ºE 03690 San Vicente del Raspeig (Alicante)' }))!;
                 const configDB = await db.models.config.create();
-                // await configDB.setUser(miguel);
+                configDB.user!
+                await configDB.setUser(miguel);
             }
             if (await db.models.invoice.count() === 0) {
                 miguel = (await db.models.user.findOne({ where: { email: 'miguelmoyaortega@gmail.com' } }))!;
@@ -71,9 +72,9 @@ class DB {
                         { iva: 21, description: 'Descripción de la linea 2', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                         { iva: 21, description: 'Descripción de la linea 3', price: +(Math.random() * 10000).toFixed(2), quantity: +(Math.random() * 10).toFixed(0) + 1 },
                     ]);
-                    // await invoices[i].setInvoiceLines(invoiceLine);
+                    await invoices[i].setInvoiceLines(invoiceLine);
                 }
-                // await miguel.setInvoices(invoices);
+                await miguel.setInvoices(invoices);
             }
         }
     }
@@ -96,14 +97,7 @@ class DB {
     }
 
     private createModels() {
-        // console.log(`${__dirname}/**/*.model.ts`);
         this.sequelize.addModels([`${__dirname}/**/*.model.ts`]);
-
-        // fs.readdirSync(dirname).filter(f => f !== path.basename(module.filename)).forEach(async f => {
-        //     const model = this.sequelize.import(path.join(dirname, f));
-        //     this.models[model.name] = model;
-        //     await this.models[model.name].sync();
-        // });
         
         this.models.user.hasMany(this.models.invoice, { foreignKey: 'userID' });
         this.models.invoice.belongsTo(this.models.user, { foreignKey: 'userID' });

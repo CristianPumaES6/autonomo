@@ -4,7 +4,6 @@ import { IInvoice, IConfig } from '@isofocus/interfaces';
 import { MatTableDataSource, MatPaginator, MatSnackBar, MatSort } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../../config/config.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-invoice',

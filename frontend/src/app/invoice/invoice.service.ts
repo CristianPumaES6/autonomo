@@ -13,6 +13,7 @@ import { switchMap, map } from 'rxjs/operators';
 })
 export class InvoiceService extends BaseService<IInvoice> {
     newFile$: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     constructor(protected httpClient: HttpClient) {
         super(httpClient);
         this.SERVER_URL = '/invoice';

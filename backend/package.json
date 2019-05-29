@@ -33,7 +33,12 @@
         "reflect-metadata": "^0.1.13",
         "rimraf": "^2.6.3",
         "rxjs": "^6.4.0",
+<<<<<<< HEAD
         "sequelize": "^5.1.*",
+=======
+        "sequelize": "^5.3.*",
+        "sequelize-typescript": "^1.0.0-alpha.9",
+>>>>>>> 812e981cd733a851b62bd16ff8379ddd47d907ea
         "socket.io-redis": "^5.2.0",
         "typeorm": "^0.2.15"
     },

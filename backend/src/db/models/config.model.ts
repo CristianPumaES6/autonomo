@@ -8,7 +8,7 @@ export class Config extends Model<IInstance<IConfig & IUnionUser>, IConfig & IUn
     @Column(DataType.UUIDV4)
     @AutoIncrement
     @PrimaryKey
-    id?: number;
+    id!: number;
 
     @Column(DataType.INTEGER)
     @Default(21)
